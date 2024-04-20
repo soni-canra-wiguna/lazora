@@ -70,6 +70,17 @@
     * {
       @apply border-border;
     }
+
+    html::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    html {
+      scrollbar-width: none;
+      scroll-behavior: smooth !important;
+    }
+    
     body {
       @apply bg-background text-foreground;
     }
