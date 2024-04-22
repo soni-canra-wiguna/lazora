@@ -4,6 +4,7 @@
 
   @layer base {
     :root {
+      --main: 347.62 100% 56.27%;
       --background: 0 0% 100%;
       --foreground: 240 10% 3.9%;
 
@@ -85,3 +86,28 @@
       @apply bg-background text-foreground;
     }
   }
+
+
+
+.shimmer {
+  position: relative;
+  overflow: hidden
+}
+
+.shimmer:hover::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-100%);
+  background-image: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1), transparent);
+  animation: loading 2.5s infinite;
+}
+
+@keyframes loading {
+  100% {
+    transform: translateX(100%)
+  }
+}

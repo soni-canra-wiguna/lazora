@@ -58,7 +58,7 @@ model User {
   role          Role      @default(BUYER)
   accounts      Account[]
   sessions      Session[]
-  // products Product[]
+  products      Product[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -71,12 +71,12 @@ model Product {
   title       String
   price       Int
   images      ImageProduct[]
-  description String
-  stock       Int
+  description String?
+  stock       Int?
   categories  Category[]
   comments    Comment[]
-
-  // author User[]
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -85,10 +85,9 @@ model Product {
 }
 
 model ImageProduct {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  image String
-
-  products  Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  image     String?
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 
   @@map("image_products")
@@ -97,7 +96,7 @@ model ImageProduct {
 model Category {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
   title     String
-  products  Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 
   @@map("categories")
@@ -105,12 +104,12 @@ model Category {
 
 model Comment {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  message   String
-  username  String
-  email     String
-  image     String
-  role      String
-  products  Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  message   String?
+  username  String?
+  email     String?
+  image     String?
+  role      String?
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 
   createdAt DateTime @default(now())

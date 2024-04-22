@@ -7,8 +7,12 @@ import Search from "./search"
 import { Bell, Heart, ShoppingCart, User2 } from "lucide-react"
 import { Button } from "../ui/button"
 import Link from "next/link"
-
-const disableNavbarWithFooter = ["/login", "/register"]
+import { disableNavbarWithFooter } from "@/utils/disable-navbar-with-footer"
+import { useUserClient } from "@/hook/use-user"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import defaultAvatar from "@/public/auth-image2.jpg"
+import Image from "next/image"
+import Notification from "./notification"
 
 const Navbar = () => {
   // const { visible } = useVisibleNavbar()
@@ -30,7 +34,7 @@ const Navbar = () => {
             </Link>
             <Search />
             <div className="flex items-center gap-5">
-              <Bell className="size-6" strokeWidth={1.5} />
+              <Notification />
               <Favourite favourites={favourites} />
               <Cart cartItems={cartItems} />
               <Account />
@@ -71,12 +75,32 @@ const Cart = ({ cartItems }: { cartItems: number }) => {
 }
 
 const Account = () => {
+  const { session, username, image } = useUserClient()
+
   return (
-    <Button variant="link" asChild className="px-0">
-      <Link href="/sign-in" className="flex items-center gap-1.5">
-        <User2 className="size-6" strokeWidth={1.5} />
-        <span>account</span>
-      </Link>
-    </Button>
+    <>
+      {!session ? (
+        <Link href="/sign-in" className="flex items-center gap-1.5">
+          <User2 className="size-6" strokeWidth={1.5} />
+          <span>account</span>
+        </Link>
+      ) : (
+        <Link href="/account">
+          <div className="size-8 rounded-full shimmer hover:ring-4 hover:ring-main/20 transition duration-300 ease-in-out">
+            <Image
+              className="size-full object-cover object-center"
+              src={defaultAvatar}
+              alt="avatar image"
+              width={300}
+              height={300}
+            />
+          </div>
+          {/* <Avatar className="size-8">
+            <AvatarImage src={session?.user.image || "/auth-image2.jpg"} />
+            <AvatarFallback>{username?.slice(0, 2)}</AvatarFallback>
+          </Avatar> */}
+        </Link>
+      )}
+    </>
   )
 }

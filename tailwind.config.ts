@@ -22,7 +22,18 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "1280px",
+        xl: "1366px",
+        "2xl": "1400px",
+      },
+      fontFamily: {
+        jakarta_sans: ["var(--font-plus_jakarta_sans)"],
+      },
       colors: {
+        main: "hsl(var(--main))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -78,7 +89,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config
 
 export default config
