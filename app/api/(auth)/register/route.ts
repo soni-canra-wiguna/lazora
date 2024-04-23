@@ -59,9 +59,6 @@ export async function GET(req: NextRequest) {
       orderBy: {
         createdAt: "desc",
       },
-      include: {
-        products: true
-      }
     })
 
     const query = req.nextUrl.searchParams.get("query")
@@ -74,9 +71,6 @@ export async function GET(req: NextRequest) {
             contains: decodeQuery,
           },
         },
-        include: {
-          products: true
-        }
       })
 
       return NextResponse.json({
