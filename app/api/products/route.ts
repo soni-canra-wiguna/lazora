@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 export interface ProductPostProps extends Product {
   images: ImageProduct[]
-  comments: Comment[]
+  comments?: Comment[]
   categories: Category[]
 }
 
@@ -39,7 +39,7 @@ export const POST = async (req: NextRequest) => {
     })
 
     return NextResponse.json({
-      message: "product succesfully created",
+      message: "product successfully created",
       status: 201,
     })
   } catch (error) {

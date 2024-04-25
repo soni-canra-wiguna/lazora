@@ -40,7 +40,7 @@ export const GET = async (
   }
 }
 
-// WIP
+// WIP(25 april -> belum selesai)
 export const PATCH = async (
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -48,8 +48,7 @@ export const PATCH = async (
   try {
     const { id } = params
     const body: ProductPostProps = await req.json()
-    const { title, price, description, stock, categories, comments, images } =
-      body
+    const { title, price, description, stock, categories, images } = body
 
     const updateProduct = await prisma.product.update({
       where: {
@@ -60,8 +59,20 @@ export const PATCH = async (
         price,
         description,
         stock,
-        images: {},
-        categories: {},
+        categories: {
+          create: categories.map(({ title }) => ({
+            title,
+          })),
+        },
+        images: {
+          create: images.map(({ image }) => ({
+            image,
+          })),
+        },
+      },
+      include: {
+        images: true,
+        categories: true,
       },
     })
 
@@ -71,7 +82,12 @@ export const PATCH = async (
         status: 404,
       })
     }
+
+    return NextResponse.json({
+      message: "product updated",
+    })
   } catch (error) {
+    console.log(error)
     return NextResponse.json({
       message: "internal server error",
       error,

@@ -23,3 +23,12 @@ export const RegisterSchema = z.object({
   password: z.string().optional(),
   role: z.enum([roleOptions[0], ...roleOptions]),
 })
+
+export const ProductSchema = z.object({
+  title: z.string(),
+  price: z.number(),
+  description: z.string(),
+  stock: z.number(),
+  image: z.array(z.string()),
+  categories: z.array(z.string()),
+})
