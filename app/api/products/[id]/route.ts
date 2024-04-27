@@ -40,7 +40,6 @@ export const GET = async (
   }
 }
 
-// WIP(25 april -> belum selesai)
 export const PATCH = async (
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -50,26 +49,24 @@ export const PATCH = async (
     const body: ProductPostProps = await req.json()
     const { title, price, description, stock, categories, images } = body
 
+    const updateData: any = { title, price, description, stock }
+
+    // Check if categories and images are provided in the request
+    if (categories && categories.length > 0) {
+      updateData.categories = {
+        create: categories.map(({ title }) => ({ title })),
+      }
+    }
+
+    if (images && images.length > 0) {
+      updateData.images = { create: images.map(({ image }) => ({ image })) }
+    }
+
     const updateProduct = await prisma.product.update({
       where: {
         id,
       },
-      data: {
-        title,
-        price,
-        description,
-        stock,
-        categories: {
-          create: categories.map(({ title }) => ({
-            title,
-          })),
-        },
-        images: {
-          create: images.map(({ image }) => ({
-            image,
-          })),
-        },
-      },
+      data: updateData,
       include: {
         images: true,
         categories: true,
