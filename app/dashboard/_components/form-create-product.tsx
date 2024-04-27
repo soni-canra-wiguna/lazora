@@ -11,6 +11,9 @@ import { Plus, X } from "lucide-react"
 import { FormEvent, useState } from "react"
 import PreviewImage from "./preview-image"
 import LoadingButton from "@/components/loading-button"
+import TextEditor from "@/components/text-editor"
+// import { ParseHtmlString } from "@/utils/parse-html-string"
+import parse from "html-react-parser"
 
 interface DataSubmission {
   title: string
@@ -130,6 +133,7 @@ const FormCreateProduct = () => {
         categories,
       }
       mutate(dataSubmission)
+      // console.log(dataSubmission)
     } catch (error) {
       console.log(error)
     }
@@ -139,7 +143,7 @@ const FormCreateProduct = () => {
     <>
       <form
         onSubmit={handleSubmit}
-        className="w-full flex flex-col gap-3 max-w-7xl mx-auto"
+        className="w-full flex flex-col gap-5 max-w-7xl mx-auto"
       >
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="title">title</Label>
@@ -148,45 +152,52 @@ const FormCreateProduct = () => {
             id="title"
             type="text"
             value={title}
+            placeholder="title product"
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="price">price</Label>
-          <div className="flex w-full gap-4 items-center">
+        {/*  */}
+        <div className="grid grid-cols-2 gap-6 w-full">
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="price">price</Label>
+            <div className="flex w-full gap-4 items-center">
+              <Input
+                required
+                id="price"
+                type="number"
+                value={price}
+                min={0}
+                onChange={(e) => setPrice(parseInt(e.target.value))}
+              />
+              <div className="w-full h-full flex items-center px-2 bg-secondary">
+                {formatToIDR(price)}
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="stock">stock</Label>
             <Input
               required
-              id="price"
+              id="stock"
               type="number"
-              value={price}
+              value={stock}
               min={0}
-              onChange={(e) => setPrice(parseInt(e.target.value))}
+              onChange={(e) => setStock(parseInt(e.target.value))}
             />
-            <span className="w-full h-full px-2 bg-secondary">
-              {formatToIDR(price)}
-            </span>
           </div>
         </div>
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="description">description</Label>
-          <Input
-            required
-            id="description"
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="stock">stock</Label>
-          <Input
-            required
-            id="stock"
-            type="number"
-            value={stock}
-            min={0}
-            onChange={(e) => setStock(parseInt(e.target.value))}
-          />
+        {/*  */}
+        <div className="grid grid-cols-2 gap-4 w-full">
+          <div className="flex flex-col w-full gap-1.5">
+            <Label htmlFor="description">description</Label>
+            <TextEditor value={description} setValue={setDescription} />
+          </div>
+          <div className="flex flex-col w-full gap-1.5">
+            <Label htmlFor="description">preview description</Label>
+            <div className="w-full border border-primary h-[500px] overflow-y-auto prose p-2">
+              {parse(description)}
+            </div>
+          </div>
         </div>
         {/* image start */}
         <div className="flex flex-col gap-1.5">
@@ -230,58 +241,66 @@ const FormCreateProduct = () => {
         {/* categories start */}
         <div className="flex flex-col gap-1.5">
           <Label>category product</Label>
-          <div className="flex items-center gap-3 flex-wrap w-full p-2 bg-secondary">
-            {categories?.map(({ title }, indexCategory) => (
-              <Button
-                type="button"
-                key={indexCategory + 1}
-                className=""
-                onClick={() => handleDeleteCategory(indexCategory)}
-              >
-                {title}
-                <X className="ml-2 size-4" />
-              </Button>
-            ))}
-          </div>
-          <div className="flex flex-col gap-2">
-            <p>list category</p>
-            <div className="flex flex-wrap gap-2 items-center w-full">
-              {CATEGORIES?.map(({ title }, indexList) => {
-                return (
-                  <Button
-                    onClick={() => handleAddCategoryDefault(title)}
-                    type="button"
-                    key={indexList}
-                    className={`${
-                      categories.some((cat) => cat.title === title) && "hidden"
-                    }`}
-                  >
-                    {title}
-                  </Button>
-                )
-              })}
+          <div className="flex flex-col w-full bg-secondary p-4">
+            <div className="flex items-center gap-3 flex-wrap w-full bg-secondary">
+              {categories?.map(({ title }, indexCategory) => (
+                <Button
+                  type="button"
+                  key={indexCategory + 1}
+                  className=""
+                  onClick={() => handleDeleteCategory(indexCategory)}
+                >
+                  {title}
+                  <X className="ml-2 size-4" />
+                </Button>
+              ))}
             </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <p>category lainnya</p>
-            <div className="flex items-center gap-4">
-              <Input
-                value={categoryByInput}
-                placeholder="tambahkan category baru"
-                onChange={(e) => setCategoryByInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault()
-                  }
-                }}
-              />
-              <Button
-                type="button"
-                disabled={categoryByInput === ""}
-                onClick={handleAddCategoryByInput}
-              >
-                add category
-              </Button>
+            <hr className="border-muted-foreground/30 h-px w-full my-4" />
+
+            <div className="flex flex-col gap-2">
+              <p>tambahkan category</p>
+              <div className="flex flex-wrap gap-2 items-center w-full">
+                {CATEGORIES?.map(({ title }, indexList) => {
+                  return (
+                    <Button
+                      onClick={() => handleAddCategoryDefault(title)}
+                      type="button"
+                      key={indexList}
+                      className={`${
+                        categories.some((cat) => cat.title === title) &&
+                        "hidden"
+                      }`}
+                    >
+                      {title}
+                    </Button>
+                  )
+                })}
+              </div>
+            </div>
+            <hr className="border-muted-foreground/30 h-px w-full my-4" />
+
+            <div className="flex flex-col gap-2">
+              <p>tambahkan category baru</p>
+              <div className="flex items-center gap-4">
+                <Input
+                  value={categoryByInput}
+                  className="border border-primary"
+                  placeholder="tambahkan category baru"
+                  onChange={(e) => setCategoryByInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault()
+                    }
+                  }}
+                />
+                <Button
+                  type="button"
+                  disabled={categoryByInput === ""}
+                  onClick={handleAddCategoryByInput}
+                >
+                  add category
+                </Button>
+              </div>
             </div>
           </div>
         </div>
