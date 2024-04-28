@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar"
 import NextTopLoader from "nextjs-toploader"
 import SessionClientProvider from "@/components/provider/session-client-provider"
 import TanstackProvider from "@/components/provider/tanstask-provider"
+import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -33,6 +34,7 @@ export default function RootLayout({
             <NextTopLoader color="#111111" height={3} showSpinner={false} />
             <Navbar />
             <main>{children}</main>
+            <Toaster />
           </body>
         </TanstackProvider>
       </SessionClientProvider>

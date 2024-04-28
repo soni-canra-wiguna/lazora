@@ -12,8 +12,9 @@ import { FormEvent, useState } from "react"
 import PreviewImage from "./preview-image"
 import LoadingButton from "@/components/loading-button"
 import TextEditor from "@/components/text-editor"
-// import { ParseHtmlString } from "@/utils/parse-html-string"
 import parse from "html-react-parser"
+import { useToast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 
 interface DataSubmission {
   title: string
@@ -44,8 +45,9 @@ const FormCreateProduct = () => {
     },
   ])
   const [categoryByInput, setCategoryByInput] = useState("")
-
   const queryClient = useQueryClient()
+  const { toast } = useToast()
+  const router = useRouter()
 
   const handleAddImage = () => {
     setImageProducts([
@@ -110,11 +112,12 @@ const FormCreateProduct = () => {
       setStock(0)
       setImageProducts([{ image: "" }])
       setCategories([{ title: "fashion" }])
-
-      console.log("product updated")
-
-      // query key dummy, nanti benerin lagi
-      queryClient.invalidateQueries({ queryKey: ["hello"] })
+      toast({
+        title: "product created",
+        description: "product successfully created",
+      })
+      queryClient.invalidateQueries({ queryKey: ["products"] })
+      router.push("/")
     },
     onError: () => {
       console.log("failed post product")

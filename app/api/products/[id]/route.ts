@@ -1,6 +1,6 @@
 import prisma from "@/lib/prismadb"
 import { NextResponse, NextRequest } from "next/server"
-import { ProductPostProps } from "../route"
+import { ProductPostProps } from "@/types"
 
 export const GET = async (
   req: NextRequest,

@@ -1,17 +1,9 @@
-// import { useUserServer } from "@/hook/use-user"
 import prisma from "@/lib/prismadb"
-import { Category, Comment, ImageProduct, Product } from "@prisma/client"
+import { ProductPostProps } from "@/types"
 import { NextRequest, NextResponse } from "next/server"
-
-export interface ProductPostProps extends Product {
-  images: ImageProduct[]
-  comments?: Comment[]
-  categories: Category[]
-}
 
 export const POST = async (req: NextRequest) => {
   try {
-    // const session = await useUserServer()
     const body: ProductPostProps = await req.json()
     const { title, price, description, stock, categories, images } = body
 
