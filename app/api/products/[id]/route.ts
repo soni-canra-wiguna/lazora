@@ -15,7 +15,11 @@ export const GET = async (
       include: {
         images: true,
         categories: true,
-        comments: true,
+        comments: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
     })
 
