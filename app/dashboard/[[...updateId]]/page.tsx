@@ -42,8 +42,6 @@ const UpdateProductPage = ({ params }: { params: { updateId: string[] } }) => {
   const { toast } = useToast()
   const router = useRouter()
 
-  console.log(typeof dataProduct?.description)
-
   const handleAddImage = () => {
     setImageProducts([
       ...imageProducts,

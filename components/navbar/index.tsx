@@ -25,7 +25,7 @@ const Navbar = () => {
     <>
       {!disableNavbarWithFooter.includes(patname) && (
         <div className="flex flex-col w-full items-start fixed top-0 left-0 z-50">
-          <div className="w-full bg-[#e7e7e7]">
+          <div className="w-full bg-secondary">
             <MaxWidthWrapper className="flex items-center justify-end py-2">
               <div className="flex items-center divide-x-2 divide-secondary-foreground/30">
                 <Button

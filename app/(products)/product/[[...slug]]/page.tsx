@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 
 import MaxWidthWrapper from "@/components/max-width-wrapper"
@@ -7,14 +8,14 @@ import { getSingleProduct } from "@/utils/get-products"
 import { Heart, ShoppingCart } from "lucide-react"
 import Balancer from "react-wrap-balancer"
 import parse from "html-react-parser"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useState } from "react"
-import { useUserClient } from "@/hook/use-user"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
-import { Input } from "@/components/ui/input"
-import LoadingButton from "@/components/loading-button"
-import Link from "next/link"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import Comment from "../_components/comment"
+import ImageProduct from "../_components/image-product"
 // import { useSearchParams } from 'next/navigation'
 
 const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
@@ -25,20 +26,14 @@ const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
 
   console.log(data)
 
-  if (isPending) return <p className="pt-24">loading...</p>
-  if (isError) return <p className="pt-24">error</p>
+  if (isPending) return <p className="pt-32">loading...</p>
+  if (isError) return <p className="pt-32">error</p>
 
   return (
-    <MaxWidthWrapper className="py-24 flex flex-col gap-20 max-w-7xl">
-      <div className="grid grid-cols-12 gap-10">
-        <div className="col-span-5">
-          <img
-            src={data?.images[0].image}
-            alt={data?.title}
-            className="w-full aspect-[9/10] object-cover"
-          />
-        </div>
-        <div className="col-span-7 flex flex-col">
+    <MaxWidthWrapper className="py-32 relative">
+      <div className="flex gap-12 items-start">
+        <ImageProduct images={data?.images} title={data?.title} />
+        <div className="w-[500px] flex flex-col">
           <h2 className="text-2xl font-bold mb-1">
             <Balancer>{data?.title}</Balancer>
           </h2>
@@ -55,135 +50,42 @@ const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
           <div className="flex items-center text-sm text-muted-foreground mb-3">
             stock: {data?.stock}
           </div>
-          <div className="flex flex-col gap-3 mb-4">
+          <div className="flex items-center gap-4 mb-4">
+            <Button className="capitalize" variant="outline">
+              favourite <Heart className="size-4 ml-2" strokeWidth={1.5} />
+            </Button>
             <Button>
               Add to Cart{" "}
               <ShoppingCart className="size-4 ml-2" strokeWidth={1.5} />
             </Button>
-            <Button className="capitalize" variant="outline">
-              favourite <Heart className="size-4 ml-2" strokeWidth={1.5} />
-            </Button>
-            <Button className="capitalize" variant="link" asChild>
+            {/* <Button className="capitalize" variant="link" asChild>
               <Link href={`/dashboard/${slug[1]}/edit`}>edit product</Link>
-            </Button>
+            </Button> */}
           </div>
-          <div className="prose">{parse(data?.description)}</div>
+          {/* accordion start */}
+          <Accordion type="single" collapsible defaultValue="description">
+            <AccordionItem value="description">
+              <AccordionTrigger className="text-base capitalize">
+                description
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="prose">{parse(data?.description)}</div>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="review">
+              <AccordionTrigger className="text-base capitalize">
+                review
+              </AccordionTrigger>
+              <AccordionContent>
+                <Comment comments={data?.comments} productId={slug[1]} />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+          {/* accordion end */}
         </div>
-      </div>
-      {/* comments */}
-      <div className="flex flex-col gap-6">
-        <h4 className="text-2xl font-semibold">review product</h4>
-        <Comment comments={data?.comments} productId={slug[1]} />
       </div>
     </MaxWidthWrapper>
   )
 }
 
 export default SingleProductPage
-
-const Comment = ({
-  comments,
-  productId,
-}: {
-  comments: string[]
-  productId: string
-}) => {
-  const [commentMessage, setCommentMessage] = useState("")
-  const { session } = useUserClient()
-  const queryClient = useQueryClient()
-
-  const { mutate, isPending, isError } = useMutation({
-    mutationFn: async (data) => {
-      await axios.post("/api/comments", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    },
-    onMutate: () => {},
-    onSuccess: () => {
-      setCommentMessage("")
-      queryClient.invalidateQueries({ queryKey: [productId] })
-      console.log("uhuy berhasil")
-    },
-    onError: () => {
-      console.log("gagal post commentnya nih")
-    },
-    onSettled: () => {},
-  })
-
-  const handleAddComment = (e: React.FormEvent) => {
-    e.preventDefault()
-    const dataPost = {
-      username: session?.user.username,
-      image: session?.user.image,
-      email: session?.user.email,
-      role: session?.user.role,
-      message: commentMessage,
-      productId,
-    }
-
-    mutate(dataPost)
-  }
-
-  // elonmusk@gmail.com
-  //Elon@31DWdf
-
-  return (
-    <div className="flex flex-col gap-5">
-      <form
-        onSubmit={handleAddComment}
-        className="flex gap-3 w-full items-center"
-      >
-        <Input
-          value={commentMessage}
-          onChange={(e) => setCommentMessage(e.target.value)}
-          disabled={!session}
-          className="border bg-transparent border-primary"
-          placeholder="tulis komentar kamu"
-        />
-        <LoadingButton
-          loading={isPending}
-          disabled={isPending || !session}
-          type="submit"
-        >
-          add comment
-        </LoadingButton>
-      </form>
-      <div className="flex flex-col divide-y *:py-4 first:*:pt-0 last:*:pb-0 divide-secondary">
-        {isPending && (
-          <div className="flex flex-col gap-1 justify-center opacity-70">
-            <div className="flex items-center gap-2">
-              <Avatar className="size-8">
-                <AvatarImage
-                  src={session?.user.image}
-                  alt={session?.user.username}
-                />
-                <AvatarFallback>
-                  {session?.user?.username?.slice(0, 2)}
-                </AvatarFallback>
-              </Avatar>
-              <h5 className="text-base font-semibold">
-                {session?.user.username}
-              </h5>
-            </div>
-            <div className="prose">{parse(commentMessage)}</div>
-          </div>
-        )}
-        {comments.map(({ message, image, username }) => (
-          // buat jadi component terpisah untuk comment ui
-          <div key={message} className="flex flex-col gap-1 justify-center">
-            <div className="flex items-center gap-2">
-              <Avatar className="size-8">
-                <AvatarImage src={image} alt={username} />
-                <AvatarFallback>{username.slice(0, 2)}</AvatarFallback>
-              </Avatar>
-              <h5 className="text-base font-semibold capitalize">{username}</h5>
-            </div>
-            <div className="prose">{parse(message)}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
