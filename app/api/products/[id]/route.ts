@@ -44,58 +44,59 @@ export const GET = async (
   }
 }
 
-export const PATCH = async (
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) => {
-  try {
-    const { id } = params
-    const body: ProductPostProps = await req.json()
-    const { title, price, description, stock, categories, images } = body
+// WIP, cannot update one to many relation(i'm so confuseeeee how to update this model data /: )
+// export const PATCH = async (
+//   req: NextRequest,
+//   { params }: { params: { id: string } }
+// ) => {
+//   try {
+//     const { id } = params
+//     const body: ProductPostProps = await req.json()
+//     const { title, price, description, stock, categories, images } = body
 
-    const updateData: any = { title, price, description, stock }
+//     const updateData: any = { title, price, description, stock }
 
-    // Check if categories and images are provided in the request
-    if (categories && categories.length > 0) {
-      updateData.categories = {
-        create: categories.map(({ title }) => ({ title })),
-      }
-    }
+//     // Check if categories and images are provided in the request
+//     if (categories && categories.length > 0) {
+//       updateData.categories = {
+//         create: categories.map(({ title }) => ({ title })),
+//       }
+//     }
 
-    if (images && images.length > 0) {
-      updateData.images = { create: images.map(({ image }) => ({ image })) }
-    }
+//     if (images && images.length > 0) {
+//       updateData.images = { create: images.map(({ image }) => ({ image })) }
+//     }
 
-    const updateProduct = await prisma.product.update({
-      where: {
-        id,
-      },
-      data: updateData,
-      include: {
-        images: true,
-        categories: true,
-      },
-    })
+//     const updateProduct = await prisma.product.update({
+//       where: {
+//         id,
+//       },
+//       data: updateData,
+//       include: {
+//         images: true,
+//         categories: true,
+//       },
+//     })
 
-    if (!updateProduct) {
-      return NextResponse.json({
-        message: "data not found",
-        status: 404,
-      })
-    }
+//     if (!updateProduct) {
+//       return NextResponse.json({
+//         message: "data not found",
+//         status: 404,
+//       })
+//     }
 
-    return NextResponse.json({
-      message: "product updated",
-    })
-  } catch (error) {
-    console.log(error)
-    return NextResponse.json({
-      message: "internal server error",
-      error,
-      status: 500,
-    })
-  }
-}
+//     return NextResponse.json({
+//       message: "product updated",
+//     })
+//   } catch (error) {
+//     console.log(error)
+//     return NextResponse.json({
+//       message: "internal server error",
+//       error,
+//       status: 500,
+//     })
+//   }
+// }
 
 export const DELETE = async (
   req: NextRequest,

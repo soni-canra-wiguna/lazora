@@ -14,6 +14,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 import { Input } from "@/components/ui/input"
 import LoadingButton from "@/components/loading-button"
+import Link from "next/link"
 // import { useSearchParams } from 'next/navigation'
 
 const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
@@ -61,6 +62,9 @@ const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
             </Button>
             <Button className="capitalize" variant="outline">
               favourite <Heart className="size-4 ml-2" strokeWidth={1.5} />
+            </Button>
+            <Button className="capitalize" variant="link" asChild>
+              <Link href={`/dashboard/${slug[1]}/edit`}>edit product</Link>
             </Button>
           </div>
           <div className="prose">{parse(data?.description)}</div>
@@ -167,6 +171,7 @@ const Comment = ({
           </div>
         )}
         {comments.map(({ message, image, username }) => (
+          // buat jadi component terpisah untuk comment ui
           <div key={message} className="flex flex-col gap-1 justify-center">
             <div className="flex items-center gap-2">
               <Avatar className="size-8">

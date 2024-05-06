@@ -215,14 +215,23 @@ const ModalUI = () => {
             dialog
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-w-xl aspect-square">
-          <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </DialogDescription>
-          </DialogHeader>
+        <DialogContent className="max-w-7xl max-h-[90vh] h-full">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="w-max" size="lg">
+                dialog
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-xl aspect-square">
+              <DialogHeader>
+                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         </DialogContent>
       </Dialog>
     </WrapperUI>

@@ -1,53 +1,48 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { CATEGORIES } from "@/utils/categories"
-import { formatToIDR } from "@/utils/format-to-idr"
+import { useToast } from "@/components/ui/use-toast"
+import { getSingleProduct } from "@/utils/get-products"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
-import { Plus, X } from "lucide-react"
-import { FormEvent, useState } from "react"
-import PreviewImage from "./preview-image"
-import LoadingButton from "@/components/loading-button"
-import TextEditor from "@/components/text-editor"
-import parse from "html-react-parser"
-import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { DataSubmission } from "../_components/form-create-product"
+import LoadingButton from "@/components/loading-button"
+import { Button } from "@/components/ui/button"
+import { CATEGORIES } from "@/utils/categories"
+import { Label } from "@/components/ui/label"
+import { Plus, X } from "lucide-react"
+import PreviewImage from "../_components/preview-image"
+import { Input } from "@/components/ui/input"
+import TextEditor from "@/components/text-editor"
+import { formatToIDR } from "@/utils/format-to-idr"
+import parse from "html-react-parser"
 
-export interface DataSubmission {
-  title: string
-  price: number
-  description: string
-  stock: number
-  images: {
-    image: string
-  }[]
-  categories: {
-    title: string
-  }[]
-}
-
-const FormCreateProduct = () => {
-  const [title, setTitle] = useState("")
-  const [price, setPrice] = useState(0)
-  const [description, setDescription] = useState("")
-  const [stock, setStock] = useState(0)
-  const [imageProducts, setImageProducts] = useState([
-    {
-      image: "",
-    },
-  ])
-  const [categories, setCategories] = useState([
-    {
-      title: "fashion",
-    },
-  ])
+const UpdateProductPage = ({ params }: { params: { updateId: string[] } }) => {
+  const { updateId } = params
+  const {
+    data: dataProduct,
+    isPending: pendingDataProduct,
+    isError: errorDataProduct,
+  } = getSingleProduct(updateId[0])
+  const updateImages: any = dataProduct?.images?.map(
+    ({ id, productId, ...image }) => image
+  )
+  const updateCategories: any = dataProduct?.categories?.map(
+    ({ id, productId, ...title }) => title
+  )
+  const [title, setTitle] = useState(dataProduct?.title)
+  const [price, setPrice] = useState(dataProduct?.price)
+  const [description, setDescription] = useState(dataProduct?.description)
+  const [stock, setStock] = useState(dataProduct?.stock)
+  const [imageProducts, setImageProducts] = useState(updateImages)
+  const [categories, setCategories] = useState(updateCategories)
   const [categoryByInput, setCategoryByInput] = useState("")
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const router = useRouter()
+
+  console.log(typeof dataProduct?.description)
 
   const handleAddImage = () => {
     setImageProducts([
@@ -99,7 +94,7 @@ const FormCreateProduct = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: DataSubmission) => {
-      await axios.post("/api/products", data, {
+      await axios.patch(`/api/products/${updateId[0]}`, data, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -113,18 +108,18 @@ const FormCreateProduct = () => {
       setImageProducts([{ image: "" }])
       setCategories([{ title: "fashion" }])
       toast({
-        title: "product created",
-        description: "product successfully created",
+        title: "product updated",
+        description: "product successfully updated",
       })
-      queryClient.invalidateQueries({ queryKey: ["products"] })
+      queryClient.invalidateQueries({ queryKey: [updateId[0]] })
       router.push("/")
     },
     onError: () => {
-      console.log("failed post product")
+      console.log("failed update product")
     },
   })
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     try {
       e.preventDefault()
       const dataSubmission = {
@@ -142,11 +137,14 @@ const FormCreateProduct = () => {
     }
   }
 
+  if (pendingDataProduct) return <p className="pt-24">loading...</p>
+  if (errorDataProduct) return <p className="pt-24">error nih...</p>
+
   return (
     <>
       <form
         onSubmit={handleSubmit}
-        className="w-full flex flex-col gap-5 max-w-7xl mx-auto"
+        className="w-full flex flex-col gap-5 max-w-7xl mx-auto py-24"
       >
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="title">title</Label>
@@ -316,4 +314,4 @@ const FormCreateProduct = () => {
   )
 }
 
-export default FormCreateProduct
+export default UpdateProductPage
