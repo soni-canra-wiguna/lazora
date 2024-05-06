@@ -24,23 +24,69 @@ const Navbar = () => {
   return (
     <>
       {!disableNavbarWithFooter.includes(patname) && (
-        <nav
-          className={`fixed top-0 left-0 z-50 bg-white border-b flex items-center w-full transition duration-300 ease-in-out py-4
+        <div className="flex flex-col w-full items-start fixed top-0 left-0 z-50">
+          <div className="w-full bg-[#e7e7e7]">
+            <MaxWidthWrapper className="flex items-center justify-end py-2">
+              <div className="flex items-center divide-x-2 divide-secondary-foreground/30">
+                <Button
+                  variant="link"
+                  className="py-0 leading-none h-max"
+                  asChild
+                >
+                  <Link
+                    className="capitalize text-primary text-sm"
+                    href="/help/contact"
+                  >
+                    Contact
+                  </Link>
+                </Button>
+                <Button
+                  variant="link"
+                  className="py-0 leading-none h-max"
+                  asChild
+                >
+                  <Link
+                    className="capitalize text-primary text-sm"
+                    href="/help/privacy-policy"
+                  >
+                    privacy and policy
+                  </Link>
+                </Button>
+                <Button
+                  variant="link"
+                  className="py-0 leading-none h-max pr-0"
+                  asChild
+                >
+                  <Link
+                    className="capitalize text-primary text-sm"
+                    href="/sign-in"
+                  >
+                    sign in
+                  </Link>
+                </Button>
+              </div>
+            </MaxWidthWrapper>
+          </div>
+
+          <nav
+            className={`
+            bg-white border-b flex items-center w-full transition duration-300 ease-in-out py-4
         `}
-        >
-          <MaxWidthWrapper className="flex items-center justify-between">
-            <Link href="/" className="">
-              <h1 className="text-2xl font-bold">Lazora</h1>
-            </Link>
-            <Search />
-            <div className="flex items-center gap-5">
-              <Notification />
-              <Favourite favourites={favourites} />
-              <Cart cartItems={cartItems} />
-              <Account />
-            </div>
-          </MaxWidthWrapper>
-        </nav>
+          >
+            <MaxWidthWrapper className="flex items-center justify-between">
+              <Link href="/" className="">
+                <h1 className="text-2xl font-bold">Lazora</h1>
+              </Link>
+              <Search />
+              <div className="flex items-center gap-6">
+                <Notification />
+                <Favourite favourites={favourites} />
+                <Cart cartItems={cartItems} />
+                {/* <Account /> */}
+              </div>
+            </MaxWidthWrapper>
+          </nav>
+        </div>
       )}
     </>
   )
