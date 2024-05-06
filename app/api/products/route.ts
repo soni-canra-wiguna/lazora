@@ -56,6 +56,9 @@ export const GET = async (req: NextRequest) => {
           },
         },
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     })
 
     const query = req.nextUrl.searchParams.get("search_product")
@@ -75,6 +78,9 @@ export const GET = async (req: NextRequest) => {
             createdAt: "desc",
           },
         },
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     })
 
