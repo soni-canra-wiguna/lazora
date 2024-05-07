@@ -59,20 +59,37 @@ const Comment = ({
 
   return (
     <div className="flex flex-col gap-5">
-      <form
-        onSubmit={handleAddComment}
-        className="flex gap-3 w-full items-center"
-      >
-        <Input
-          value={commentMessage}
-          onChange={(e) => setCommentMessage(e.target.value)}
-          disabled={!session}
-          className="border bg-transparent border-primary"
-          placeholder="tulis komentar kamu"
-        />
+      <form onSubmit={handleAddComment} className="flex gap-3 w-full">
+        <div className="flex w-full flex-col gap-2 h-max">
+          <Input
+            value={commentMessage}
+            onChange={(e) => setCommentMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (
+                e.key === "Enter" &&
+                (commentMessage.length < 5 || commentMessage.length > 1000)
+              ) {
+                e.preventDefault()
+              }
+            }}
+            disabled={isPending || !session}
+            className="border bg-transparent border-primary"
+            placeholder="tulis komentar kamu (min 5 karakter)"
+          />
+          {commentMessage.length > 1000 && (
+            <p className="text-xs text-red-500">
+              maksimal komentar adalah 1000 karakter
+            </p>
+          )}
+        </div>
         <LoadingButton
           loading={isPending}
-          disabled={isPending || !session}
+          disabled={
+            isPending ||
+            !session ||
+            commentMessage.length < 5 ||
+            commentMessage.length > 1000
+          }
           type="submit"
         >
           add comment
