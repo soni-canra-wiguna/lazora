@@ -8,6 +8,7 @@ import { useState } from "react"
 import parse from "html-react-parser"
 import { Comment as CommentProps } from "@prisma/client"
 import { MessageSquare } from "lucide-react"
+import censorWordMessage from "@/utils/censore-word"
 
 const Comment = ({
   comments,
@@ -156,6 +157,8 @@ const UserComment = ({
   // updatedAt : "2024-05-07T01:42:32.316Z"
   // username : "elon musk"
 
+  const censoreMessage = censorWordMessage(message)
+
   return (
     <div className="flex flex-col gap-1 justify-center">
       <div className="flex items-center gap-2">
@@ -165,7 +168,7 @@ const UserComment = ({
         </Avatar>
         <h5 className="text-base font-semibold capitalize">{username}</h5>
       </div>
-      <div className="prose">{parse(message)}</div>
+      <div className="prose">{parse(censoreMessage)}</div>
     </div>
   )
 }
