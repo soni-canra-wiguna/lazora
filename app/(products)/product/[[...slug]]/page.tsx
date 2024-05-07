@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client"
 
 import MaxWidthWrapper from "@/components/max-width-wrapper"
@@ -17,12 +16,9 @@ import {
 import Comment from "../_components/comment"
 import ImageProduct from "../_components/image-product"
 import { Badge } from "@/components/ui/badge"
-// import { useSearchParams } from 'next/navigation'
 
 const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
   const { slug } = params
-  // const params = useSearchParams()
-  // const productId: string | null = params.get("productId" || null)
   const { data, isPending, isError } = getSingleProduct(slug[1])
 
   if (isPending) return <p className="pt-32">loading...</p>
@@ -31,7 +27,7 @@ const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
   return (
     <MaxWidthWrapper className="py-32 relative">
       <div className="flex gap-12 items-start">
-        <ImageProduct images={data?.images} title={data?.title} />
+        <ImageProduct images={data?.images ?? []} title={data?.title ?? ""} />
         <div className="w-[500px] flex flex-col">
           {/*  */}
           <div className="flex items-center gap-3 mb-2.5">
@@ -60,7 +56,7 @@ const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
           </div> */}
           {/*  */}
           <h6 className=" text-lg mb-3 font-semibold">
-            {formatToIDR(data?.price)}
+            {formatToIDR(data?.price ?? 0)}
           </h6>
           <div className="flex items-center text-sm text-muted-foreground mb-3">
             stock: {data?.stock}
@@ -84,7 +80,7 @@ const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
                 description
               </AccordionTrigger>
               <AccordionContent>
-                <div className="prose">{parse(data?.description)}</div>
+                <div className="prose">{parse(data?.description ?? "")}</div>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="review">

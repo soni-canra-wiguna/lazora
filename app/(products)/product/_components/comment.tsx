@@ -6,7 +6,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 import { useState } from "react"
 import parse from "html-react-parser"
-import { Comment as CommentProps } from "@prisma/client"
 import { MessageSquare } from "lucide-react"
 import censorWordMessage from "@/utils/censore-word"
 

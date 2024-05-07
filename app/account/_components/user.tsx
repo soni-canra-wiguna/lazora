@@ -8,7 +8,7 @@ const User = async () => {
   return (
     <div className="flex flex-col items-center gap-4">
       <Avatar>
-        <AvatarImage src={session?.image} />
+        <AvatarImage src={session?.image} alt={session?.username ?? ""} />
         <AvatarFallback>{session?.username?.slice(0, 2)}</AvatarFallback>
       </Avatar>
       <h1>{session?.username}</h1>

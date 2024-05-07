@@ -1,25 +1,21 @@
-// @ts-nocheck
 "use client"
 
-import { ImageProduct as ImageProductType } from "@prisma/client"
+import { ImageProps } from "@/types"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
 
 interface ImageProductProps {
-  images: ImageProductType[]
+  images: ImageProps[]
   title: string
 }
 
 const ImageProduct = ({ images, title }: ImageProductProps) => {
-  // const [tabsImage, setTabsImage] = useState(0)
   const router = useRouter()
   const searchParam = useSearchParams()
-  const param: number = searchParam.get("indexImg")
+  const param: any = searchParam.get("indexImg" || null)
 
   const handleTabsImage = (index: number) => {
     router.prefetch(`/?indexImg=${index}`)
     router.push(`?indexImg=${index}`)
-    // setTabsImage(index)
   }
 
   return (

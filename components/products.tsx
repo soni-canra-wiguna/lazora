@@ -7,6 +7,7 @@ import Link from "next/link"
 import Balancer from "react-wrap-balancer"
 import { Toggle } from "./ui/toggle"
 import { Heart } from "lucide-react"
+import { ImageProps } from "@/types"
 
 const ListProducts = () => {
   const { data, isPending, isError } = getproducts()
@@ -34,7 +35,7 @@ export default ListProducts
 
 interface CardProductProps {
   id: string
-  image: ImageProduct
+  image: ImageProps
   title: string
   categories: Category[]
   price: number
@@ -52,9 +53,7 @@ const CardProduct = ({
     alert("added to favourite")
   }
 
-  console.log(title.replace(/[^\w\s]/g, ""))
-
-  // 1
+  console.log("image product", image)
 
   const titleProduct = title
     .replace(/[^\w\s]/g, "")
@@ -74,8 +73,7 @@ const CardProduct = ({
         />
       </Toggle>
       <img
-        // @ts-ignore
-        src={image?.image}
+        src={image.image}
         alt={title}
         className="w-full aspect-[9/10] mb-5 hover:brightness-95 transition-all"
       />
