@@ -7,6 +7,7 @@ import axios from "axios"
 import { useState } from "react"
 import parse from "html-react-parser"
 import { Comment as CommentProps } from "@prisma/client"
+import { MessageSquare } from "lucide-react"
 
 const Comment = ({
   comments,
@@ -98,19 +99,32 @@ const Comment = ({
             <div className="prose">{parse(commentMessage)}</div>
           </div>
         )}
-        {comments.map(({ message, image, username }: any) => (
-          // buat jadi component terpisah untuk comment ui
-          <div key={message} className="flex flex-col gap-1 justify-center">
-            <div className="flex items-center gap-2">
-              <Avatar className="size-8">
-                <AvatarImage src={image} alt={username} />
-                <AvatarFallback>{username.slice(0, 2)}</AvatarFallback>
-              </Avatar>
-              <h5 className="text-base font-semibold capitalize">{username}</h5>
+        {comments?.length > 0 ? (
+          comments.map(({ message, image, username }: any) => (
+            // buat jadi component terpisah untuk comment ui
+            <div key={message} className="flex flex-col gap-1 justify-center">
+              <div className="flex items-center gap-2">
+                <Avatar className="size-8">
+                  <AvatarImage src={image} alt={username} />
+                  <AvatarFallback>{username.slice(0, 2)}</AvatarFallback>
+                </Avatar>
+                <h5 className="text-base font-semibold capitalize">
+                  {username}
+                </h5>
+              </div>
+              <div className="prose">{parse(message)}</div>
             </div>
-            <div className="prose">{parse(message)}</div>
+          ))
+        ) : (
+          <div
+            className={`${
+              isPending ? "hidden" : "block"
+            } flex flex-col gap-3 py-8 items-center justify-center text-muted-foreground/50`}
+          >
+            <MessageSquare className="size-16 stroke-[1.5] text-inherit" />
+            <p className="text-inherit">Jadilah yang pertama berkomentar</p>
           </div>
-        ))}
+        )}
       </div>
     </div>
   )
