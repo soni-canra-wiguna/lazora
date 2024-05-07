@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/accordion"
 import Comment from "../_components/comment"
 import ImageProduct from "../_components/image-product"
+import { Badge } from "@/components/ui/badge"
 // import { useSearchParams } from 'next/navigation'
 
 const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
@@ -23,8 +24,6 @@ const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
   // const params = useSearchParams()
   // const productId: string | null = params.get("productId" || null)
   const { data, isPending, isError } = getSingleProduct(slug[1])
-
-  console.log(data)
 
   if (isPending) return <p className="pt-32">loading...</p>
   if (isError) return <p className="pt-32">error</p>
@@ -34,16 +33,32 @@ const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
       <div className="flex gap-12 items-start">
         <ImageProduct images={data?.images} title={data?.title} />
         <div className="w-[500px] flex flex-col">
-          <h2 className="text-2xl font-bold mb-1">
+          {/*  */}
+          <div className="flex items-center gap-3 mb-2.5">
+            {data?.categories?.map(({ title }) => (
+              <Badge
+                key={title}
+                variant="secondary"
+                className="font-medium bg-secondary hover:bg-secondary"
+              >
+                {title}
+              </Badge>
+            ))}
+          </div>
+          <h2 className="text-2xl font-bold mb-3.5">
+            <Balancer>{data?.title}</Balancer>
+          </h2>
+          {/* <h2 className="text-2xl font-bold mb-2.5">
             <Balancer>{data?.title}</Balancer>
           </h2>
           <div className="flex items-center gap-3 mb-5">
             {data?.categories?.map(({ title }) => (
-              <p key={title} className="text-sm text-muted-foreground">
+              <Badge key={title} variant="secondary" className='font-medium'>
                 {title}
-              </p>
+              </Badge>
             ))}
-          </div>
+          </div> */}
+          {/*  */}
           <h6 className=" text-lg mb-3 font-semibold">
             {formatToIDR(data?.price)}
           </h6>

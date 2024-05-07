@@ -54,9 +54,6 @@ const Comment = ({
     mutate(dataPost)
   }
 
-  // elonmusk@gmail.com
-  //Elon@31DWdf
-
   return (
     <div className="flex flex-col gap-5">
       <form onSubmit={handleAddComment} className="flex gap-3 w-full">
@@ -117,20 +114,9 @@ const Comment = ({
           </div>
         )}
         {comments?.length > 0 ? (
-          comments.map(({ message, image, username }: any) => (
+          comments.map((comment: any) => (
             // buat jadi component terpisah untuk comment ui
-            <div key={message} className="flex flex-col gap-1 justify-center">
-              <div className="flex items-center gap-2">
-                <Avatar className="size-8">
-                  <AvatarImage src={image} alt={username} />
-                  <AvatarFallback>{username.slice(0, 2)}</AvatarFallback>
-                </Avatar>
-                <h5 className="text-base font-semibold capitalize">
-                  {username}
-                </h5>
-              </div>
-              <div className="prose">{parse(message)}</div>
-            </div>
+            <UserComment key={comment.id} {...comment} />
           ))
         ) : (
           <div
@@ -148,3 +134,38 @@ const Comment = ({
 }
 
 export default Comment
+
+const UserComment = ({
+  id,
+  image,
+  username,
+  email,
+  message,
+  createdAt,
+  role,
+  productId,
+}: any) => {
+  // example output
+  // createdAt : "2024-05-07T01:42:32.316Z"
+  // email : "elonmusk@gmail.com"
+  // id : "6639870872c755b3af8a410c"
+  // image : null
+  // message : "aigoooo"
+  // productId : "66397ee775695491a8aa499e"
+  // role : "BUYER"
+  // updatedAt : "2024-05-07T01:42:32.316Z"
+  // username : "elon musk"
+
+  return (
+    <div className="flex flex-col gap-1 justify-center">
+      <div className="flex items-center gap-2">
+        <Avatar className="size-8">
+          <AvatarImage src={image} alt={username} />
+          <AvatarFallback>{username.slice(0, 2)}</AvatarFallback>
+        </Avatar>
+        <h5 className="text-base font-semibold capitalize">{username}</h5>
+      </div>
+      <div className="prose">{parse(message)}</div>
+    </div>
+  )
+}
