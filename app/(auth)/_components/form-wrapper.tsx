@@ -29,7 +29,7 @@ const FormWrapper = ({
       )}
     >
       <div className="self-start flex flex-col gap-1.5 pb-6">
-        <h4 className="text-3xl font-medium font-garamond">{title}</h4>
+        <h4 className="text-3xl font-canelaLight">{title}</h4>
         <p className="text-[#303030] text-sm">{desc}</p>
       </div>
       {/* this children is form submit */}

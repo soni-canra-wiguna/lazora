@@ -87,6 +87,20 @@
     }
   }
 
+  @font-face {
+    font-family: "canelaThin";
+    src: local('canelaThin'),url("../font/Canela-Thin.otf") format("opentype");
+  }
+
+  @font-face {
+    font-family: "canelaLight";
+    src: local('canelaLight'),url("../font/Canela-Light.otf") format("opentype");
+  }
+
+  @font-face {
+    font-family: "canelaRegular";
+    src: local('canelaRegular'),url("../font/Canela-Regular.otf") format("opentype");
+  }
 
 
 .shimmer {

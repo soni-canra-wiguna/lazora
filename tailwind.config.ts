@@ -31,6 +31,9 @@ const config = {
       },
       fontFamily: {
         jakarta_sans: ["var(--font-plus_jakarta_sans)"],
+        canelaThin: "canelaThin",
+        canelaLight: "canelaLight",
+        canelaRegular: "canelaRegular",
       },
       colors: {
         main: "hsl(var(--main))",

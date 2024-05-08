@@ -30,7 +30,7 @@ const Navbar = () => {
           >
             <MaxWidthWrapper className="flex items-center justify-between">
               <Link href="/" className="">
-                <h1 className="text-2xl font-bold">Lazora</h1>
+                <h1 className="text-2xl font-canelaRegular">Lazora</h1>
               </Link>
               <Search />
               <div className="flex items-center gap-6">
