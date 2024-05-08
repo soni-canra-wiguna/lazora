@@ -26,8 +26,6 @@ const ProductCard = ({
     alert("added to favourite")
   }
 
-  console.log("image product", image)
-
   const titleProduct = title
     .replace(/[^\w\s]/g, "")
     .replace(/\s+/g, "-")
@@ -48,7 +46,7 @@ const ProductCard = ({
       <img
         src={image.image}
         alt={title}
-        className="w-full aspect-[9/10] mb-5 hover:brightness-95 transition-all"
+        className="w-full aspect-[9/10] mb-5 hover:brightness-95 transition-all object-cover"
       />
       <div className="flex gap-1.5 items-center mb-3">
         {categories?.map(({ title }, index) => (

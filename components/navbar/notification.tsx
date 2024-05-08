@@ -11,7 +11,10 @@ const Notification = () => {
       <DropdownMenuTrigger asChild>
         <Bell className="size-6 cursor-pointer" strokeWidth={1.5} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[350px] h-[500px] mt-3 rounded-lg">
+      <DropdownMenuContent
+        side="right"
+        className="w-[350px] h-[500px] mt-3 rounded-lg"
+      >
         ini notification
       </DropdownMenuContent>
     </DropdownMenu>
