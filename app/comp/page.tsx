@@ -29,6 +29,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel"
+import AutoPlay from "embla-carousel-autoplay"
 
 export default function ComponentsUI() {
   return (
@@ -40,6 +46,7 @@ export default function ComponentsUI() {
       <ModalUI />
       <SheetUI />
       <DropdownUI />
+      <CarouselUI />
     </div>
   )
 }
@@ -279,6 +286,39 @@ const DropdownUI = () => {
           <DropdownMenuItem>Subscription</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+    </WrapperUI>
+  )
+}
+
+const CarouselUI = () => {
+  return (
+    <WrapperUI title="carousel">
+      <Carousel
+        plugins={[
+          AutoPlay({
+            delay: 4500,
+          }),
+        ]}
+        opts={{
+          loop: true,
+        }}
+        className="w-full max-w-xl h-[400px]"
+      >
+        <CarouselContent>
+          <CarouselItem>
+            <div className="w-full h-20 bg-red-300">1</div>
+          </CarouselItem>
+          <CarouselItem>
+            <div className="w-full h-20 bg-red-300">2</div>
+          </CarouselItem>
+          <CarouselItem>
+            <div className="w-full h-20 bg-red-300">3</div>
+          </CarouselItem>
+          <CarouselItem>
+            <div className="w-full h-20 bg-red-300">4</div>
+          </CarouselItem>
+        </CarouselContent>
+      </Carousel>
     </WrapperUI>
   )
 }
