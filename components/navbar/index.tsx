@@ -6,10 +6,10 @@ import MaxWidthWrapper from "../max-width-wrapper"
 import Search from "./search"
 import Link from "next/link"
 import { disableNavbarWithFooter } from "@/utils/disable-navbar-with-footer"
-import Notification from "./notification"
 import TopBar from "./top-bar"
 import Favourite from "./favourite"
 import Cart from "./cart"
+import Logo from "../logo"
 
 const Navbar = () => {
   // const { visible } = useVisibleNavbar()
@@ -29,12 +29,9 @@ const Navbar = () => {
         `}
           >
             <MaxWidthWrapper className="flex items-center justify-between">
-              <Link href="/" className="">
-                <h1 className="text-2xl font-canelaRegular">Lazora</h1>
-              </Link>
+              <Logo />
               <Search />
-              <div className="flex items-center gap-6">
-                <Notification />
+              <div className="flex items-center gap-8">
                 <Favourite favourites={favourites} />
                 <Cart cartItems={cartItems} />
               </div>

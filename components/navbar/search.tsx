@@ -1,18 +1,12 @@
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-import { ArrowUpFromDot, SearchIcon } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { ArrowUpFromDot, SearchIcon, X } from "lucide-react"
 import MaxWidthWrapper from "../max-width-wrapper"
 import { Input } from "../ui/input"
 import { useState } from "react"
 import { Button } from "../ui/button"
-import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel"
-import AutoPlay from "embla-carousel-autoplay"
+import Logo from "../logo"
+import Cart from "./cart"
+import Favourite from "./favourite"
 
 const Search = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -29,23 +23,50 @@ const Search = () => {
           </span>
         </div>
       </SheetTrigger>
-      <SheetContent side="top" className="h-[500px]">
-        <MaxWidthWrapper className="max-w-5xl h-full flex flex-col gap-10">
-          <Input
-            className="rounded-full max-w-xl mx-auto h-12 text-base px-4 placeholder:capitalize"
-            placeholder="cari produk"
-            spellCheck="false"
-            value={searchTitle}
-            onChange={(e) => setSearchTitle(e.target.value)}
-          />
-          <div className="grid grid-cols-12 size-full gap-4 overflow-hidden">
-            <Category />
-            <ResultSearch
+      <SheetContent side="top" className="h-max w-full py-8">
+        <MaxWidthWrapper className="max-w-6xl h-full flex flex-col space-y-10">
+          <div className="flex items-center justify-between px-4">
+            <Logo />
+            <div className="max-w-lg w-full relative h-max">
+              <SearchIcon className="size-6 text-primary absolute left-2.5 top-1/2 -translate-y-1/2 stroke-[1.5]" />
+              <Input
+                className="h-12 text-sm px-10 placeholder:capitalize border bg-transparent focus:border-primary"
+                placeholder="cari produk"
+                spellCheck="false"
+                value={searchTitle}
+                onChange={(e) => setSearchTitle(e.target.value)}
+              />
+              {searchTitle.length > 0 && (
+                <X
+                  onClick={() => setSearchTitle("")}
+                  className="size-4 text-primary absolute right-2.5 top-1/2 -translate-y-1/2 stroke-[1.5] cursor-pointer"
+                />
+              )}
+            </div>
+            <div className="flex items-center gap-6">
+              <Favourite favourites={4} />
+              <Cart cartItems={1} />
+            </div>
+          </div>
+          {searchTitle.length > 10 && (
+            <div className="grid grid-cols-4 gap-6 w-full h-full max-h-[500px] overflow-y-auto result__search px-4 transition-all">
+              <div className="w-full aspect-square bg-secondary"></div>
+              <div className="w-full aspect-square bg-secondary"></div>
+              <div className="w-full aspect-square bg-secondary"></div>
+              <div className="w-full aspect-square bg-secondary"></div>
+              <div className="w-full aspect-square bg-secondary"></div>
+              <div className="w-full aspect-square bg-secondary"></div>
+              <div className="w-full aspect-square bg-secondary"></div>
+              <div className="w-full aspect-square bg-secondary"></div>
+              <div className="w-full aspect-square bg-secondary"></div>
+              <div className="w-full aspect-square bg-secondary"></div>
+
+              {/* <ResultSearch
               resultSearch={resultSearch}
               searchTitle={searchTitle}
-            />
-            <Recommendation />
-          </div>
+            /> */}
+            </div>
+          )}
         </MaxWidthWrapper>
         <Button
           onClick={() => setIsOpen(!isOpen)}
@@ -62,79 +83,6 @@ const Search = () => {
 
 export default Search
 
-const Category = () => {
-  return (
-    <div className="col-span-2 w-full flex flex-col gap-4 overflow-y-auto categories_scrollbar">
-      <div className="flex flex-col gap-2">
-        <h4 className="text-muted-foreground/50 text-base font-medium capitalize">
-          kategori
-        </h4>
-        <ul className="w-full flex flex-col gap-3">
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            bag
-          </li>
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            keycaps
-          </li>
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            keyboard
-          </li>
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            shoes
-          </li>
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            smartphone
-          </li>
-        </ul>
-      </div>
-      <div className="flex flex-col gap-2">
-        <h4 className="text-muted-foreground/50 text-base font-medium capitalize">
-          popular
-        </h4>
-        <ul className="w-full flex flex-col gap-3">
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            bag
-          </li>
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            keycaps
-          </li>
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            keyboard
-          </li>
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            shoes
-          </li>
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            smartphone
-          </li>
-        </ul>
-      </div>
-      <div className="flex flex-col gap-2">
-        <h4 className="text-muted-foreground/50 text-base font-medium capitalize">
-          most favourite
-        </h4>
-        <ul className="w-full flex flex-col gap-3">
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            bag
-          </li>
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            keycaps
-          </li>
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            keyboard
-          </li>
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            shoes
-          </li>
-          <li className="hover:underline capitalize text-sm truncate cursor-pointer w-max">
-            smartphone
-          </li>
-        </ul>
-      </div>
-    </div>
-  )
-}
-
 const ResultSearch = ({
   resultSearch,
   searchTitle,
@@ -143,10 +91,7 @@ const ResultSearch = ({
   searchTitle: string
 }) => {
   return (
-    <div className="col-span-6 w-full h-full flex flex-col gap-2 overflow-hidden">
-      <h4 className="text-muted-foreground/50 text-base font-medium capitalize h-max">
-        hasil pencarian
-      </h4>
+    <div className="w-full h-full flex flex-col gap-2 overflow-hidden">
       {resultSearch > 0 ? (
         <div className="flex-1 grid grid-cols-1 gap-2 overflow-y-auto result__search">
           <div className="w-full h-20 bg-secondary"></div>
@@ -169,40 +114,6 @@ const ResultSearch = ({
           hasil pencariannya ngga ada nih
         </div>
       )}
-    </div>
-  )
-}
-
-const Recommendation = () => {
-  return (
-    <div className="col-span-4 w-full flex flex-col gap-2">
-      <h4 className="text-muted-foreground/50 text-base font-medium capitalize">
-        rekomendasi
-      </h4>
-      <div className="w-full h-full bg-secondary">
-        <Carousel
-          plugins={[
-            AutoPlay({
-              delay: 4500,
-            }),
-          ]}
-          opts={{
-            loop: true,
-          }}
-        >
-          <CarouselContent>
-            <CarouselItem>
-              <div className="flex-2 bg-red-300">1</div>
-            </CarouselItem>
-            <CarouselItem>
-              <div className="flex-2 bg-red-300">2</div>
-            </CarouselItem>
-            <CarouselItem>
-              <div className="flex-2 bg-red-300">3</div>
-            </CarouselItem>
-          </CarouselContent>
-        </Carousel>
-      </div>
     </div>
   )
 }

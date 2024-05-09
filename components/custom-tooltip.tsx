@@ -13,6 +13,7 @@ interface CustomTooltipProps {
   title: string
   className?: string
   side?: "top" | "bottom" | "left" | "right"
+  align?: "start" | "center" | "end"
 }
 
 const CustomTooltip = ({
@@ -20,6 +21,7 @@ const CustomTooltip = ({
   title,
   className,
   side,
+  align,
 }: CustomTooltipProps) => {
   return (
     <TooltipProvider>
@@ -27,7 +29,11 @@ const CustomTooltip = ({
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent
           side={side}
-          className={cn("bg-muted text-primary rounded-none", className)}
+          align={align}
+          className={cn(
+            "bg-primary text-xs text-background rounded-none p-1.5 border-none leading-none",
+            className
+          )}
         >
           {title}
         </TooltipContent>
