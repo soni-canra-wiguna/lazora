@@ -65,7 +65,7 @@ const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
             <Button className="capitalize" variant="outline">
               favourite <Heart className="size-4 ml-2" strokeWidth={1.5} />
             </Button>
-            <Button>
+            <Button className="shimmer">
               Add to Cart{" "}
               <ShoppingCart className="size-4 ml-2" strokeWidth={1.5} />
             </Button>
