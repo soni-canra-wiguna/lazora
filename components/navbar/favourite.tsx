@@ -25,11 +25,11 @@ const Favourite = () => {
       <SheetTrigger>
         <FavouriteButton totalFavourites={favourites.length} />
       </SheetTrigger>
-      <SheetContent side="right" className="flex flex-col gap-4">
+      <SheetContent side="right" className="flex flex-col gap-4 p-4">
         <h3 className="font-semibold text-xl capitalize">
           favourites({favourites.length})
         </h3>
-        <div className="grid grid-cols-1 gap-4 w-full h-full overflow-y-auto">
+        <div className="grid grid-cols-1 gap-4 w-full overflow-y-auto">
           {favourites?.map(({ id, image, title, price, stock }) => {
             const handleRemoveFavourite = () => {
               dispatch(removeFavourite(id))
