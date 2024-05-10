@@ -6,11 +6,15 @@ import { useState } from "react"
 import { Button } from "../ui/button"
 import Logo from "../logo"
 import Cart from "./cart"
-import Favourite from "./favourite"
+import Favourite, { FavouriteButton } from "./favourite"
+import { RootState } from "@/redux/store"
+import { useSelector } from "react-redux"
+import Link from "next/link"
 
 const Search = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [searchTitle, setSearchTitle] = useState<string>("")
+  const { favourites } = useSelector((state: RootState) => state.favourites)
   const resultSearch = 2
 
   return (
@@ -44,7 +48,9 @@ const Search = () => {
               )}
             </div>
             <div className="flex items-center gap-6">
-              <Favourite favourites={4} />
+              <Link href="/account/favourite">
+                <FavouriteButton totalFavourites={favourites.length} />
+              </Link>
               <Cart cartItems={1} />
             </div>
           </div>

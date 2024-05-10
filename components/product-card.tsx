@@ -1,6 +1,4 @@
 import Link from "next/link"
-import { Toggle } from "./ui/toggle"
-import { Heart } from "lucide-react"
 import Balancer from "react-wrap-balancer"
 import { formatToIDR } from "@/utils/format-to-idr"
 import { Category } from "@prisma/client"
@@ -21,11 +19,6 @@ const ProductCard = ({
   categories,
   price,
 }: ProductCardProps) => {
-  const addToFavourite = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation()
-    alert("added to favourite")
-  }
-
   const titleProduct = title
     .replace(/[^\w\s]/g, "")
     .replace(/\s+/g, "-")
@@ -34,15 +27,6 @@ const ProductCard = ({
 
   return (
     <Link href={urlProdcut} className="flex flex-col relative">
-      <Toggle
-        onClick={addToFavourite}
-        className="absolute z-20 top-4 right-4 bg-secondary/50 hover:bg-secondary/20 rounded-full w-max h-max p-3"
-      >
-        <Heart
-          strokeWidth={1.5}
-          className="hover:fill-red-500 hover:stroke-none size-8"
-        />
-      </Toggle>
       <img
         src={image.image}
         alt={title}

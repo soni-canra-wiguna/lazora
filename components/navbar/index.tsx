@@ -10,13 +10,14 @@ import TopBar from "./top-bar"
 import Favourite from "./favourite"
 import Cart from "./cart"
 import Logo from "../logo"
+import { useSelector } from "react-redux"
+import { RootState } from "@/redux/store"
 
 const Navbar = () => {
   // const { visible } = useVisibleNavbar()
   // const isVisible = visible ? "translate-y-0 opacity-100" : "-translate-y-20 opacity-0"
   const patname = usePathname()
   const cartItems = 1
-  const favourites = 2
 
   return (
     <>
@@ -32,7 +33,7 @@ const Navbar = () => {
               <Logo />
               <Search />
               <div className="flex items-center gap-8">
-                <Favourite favourites={favourites} />
+                <Favourite />
                 <Cart cartItems={cartItems} />
               </div>
             </MaxWidthWrapper>
