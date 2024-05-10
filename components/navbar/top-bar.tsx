@@ -3,19 +3,21 @@ import MaxWidthWrapper from "../max-width-wrapper"
 import { Button } from "../ui/button"
 import { useUserClient } from "@/hook/use-user"
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card"
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { ArrowLeftFromLine, Heart, Settings, ShoppingCart } from "lucide-react"
+import {
+  ArrowLeftFromLine,
+  Heart,
+  LayoutGrid,
+  Settings,
+  ShoppingCart,
+} from "lucide-react"
 import { signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { toast } from "../ui/use-toast"
+import { useState } from "react"
 
 const TopBar = () => {
   return (
@@ -48,7 +50,8 @@ const TopBar = () => {
 export default TopBar
 
 const Account = () => {
-  const { session, username, image, email } = useUserClient()
+  const { session, username, image, email, role } = useUserClient()
+  const [isPopover, setIsPopover] = useState(false)
   const router = useRouter()
 
   const handleLogout = () => {
@@ -60,6 +63,34 @@ const Account = () => {
       })
     })
   }
+
+  const URLS = [
+    {
+      href: "/account/favourite",
+      icon: <Heart className="size-4" />,
+      title: "favourite",
+    },
+    {
+      href: "/account/cart",
+      icon: <ShoppingCart className="size-4" />,
+      title: "keranjang",
+    },
+    {
+      href: "/account/pengaturan",
+      icon: <Settings className="size-4" />,
+      title: "pengaturan",
+    },
+    {
+      href: "/dashbaord",
+      icon: <LayoutGrid className="size-4" />,
+      title: "dashboard",
+    },
+  ]
+
+  const closePopover = () => {
+    setIsPopover(!isPopover)
+  }
+
   return (
     <>
       {!session ? (
@@ -69,7 +100,7 @@ const Account = () => {
           </Link>
         </Button>
       ) : (
-        <Popover>
+        <Popover open={isPopover} onOpenChange={setIsPopover}>
           <PopoverTrigger asChild data-state={open}>
             <Button variant="link" className="py-0 leading-none h-max pr-0">
               Hi, {username}
@@ -95,27 +126,19 @@ const Account = () => {
             </div>
             <div className="w-[200px] h-full flex flex-col justify-between p-2">
               <div className="flex flex-col gap-1">
-                <Link
-                  href="/account/favourite"
-                  className="w-full flex items-center transition-all gap-2 px-3 py-2 hover:bg-secondary cursor-pointer"
-                >
-                  <Heart className="size-4" />
-                  <p className="capitalize">favourite</p>
-                </Link>
-                <Link
-                  href="/account/cart"
-                  className="w-full flex items-center transition-all gap-2 px-3 py-2 hover:bg-secondary cursor-pointer"
-                >
-                  <ShoppingCart className="size-4" />
-                  <p className="capitalize">keranjang</p>
-                </Link>
-                <Link
-                  href="/account/pengaturan"
-                  className="w-full flex items-center transition-all gap-2 px-3 py-2 hover:bg-secondary cursor-pointer"
-                >
-                  <Settings className="size-4" />
-                  <p className="capitalize">pengaturan</p>
-                </Link>
+                {URLS.map(({ title, icon, href }) => (
+                  <Link
+                    key={title}
+                    href={href}
+                    onClick={closePopover}
+                    className={`w-full flex items-center transition-all gap-2 px-3 py-2 hover:bg-secondary cursor-pointer ${
+                      title === "dashboard" && role !== "SELLER" && "hidden"
+                    }`}
+                  >
+                    {icon}
+                    <p className="capitalize">{title}</p>
+                  </Link>
+                ))}
               </div>
               <div
                 onClick={handleLogout}
