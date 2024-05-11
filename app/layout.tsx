@@ -7,6 +7,7 @@ import SessionClientProvider from "@/lib/provider/session-client-provider"
 import TanstackProvider from "@/lib/provider/tanstask-provider"
 import { Toaster } from "@/components/ui/toaster"
 import ReduxProvider from "@/lib/provider/redux-provider"
+// import PersistGateProvider from "@/lib/provider/persist-gate"
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   weight: ["200", "300", "400", "500", "600", "700"],
@@ -30,12 +31,14 @@ export default function RootLayout({
       <SessionClientProvider>
         <TanstackProvider>
           <ReduxProvider>
+            {/* <PersistGateProvider> */}
             <body className={plusJakartaSans.className}>
               <NextTopLoader color="#111111" height={3} showSpinner={false} />
               <Navbar />
               <main>{children}</main>
               <Toaster />
             </body>
+            {/* </PersistGateProvider> */}
           </ReduxProvider>
         </TanstackProvider>
       </SessionClientProvider>
