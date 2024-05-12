@@ -42,9 +42,6 @@ const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
     setIsFavourite(!isFavourite)
   }
 
-  if (isPending) return <p className="pt-32">loading...</p>
-  if (isError) return <p className="pt-32">error</p>
-
   return (
     <MaxWidthWrapper className="py-32 relative">
       {isPending ? (
@@ -60,13 +57,13 @@ const SingleProductPage = ({ params }: { params: { slug: string[] } }) => {
           <div className="w-[500px] flex flex-col">
             {/*  */}
             <div className="flex items-center gap-3 mb-2.5">
-              {data?.categories?.map(({ title }) => (
+              {data?.categories?.map(({ title: category }) => (
                 <Badge
-                  key={title}
+                  key={category}
                   variant="secondary"
                   className="font-medium bg-secondary hover:bg-secondary"
                 >
-                  {title}
+                  {category}
                 </Badge>
               ))}
             </div>
