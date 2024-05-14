@@ -34,13 +34,10 @@ const ToggleFavourite = ({ data }: { data: ProductPostProps | undefined }) => {
       : null
 
   useEffect(() => {
-    // @ts-ignore
-    const existingItemById = items.some((f) => f.id === data?.id)
-    // existingItemById ? setIsFavourite(true) : setIsFavourite(false)
-    if (existingItemById) {
-      setIsFavourite(true)
-    } else {
-      setIsFavourite(false)
+    if (items) {
+      // @ts-ignore
+      const existingItemById = items?.some((fav) => fav?.id === data?.id)
+      existingItemById ? setIsFavourite(true) : setIsFavourite(false)
     }
   }, [items])
 
