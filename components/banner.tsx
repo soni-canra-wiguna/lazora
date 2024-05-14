@@ -19,11 +19,11 @@ const BannerHomepage = () => {
   return (
     <section className="w-full mb-20 group">
       <Carousel
-        // plugins={[
-        //   AutoPlay({
-        //     delay: 7000,
-        //   }),
-        // ]}
+        plugins={[
+          AutoPlay({
+            delay: 7000,
+          }),
+        ]}
         opts={{ loop: true }}
       >
         <CarouselContent>
