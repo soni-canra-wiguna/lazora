@@ -32,7 +32,7 @@ export async function generateMetadata({
         title: product.title,
         images: product.images[indexImage || 0].image,
         description: `Beli ${product.title} hanya di Lazora`,
-        url: `${process.env.PROD_URL}/product/${slug[0]}/${slug[1]}`,
+        url: `https://lazora.vercel.app/product/${slug[0]}/${slug[1]}`,
         siteName: "Lazora",
         type: "website",
       },
