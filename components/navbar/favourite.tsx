@@ -30,24 +30,28 @@ const Favourite = () => {
           favourites({favourites.length})
         </h3>
         <div className="grid grid-cols-1 gap-4 w-full overflow-y-auto">
-          {favourites?.map(({ id, image, title, price, stock }) => {
-            const handleRemoveFavourite = () => {
-              dispatch(removeFavourite(id))
-            }
-            return (
-              <Card key={id} className="flex flex-col gap-2 p-2">
-                <h4 className="font-medium text-base">{title}</h4>
-                <p className="text-xs">{formatToIDR(price ?? 0)}</p>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={handleRemoveFavourite}
-                >
-                  remove
-                </Button>
-              </Card>
-            )
-          })}
+          {favourites.length > 0 ? (
+            favourites?.map(({ id, image, title, price, stock }) => {
+              const handleRemoveFavourite = () => {
+                dispatch(removeFavourite(id))
+              }
+              return (
+                <Card key={id} className="flex flex-col gap-2 p-2">
+                  <h4 className="font-medium text-base">{title}</h4>
+                  <p className="text-xs">{formatToIDR(price ?? 0)}</p>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleRemoveFavourite}
+                  >
+                    remove
+                  </Button>
+                </Card>
+              )
+            })
+          ) : (
+            <p>add favourite</p>
+          )}
         </div>
       </SheetContent>
     </Sheet>

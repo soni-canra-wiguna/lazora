@@ -1,3 +1,4 @@
+"use client"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export interface FavouriteProps {
@@ -8,8 +9,14 @@ export interface FavouriteProps {
   stock?: number
 }
 
+const favouriteItems =
+  typeof window !== "undefined" ? localStorage.getItem("favourites") : "[]"
+
 const initialState = {
-  favourites: [] as FavouriteProps[],
+  favourites:
+    // @ts-ignore
+    (JSON.parse(favouriteItems) as FavouriteProps[]) ||
+    ([] as FavouriteProps[]),
 }
 
 export const favouriteSlice = createSlice({
@@ -25,12 +32,15 @@ export const favouriteSlice = createSlice({
       )
       if (favIndex !== -1) {
         state.favourites.splice(favIndex, 1)
+        localStorage.setItem("favourites", JSON.stringify(state.favourites))
       } else {
         state.favourites.push(action.payload)
+        localStorage.setItem("favourites", JSON.stringify(state.favourites))
       }
     },
     removeFavourite: (state, action: PayloadAction<string | undefined>) => {
       state.favourites = state.favourites.filter((f) => f.id !== action.payload)
+      localStorage.setItem("favourites", JSON.stringify(state.favourites))
     },
   },
 })

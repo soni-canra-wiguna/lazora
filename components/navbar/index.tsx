@@ -31,8 +31,9 @@ const Navbar = () => {
           >
             <MaxWidthWrapper className="flex items-center justify-between">
               <Logo />
-              <Search />
-              <div className="flex items-center gap-8">
+              <div className="flex items-center gap-8 w-max">
+                {/* <div className="h-11 w-40 bg-secondary rounded-full"></div> */}
+                <Search />
                 <Favourite />
                 <Cart cartItems={cartItems} />
               </div>
