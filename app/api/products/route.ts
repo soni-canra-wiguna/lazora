@@ -61,7 +61,7 @@ export const GET = async (req: NextRequest) => {
       },
     })
 
-    const query = req.nextUrl.searchParams.get("search_product")
+    const query = req.nextUrl.searchParams.get("search")
     const decodeQuery = query?.replace(/-/g, " ").toLowerCase()
 
     const productsByQuery = await prisma.product.findMany({
@@ -73,11 +73,6 @@ export const GET = async (req: NextRequest) => {
       include: {
         images: true,
         categories: true,
-        comments: {
-          orderBy: {
-            createdAt: "desc",
-          },
-        },
       },
       orderBy: {
         createdAt: "desc",

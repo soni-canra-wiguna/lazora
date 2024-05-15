@@ -6,16 +6,38 @@ import { useState } from "react"
 import { Button } from "../ui/button"
 import Logo from "../logo"
 import Cart from "./cart"
-import Favourite, { FavouriteButton } from "./favourite"
+import { FavouriteButton } from "./favourite"
 import { RootState } from "@/redux/store"
 import { useSelector } from "react-redux"
 import Link from "next/link"
+import { useDebounce } from "use-debounce"
+import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
+import { ProductPostProps } from "@/types"
+import { formatToIDR } from "@/utils/format-to-idr"
+import { formatTitleProduct } from "@/utils/format-title-product"
 
 const Search = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [searchTitle, setSearchTitle] = useState<string>("")
-  const { favourites } = useSelector((state: RootState) => state.favourites)
-  const resultSearch = 2
+  const [searchInput, setSearchInput] = useState<string>("")
+  const [debounceSearchInput] = useDebounce(
+    searchInput?.replace(/\s+/g, "-").toLowerCase(),
+    500
+  )
+
+  const {
+    data: searchProducts,
+    isPending,
+    isError,
+  } = useQuery<ProductPostProps[]>({
+    queryKey: ["search_input", debounceSearchInput],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `/api/products?search=${debounceSearchInput}`
+      )
+      return data.products
+    },
+  })
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -37,41 +59,37 @@ const Search = () => {
                 className="h-12 text-sm px-10 placeholder:capitalize border bg-transparent focus:border-primary"
                 placeholder="cari produk"
                 spellCheck="false"
-                value={searchTitle}
-                onChange={(e) => setSearchTitle(e.target.value)}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
               />
-              {searchTitle.length > 0 && (
+              {searchInput.length > 0 && (
                 <X
-                  onClick={() => setSearchTitle("")}
+                  onClick={() => setSearchInput("")}
                   className="size-4 text-primary absolute right-2.5 top-1/2 -translate-y-1/2 stroke-[1.5] cursor-pointer"
                 />
               )}
             </div>
-            <div className="flex items-center gap-6">
-              <Link href="/account/favourite">
-                <FavouriteButton totalFavourites={favourites.length} />
-              </Link>
-              <Cart cartItems={1} />
-            </div>
+            <CartAndFavouriteLink />
           </div>
-          {searchTitle.length > 10 && (
+          {debounceSearchInput.length === 0 ? null : isPending ? (
+            <p>Loading...</p>
+          ) : isError ? (
+            <p>Waduh error nih...</p>
+          ) : searchProducts?.length > 0 ? (
             <div className="grid grid-cols-4 gap-6 w-full h-full max-h-[500px] overflow-y-auto result__search px-4 transition-all">
-              <div className="w-full aspect-square bg-secondary"></div>
-              <div className="w-full aspect-square bg-secondary"></div>
-              <div className="w-full aspect-square bg-secondary"></div>
-              <div className="w-full aspect-square bg-secondary"></div>
-              <div className="w-full aspect-square bg-secondary"></div>
-              <div className="w-full aspect-square bg-secondary"></div>
-              <div className="w-full aspect-square bg-secondary"></div>
-              <div className="w-full aspect-square bg-secondary"></div>
-              <div className="w-full aspect-square bg-secondary"></div>
-              <div className="w-full aspect-square bg-secondary"></div>
-
-              {/* <ResultSearch
-              resultSearch={resultSearch}
-              searchTitle={searchTitle}
-            /> */}
+              {searchProducts?.map((product) => (
+                <SearchResult
+                  key={product.id}
+                  id={product.id}
+                  title={product.title}
+                  image={product.images[0].image}
+                  price={product.price}
+                  closeSheet={() => setIsOpen(!isOpen)}
+                />
+              ))}
             </div>
+          ) : (
+            <p>Hasil pencariannya tidak ada nih...</p>
           )}
         </MaxWidthWrapper>
         <Button
@@ -89,37 +107,47 @@ const Search = () => {
 
 export default Search
 
-const ResultSearch = ({
-  resultSearch,
-  searchTitle,
+const SearchResult = ({
+  id,
+  title,
+  image,
+  price,
+  closeSheet,
 }: {
-  resultSearch: number
-  searchTitle: string
+  id: string
+  title: string
+  image?: string
+  price: number
+  closeSheet: (isOpen: boolean) => void
 }) => {
+  const titleProduct = formatTitleProduct(title)
+  const urlProdcut = `/product/${titleProduct}/${id}`
+
+  console.log(title, price)
+
   return (
-    <div className="w-full h-full flex flex-col gap-2 overflow-hidden">
-      {resultSearch > 0 ? (
-        <div className="flex-1 grid grid-cols-1 gap-2 overflow-y-auto result__search">
-          <div className="w-full h-20 bg-secondary"></div>
-          <div className="w-full h-20 bg-secondary"></div>
-          <div className="w-full h-20 bg-secondary"></div>
-          <div className="w-full h-20 bg-secondary"></div>
-          <div className="w-full h-20 bg-secondary"></div>
-          <div className="w-full h-20 bg-secondary"></div>
-          <div className="w-full h-20 bg-secondary"></div>
-        </div>
-      ) : (
-        searchTitle.length === 0 && (
-          <div className="size-full flex flex-col gap-2 items-center justify-center">
-            coba cari sesuatu
-          </div>
-        )
-      )}
-      {searchTitle.length > 0 && resultSearch === 0 && (
-        <div className="size-full flex flex-col gap-2 items-center justify-center">
-          hasil pencariannya ngga ada nih
-        </div>
-      )}
+    <Link href={urlProdcut} className="flex flex-col w-full h-max">
+      <div className="w-full h-[260px] mb-3">
+        <img
+          alt={title}
+          src={image}
+          className="w-full h-full object-center object-contain"
+        />
+      </div>
+      <h4 className="font-medium text-xl text-primary mb-1.5">{title}</h4>
+      <p className="text-sm text-muted-foreground">{formatToIDR(price)}</p>
+    </Link>
+  )
+}
+
+const CartAndFavouriteLink = () => {
+  const { favourites } = useSelector((state: RootState) => state.favourites)
+  return (
+    <div className="flex items-center gap-6">
+      <Link href="/account/favourite">
+        <FavouriteButton totalFavourites={favourites.length} />
+      </Link>
+      <Cart cartItems={1} />
     </div>
   )
 }
