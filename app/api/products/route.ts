@@ -62,12 +62,13 @@ export const GET = async (req: NextRequest) => {
     })
 
     const query = req.nextUrl.searchParams.get("search")
-    const decodeQuery = query?.replace(/-/g, " ").toLowerCase()
+    const decodeQuery = query?.replace(/-/g, " ")
 
     const productsByQuery = await prisma.product.findMany({
       where: {
         title: {
           contains: decodeQuery,
+          mode: "insensitive",
         },
       },
       include: {

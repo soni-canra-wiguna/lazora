@@ -21,7 +21,7 @@ const Search = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [searchInput, setSearchInput] = useState<string>("")
   const [debounceSearchInput] = useDebounce(
-    searchInput?.replace(/\s+/g, "-").toLowerCase(),
+    searchInput?.replace(/\s+/g, "-"),
     500
   )
 
