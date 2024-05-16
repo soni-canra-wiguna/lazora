@@ -1,5 +1,5 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { ArrowUpFromDot, SearchIcon, X } from "lucide-react"
+import { ArrowUpFromDot, Loader2, SearchIcon, X } from "lucide-react"
 import MaxWidthWrapper from "../max-width-wrapper"
 import { Input } from "../ui/input"
 import { useState } from "react"
@@ -72,9 +72,13 @@ const Search = () => {
             <CartAndFavouriteLink />
           </div>
           {debounceSearchInput.length === 0 ? null : isPending ? (
-            <p>Loading...</p>
+            <div className="w-full flex justify-center">
+              <Loader2 className="w-6 h-6 animate-spin stroke-1 stroke-primary" />
+            </div>
           ) : isError ? (
-            <p>Waduh error nih...</p>
+            <div className="w-full flex justify-center">
+              cek koneksi kamu dan coba lagi
+            </div>
           ) : searchProducts?.length > 0 ? (
             <div className="grid grid-cols-4 gap-6 w-full h-full max-h-[500px] overflow-y-auto result__search px-4 transition-all">
               {searchProducts?.map((product) => (
@@ -89,7 +93,9 @@ const Search = () => {
               ))}
             </div>
           ) : (
-            <p>Hasil pencariannya tidak ada nih...</p>
+            <div className="w-full flex justify-center">
+              productnya ngga ada nih...
+            </div>
           )}
         </MaxWidthWrapper>
         <Button
@@ -126,7 +132,12 @@ const SearchResult = ({
   console.log(title, price)
 
   return (
-    <Link href={urlProdcut} className="flex flex-col w-full h-max">
+    <Link
+      // @ts-ignore
+      onClick={closeSheet}
+      href={urlProdcut}
+      className="flex flex-col w-full h-max"
+    >
       <div className="w-full h-[260px] mb-3">
         <img
           alt={title}
