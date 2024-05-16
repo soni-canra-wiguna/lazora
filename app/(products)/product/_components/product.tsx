@@ -16,6 +16,7 @@ import Comment from "./comment"
 import ImageProduct from "./image-product"
 import { Badge } from "@/components/ui/badge"
 import ToggleFavourite from "./toggle-favourite"
+import LoadingProduct from "./loading-product"
 
 const Product = ({ slug }: { slug: string[] }) => {
   const { data, isPending, isError } = getSingleProduct(slug[1])
@@ -98,7 +99,3 @@ const Product = ({ slug }: { slug: string[] }) => {
 }
 
 export default Product
-
-const LoadingProduct = () => {
-  return <div className="text-center w-full font-semibold">loading...</div>
-}
