@@ -12,6 +12,7 @@ import Cart from "./cart"
 import Logo from "../logo"
 import { useSelector } from "react-redux"
 import { RootState } from "@/redux/store"
+import NavList from "./nav-list"
 
 const Navbar = () => {
   // const { visible } = useVisibleNavbar()
@@ -30,7 +31,10 @@ const Navbar = () => {
         `}
           >
             <MaxWidthWrapper className="flex items-center justify-between">
-              <Logo />
+              <div className="flex items-center gap-24">
+                <Logo />
+                <NavList />
+              </div>
               <div className="flex items-center gap-8 w-max">
                 {/* <div className="h-11 w-40 bg-secondary rounded-full"></div> */}
                 <Search />

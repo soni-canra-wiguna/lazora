@@ -101,7 +101,7 @@ const Account = () => {
         </Button>
       ) : (
         <Popover open={isPopover} onOpenChange={setIsPopover}>
-          <PopoverTrigger asChild data-state={open}>
+          <PopoverTrigger asChild>
             <Button variant="link" className="py-0 leading-none h-max pr-0">
               Hi, {username}
             </Button>
