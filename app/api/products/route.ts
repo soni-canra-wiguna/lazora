@@ -1,11 +1,14 @@
 import prisma from "@/lib/prismadb"
+import { PostMethodeProductSchema } from "@/schema"
 import { ProductPostProps } from "@/types"
 import { NextRequest, NextResponse } from "next/server"
+import * as z from "zod"
 
 export const POST = async (req: NextRequest) => {
   try {
     const body: ProductPostProps = await req.json()
-    const { title, price, description, stock, categories, images } = body
+    const parsedBody = PostMethodeProductSchema.parse(body)
+    const { title, price, description, stock, categories, images } = parsedBody
 
     await prisma.product.create({
       data: {
@@ -35,10 +38,16 @@ export const POST = async (req: NextRequest) => {
       status: 201,
     })
   } catch (error) {
-    console.log(error)
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({
+        message: "Validation error",
+        errors: error.errors,
+        status: 400,
+      })
+    }
+
     return NextResponse.json({
       message: "internal server error",
-      error: error,
       status: 500,
     })
   }

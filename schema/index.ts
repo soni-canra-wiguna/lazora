@@ -32,3 +32,20 @@ export const ProductSchema = z.object({
   image: z.array(z.string()),
   categories: z.array(z.string()),
 })
+
+const ImageSchema = z.object({
+  image: z.string().url(),
+})
+
+const CategorySchema = z.object({
+  title: z.string(),
+})
+
+export const PostMethodeProductSchema = z.object({
+  title: z.string(),
+  price: z.number().positive(),
+  description: z.string(),
+  stock: z.number().positive(),
+  categories: z.array(CategorySchema),
+  images: z.array(ImageSchema),
+})
