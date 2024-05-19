@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import {
   FavouriteProps,
@@ -8,7 +10,7 @@ import { Heart } from "lucide-react"
 import { useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 
-const ToggleFavourite = ({ data }: { data: ProductPostProps | undefined }) => {
+const FavouriteToggle = ({ data }: { data: ProductPostProps | undefined }) => {
   const [isFavourite, setIsFavourite] = useState(false)
   const dispatch = useDispatch()
 
@@ -56,4 +58,4 @@ const ToggleFavourite = ({ data }: { data: ProductPostProps | undefined }) => {
   )
 }
 
-export default ToggleFavourite
+export default FavouriteToggle

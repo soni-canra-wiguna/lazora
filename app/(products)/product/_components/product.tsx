@@ -1,22 +1,15 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import { formatToIDR } from "@/utils/format-to-idr"
 import { getSingleProduct } from "@/utils/get-products"
-import { Loader2, ShoppingCart } from "lucide-react"
+import { Loader2 } from "lucide-react"
 import Balancer from "react-wrap-balancer"
-import parse from "html-react-parser"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import Comment from "./comment"
 import ImageProduct from "./image-product"
 import { Badge } from "@/components/ui/badge"
-import ToggleFavourite from "./toggle-favourite"
 import LoadingProduct from "./loading-product"
+import FavouriteToggle from "./favourite-toggle"
+import CartButton from "./cart-button"
+import ProductInfo from "./product-info"
 
 const Product = ({ slug }: { slug: string[] }) => {
   const { data, isPending, isError } = getSingleProduct(slug[1])
@@ -67,30 +60,14 @@ const Product = ({ slug }: { slug: string[] }) => {
               stock: {data?.stock}
             </div>
             <div className="flex items-center gap-4 mb-4">
-              <ToggleFavourite data={data} />
-              <Button className="shimmer">
-                Add to Cart{" "}
-                <ShoppingCart className="size-4 ml-2" strokeWidth={1.5} />
-              </Button>
+              <FavouriteToggle data={data} />
+              <CartButton />
             </div>
-            <Accordion type="single" collapsible defaultValue="description">
-              <AccordionItem value="description">
-                <AccordionTrigger className="text-base capitalize">
-                  description
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="prose">{parse(data?.description ?? "")}</div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="review">
-                <AccordionTrigger className="text-base capitalize">
-                  review
-                </AccordionTrigger>
-                <AccordionContent>
-                  <Comment comments={data?.comments} productId={slug[1]} />
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+            <ProductInfo
+              comments={data?.comments}
+              description={data?.description}
+              slug={slug}
+            />
           </div>
         </div>
       )}
