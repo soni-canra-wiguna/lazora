@@ -35,6 +35,11 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel"
 import AutoPlay from "embla-carousel-autoplay"
+import { UploadDropzone } from "@/lib/uploadthing"
+import { useState } from "react"
+import Image from "next/image"
+import { UploadFileResponse } from "uploadthing/client"
+import { toast } from "@/components/ui/use-toast"
 
 export default function ComponentsUI() {
   return (
@@ -47,6 +52,7 @@ export default function ComponentsUI() {
       <SheetUI />
       <DropdownUI />
       <CarouselUI />
+      <FileUploadComp />
     </div>
   )
 }
@@ -319,6 +325,55 @@ const CarouselUI = () => {
           </CarouselItem>
         </CarouselContent>
       </Carousel>
+    </WrapperUI>
+  )
+}
+
+const FileUploadComp = () => {
+  const [images, setImages] = useState<UploadFileResponse[] | undefined>()
+  return (
+    <WrapperUI title="file upload demo">
+      <UploadDropzone
+        endpoint="products"
+        onClientUploadComplete={(res) => {
+          setImages(res)
+          toast({
+            title: "succes uploaded",
+            variant: "success",
+          })
+        }}
+        onUploadError={(error: Error) => {
+          toast({
+            title: "succes uploaded",
+            description: `ERROR! ${error.message}`,
+            variant: "destructive",
+          })
+        }}
+      />
+      <div className="grid grid-cols-3 gap-4 max-w-[1280px] w-full mx-auto">
+        {images?.length ?? 0 > 0 ? (
+          images?.map((image) => {
+            return (
+              <div key={image.name} className="flex flex-col gap-4 p-4">
+                <div className="w-full aspect-square">
+                  <Image
+                    alt={image.name}
+                    src={image.url}
+                    width={500}
+                    height={500}
+                    className="size-full object-center object-cover"
+                  />
+                </div>
+                <h2 className="text-zinc-900 font-medium text-lg">
+                  {image.name}
+                </h2>
+              </div>
+            )
+          })
+        ) : (
+          <p className="text-black">belum ada review nih</p>
+        )}
+      </div>
     </WrapperUI>
   )
 }
