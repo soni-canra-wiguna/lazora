@@ -1,4 +1,5 @@
 "use client"
+
 import {
   Accordion,
   AccordionContent,
@@ -8,6 +9,7 @@ import {
 import Comment from "./comment"
 import parse from "html-react-parser"
 import { CommentProps } from "@/types"
+import CommentWS from "./comment-wserver"
 
 const ProductInfo = ({
   comments,
@@ -33,7 +35,8 @@ const ProductInfo = ({
           review
         </AccordionTrigger>
         <AccordionContent>
-          <Comment comments={comments} productId={slug[1]} />
+          {/* <Comment comments={comments} slug={slug} /> */}
+          <CommentWS comments={comments} slug={slug} />
         </AccordionContent>
       </AccordionItem>
     </Accordion>

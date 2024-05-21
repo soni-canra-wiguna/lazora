@@ -45,6 +45,7 @@
     "lucide-react": "^0.371.0",
     "next": "14.2.2",
     "next-auth": "^4.24.7",
+    "next-safe-action": "^6.2.0",
     "next-themes": "^0.3.0",
     "nextjs-toploader": "^1.6.11",
     "react": "^18",

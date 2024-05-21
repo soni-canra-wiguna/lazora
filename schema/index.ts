@@ -49,3 +49,12 @@ export const PostMethodeProductSchema = z.object({
   categories: z.array(CategorySchema),
   images: z.array(ImageSchema),
 })
+
+export const CommentSchema = z.object({
+  comment: z.string().optional(),
+  username: z.string().optional(),
+  email: z.string().email().optional(),
+  image: z.string().optional(),
+  role: z.enum([roleOptions[0], ...roleOptions]).optional(),
+  productId: z.string(),
+})

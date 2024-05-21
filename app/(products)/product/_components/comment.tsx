@@ -1,3 +1,5 @@
+"use client"
+
 import LoadingButton from "@/components/loading-button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
@@ -8,13 +10,15 @@ import { useState } from "react"
 import parse from "html-react-parser"
 import { MessageSquare } from "lucide-react"
 import censorWordMessage from "@/utils/censore-word"
+import { revalidatePath, revalidateTag } from "next/cache"
+import { formatTitleProduct } from "@/utils/format-title-product"
 
 const Comment = ({
   comments,
-  productId,
+  slug,
 }: {
   comments: string[] | undefined | any
-  productId: string
+  slug: string[]
 }) => {
   const [commentMessage, setCommentMessage] = useState("")
   const { session } = useUserClient()
@@ -31,8 +35,7 @@ const Comment = ({
     onMutate: () => {},
     onSuccess: () => {
       setCommentMessage("")
-      queryClient.invalidateQueries({ queryKey: [productId] })
-      console.log("uhuy berhasil")
+      queryClient.invalidateQueries({ queryKey: [slug[1]] })
     },
     onError: () => {
       console.log("gagal post commentnya nih")
@@ -48,7 +51,7 @@ const Comment = ({
       email: session?.user.email,
       role: session?.user.role,
       message: commentMessage,
-      productId,
+      productId: slug[1],
     }
 
     mutate(dataPost)

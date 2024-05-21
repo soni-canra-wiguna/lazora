@@ -3,6 +3,7 @@ import Balancer from "react-wrap-balancer"
 import { formatToIDR } from "@/utils/format-to-idr"
 import { Category } from "@prisma/client"
 import { ImageProps } from "@/types"
+import { formatTitleProduct } from "@/utils/format-title-product"
 
 interface ProductCardProps {
   id: string
@@ -19,10 +20,7 @@ const ProductCard = ({
   categories,
   price,
 }: ProductCardProps) => {
-  const titleProduct = title
-    .replace(/[^\w\s]/g, "")
-    .replace(/\s+/g, "-")
-    .toLowerCase()
+  const titleProduct = formatTitleProduct(title)
   const urlProdcut = `/product/${titleProduct}/${id}`
 
   return (
