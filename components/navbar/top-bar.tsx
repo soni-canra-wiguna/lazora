@@ -81,7 +81,7 @@ const Account = () => {
       title: "pengaturan",
     },
     {
-      href: "/dashbaord",
+      href: "/dashboard",
       icon: <LayoutGrid className="size-4" />,
       title: "dashboard",
     },

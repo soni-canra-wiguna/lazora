@@ -58,3 +58,13 @@ export const CommentSchema = z.object({
   role: z.enum([roleOptions[0], ...roleOptions]).optional(),
   productId: z.string(),
 })
+
+export const BannerSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  title_button: z.string(),
+  href_button: z.string(),
+  image: z.string(),
+  alt_image: z.string(),
+  background_color: z.string(),
+})

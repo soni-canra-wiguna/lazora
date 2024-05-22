@@ -2,16 +2,15 @@ import { NextRequestWithAuth, withAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
 
 async function middleware(req: NextRequestWithAuth) {
-  const notSeller = req.nextauth.token?.role !== "SELLER"
-  const isLogin = req.nextauth.token ? true : false
+  const isSeller = req.nextauth.token?.role === "SELLER"
 
   const ProtectedRoute =
     req.nextUrl.pathname.startsWith("/dashboard") ||
-    req.nextUrl.pathname.startsWith("/dashboard/user") ||
-    req.nextUrl.pathname.startsWith("/dashboard/user/create")
+    req.nextUrl.pathname.startsWith("/dashboard/banner/create") ||
+    req.nextUrl.pathname.startsWith("/dashboard/products/create")
 
   // check if user is not admin
-  if (ProtectedRoute && (isLogin || !isLogin) && notSeller) {
+  if (ProtectedRoute && !isSeller) {
     return NextResponse.rewrite(new URL("/denied", req.url))
   }
 }
@@ -26,5 +25,9 @@ export default withAuth(middleware, {
 })
 
 export const config = {
-  matcher: ["/dashboard", "/dashboard/user", "/dashboard/user/create"],
+  matcher: [
+    "/dashboard",
+    "/dashboard/banner/create",
+    "/dashboard/products/create",
+  ],
 }

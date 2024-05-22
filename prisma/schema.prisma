@@ -117,7 +117,7 @@ model Banner {
   title            String
   description      String
   title_button     String
-  href_title       String
+  href_button      String
   image            String
   alt_image        String?
   background_color String

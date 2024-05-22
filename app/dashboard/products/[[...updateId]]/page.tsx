@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 "use client"
 
 import { useToast } from "@/components/ui/use-toast"
@@ -6,13 +8,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { DataSubmission } from "../_components/form-create-product"
+import { DataSubmission } from "../../_components/form-create-product"
 import LoadingButton from "@/components/loading-button"
 import { Button } from "@/components/ui/button"
 import { CATEGORIES } from "@/utils/categories"
 import { Label } from "@/components/ui/label"
 import { Plus, X } from "lucide-react"
-import PreviewImage from "../_components/preview-image"
+import PreviewImage from "../../_components/preview-image"
 import { Input } from "@/components/ui/input"
 import TextEditor from "@/components/text-editor"
 import { formatToIDR } from "@/utils/format-to-idr"
