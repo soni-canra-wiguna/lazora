@@ -60,11 +60,25 @@ export const CommentSchema = z.object({
 })
 
 export const BannerSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  title_button: z.string(),
-  href_button: z.string(),
-  image: z.string(),
-  alt_image: z.string(),
-  background_color: z.string(),
+  title: z.string().min(1, {
+    message: "title is required",
+  }),
+  description: z.string().min(1, {
+    message: "description is required",
+  }),
+  title_button: z.string().min(1, {
+    message: "title button is required",
+  }),
+  href_button: z.string().min(1, {
+    message: "href button is required",
+  }),
+  image: z.string().min(1, {
+    message: "image is required",
+  }),
+  alt_image: z.string().min(1, {
+    message: "alt image is required",
+  }),
+  background_color: z.string().min(1, {
+    message: "background color is required",
+  }),
 })

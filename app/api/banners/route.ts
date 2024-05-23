@@ -1,10 +1,13 @@
 import prisma from "@/lib/prismadb"
+import { BannerSchema } from "@/schema"
 import { Banner } from "@prisma/client"
 import { NextRequest, NextResponse } from "next/server"
+import * as z from "zod"
 
 export const POST = async (req: NextRequest) => {
   try {
     const body: Banner = await req.json()
+    const parsedBody = BannerSchema.parse(body)
     const {
       title,
       description,
@@ -13,7 +16,7 @@ export const POST = async (req: NextRequest) => {
       image,
       alt_image,
       background_color,
-    } = body
+    } = parsedBody
 
     await prisma.banner.create({
       data: {
@@ -33,6 +36,13 @@ export const POST = async (req: NextRequest) => {
     })
   } catch (error) {
     console.log(error)
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({
+        message: "Validation error",
+        errors: error.errors,
+        status: 400,
+      })
+    }
     return NextResponse.json({
       status: 500,
       message: "Internal server error",
