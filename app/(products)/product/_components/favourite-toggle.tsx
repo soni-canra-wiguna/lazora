@@ -41,7 +41,7 @@ const FavouriteToggle = ({ data }: { data: ProductPostProps | undefined }) => {
       const existingItemById = items?.some((fav) => fav?.id === data?.id)
       existingItemById ? setIsFavourite(true) : setIsFavourite(false)
     }
-  }, [items])
+  }, [items, data?.id])
 
   return (
     <Button
