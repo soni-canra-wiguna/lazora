@@ -15,7 +15,7 @@ const ImageProduct = ({ images, title }: ImageProductProps) => {
   const param: any = searchParam.get("indexImg" || null)
 
   const handleTabsImage = (index: number) => {
-    router.prefetch(`/?indexImg=${index}`)
+    router.prefetch(`?indexImg=${index}`)
     router.push(`?indexImg=${index}`)
   }
 
