@@ -1,6 +1,6 @@
 "use client"
 
-import getproducts from "@/utils/get-products"
+import getproducts from "@/services/get-products"
 import ProductCard from "./product-card"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"

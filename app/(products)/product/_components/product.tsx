@@ -1,7 +1,7 @@
 "use client"
 
 import { formatToIDR } from "@/utils/format-to-idr"
-import { getSingleProduct } from "@/utils/get-products"
+import { getSingleProduct } from "@/services/get-products"
 import { Loader2 } from "lucide-react"
 import Balancer from "react-wrap-balancer"
 import ImageProduct from "./image-product"

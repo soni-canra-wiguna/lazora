@@ -1,4 +1,5 @@
 export const FORM_OPTIONS = {
+  role: ["ADMIN", "BUYER", "SELLER"],
   colors: [
     {
       title: "red 200",

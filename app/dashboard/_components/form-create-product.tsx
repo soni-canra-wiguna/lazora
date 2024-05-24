@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { CATEGORIES } from "@/utils/categories"
+import { CATEGORIES } from "@/data/categories"
 import { formatToIDR } from "@/utils/format-to-idr"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"

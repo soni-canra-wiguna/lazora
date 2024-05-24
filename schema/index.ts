@@ -1,4 +1,4 @@
-import { FORM_OPTIONS } from "@/utils/form-options"
+import { FORM_OPTIONS } from "@/data/form-options"
 import * as z from "zod"
 
 const roleOptions = FORM_OPTIONS.role.map((role) => role)
