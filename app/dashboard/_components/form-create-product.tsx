@@ -15,6 +15,8 @@ import TextEditor from "@/components/text-editor"
 import parse from "html-react-parser"
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
+import { UploadDropzone } from "@/lib/uploadthing"
+import Image from "next/image"
 
 export interface DataSubmission {
   title: string
@@ -41,7 +43,7 @@ const FormCreateProduct = () => {
   ])
   const [categories, setCategories] = useState([
     {
-      title: "fashion",
+      title: "keyboard",
     },
   ])
   const [categoryByInput, setCategoryByInput] = useState("")
@@ -203,7 +205,7 @@ const FormCreateProduct = () => {
           </div>
         </div>
         {/* image start */}
-        <div className="flex flex-col gap-1.5">
+        {/* <div className="flex flex-col gap-1.5">
           <div className="flex justify-between items-center">
             <Label>images product</Label>
             <Button type="button" size="icon" onClick={handleAddImage}>
@@ -236,6 +238,41 @@ const FormCreateProduct = () => {
                 >
                   <X className="size-4" />
                 </Button>
+              </div>
+            ))}
+          </div>
+        </div> */}
+        <div className="flex flex-col gap-1.5">
+          <Label>images</Label>
+          <UploadDropzone
+            endpoint="products"
+            onClientUploadComplete={(res) => {
+              if (!res) return
+              setImageProducts(res.map((image) => ({ image: image.url })))
+              // form.setValue("image", res[0].url)
+              toast({
+                title: "succes uploaded",
+                variant: "success",
+              })
+            }}
+            onUploadError={(error: Error) => {
+              toast({
+                title: "succes uploaded",
+                description: `ERROR! ${error.message}`,
+                variant: "destructive",
+              })
+            }}
+          />
+          <div className="flex w-full gap-4 items-center">
+            {imageProducts?.map((image, index) => (
+              <div key={index} className="w-20 h-20 overflow-hidden">
+                <Image
+                  src={image.image}
+                  alt={title}
+                  className="size-full object-center object-cover"
+                  width={300}
+                  height={300}
+                />
               </div>
             ))}
           </div>

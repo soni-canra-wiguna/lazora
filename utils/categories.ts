@@ -1,23 +1,23 @@
 export const CATEGORIES = [
   {
-    title: "fashion",
+    title: "deskmat",
   },
   {
-    title: "electronik",
+    title: "keycaps",
   },
   {
-    title: "perlengkapan sekolah",
+    title: "coiled cable",
   },
   {
-    title: "makanan",
+    title: "mouse",
   },
   {
-    title: "olahraga",
+    title: "switch",
   },
   {
-    title: "kecantikan",
+    title: "sticker",
   },
   {
-    title: "gaming",
+    title: "barebone",
   },
 ]
