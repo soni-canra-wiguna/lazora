@@ -91,43 +91,7 @@ const CreateBannerPage = () => {
 
   return (
     <MaxWidthWrapper className="my-32 flex flex-col gap-10">
-      <div className="w-full h-full">
-        <Card
-          style={{
-            backgroundColor: form.watch("background_color"),
-          }}
-          className="w-full h-[450px] border-none rounded-xl grid grid-cols-12 overflow-hidden"
-        >
-          <div className="col-span-7 flex items-center pl-20">
-            <div className="flex flex-col">
-              <h1 className="text-6xl font-canelaRegular mb-4 capitalize">
-                <Balancer>{form.watch("title")}</Balancer>
-              </h1>
-              <p className="mb-6">{form.watch("description")}</p>
-              <Button
-                size="lg"
-                className="capitalize w-max rounded-full font-canelaThin shimmer"
-              >
-                <Link href={form.watch("href_button")}>
-                  {form.watch("title_button")}
-                </Link>
-                <ArrowRight className="text-inherit size-4 ml-2 stroke-[1.5]" />
-              </Button>
-            </div>
-          </div>
-          <div className="col-span-5 flex items-center justify-center">
-            <div className="size-[90%]">
-              <Image
-                src={form.watch("image") || authImage}
-                width={600}
-                height={600}
-                alt={form.watch("alt_image")}
-                className="size-full object-contain object-center"
-              />
-            </div>
-          </div>
-        </Card>
-      </div>
+      <PreviewBanner form={form} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -311,6 +275,48 @@ const CreateBannerPage = () => {
 
 export default CreateBannerPage
 
-const PreviewBanner = () => {
-  return <div></div>
+interface FormPreview {
+  form: ReturnType<typeof useForm<z.infer<typeof BannerSchema>>>
+}
+
+const PreviewBanner = ({ form }: FormPreview) => {
+  return (
+    <div className="w-full h-full">
+      <Card
+        style={{
+          backgroundColor: form.watch("background_color"),
+        }}
+        className="w-full h-[450px] border-none rounded-xl grid grid-cols-12 overflow-hidden"
+      >
+        <div className="col-span-7 flex items-center pl-20">
+          <div className="flex flex-col">
+            <h1 className="text-6xl font-canelaRegular mb-4 capitalize">
+              <Balancer>{form.watch("title")}</Balancer>
+            </h1>
+            <p className="mb-6">{form.watch("description")}</p>
+            <Button
+              size="lg"
+              className="capitalize w-max rounded-full font-canelaThin shimmer"
+            >
+              <Link href={form.watch("href_button")}>
+                {form.watch("title_button")}
+              </Link>
+              <ArrowRight className="text-inherit size-4 ml-2 stroke-[1.5]" />
+            </Button>
+          </div>
+        </div>
+        <div className="col-span-5 flex items-center justify-center">
+          <div className="size-[90%]">
+            <Image
+              src={form.watch("image") || authImage}
+              width={600}
+              height={600}
+              alt={form.watch("alt_image")}
+              className="size-full object-contain object-center"
+            />
+          </div>
+        </div>
+      </Card>
+    </div>
+  )
 }

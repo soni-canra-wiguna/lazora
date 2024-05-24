@@ -4,6 +4,7 @@ import { formatToIDR } from "@/utils/format-to-idr"
 import { Category } from "@prisma/client"
 import { ImageProps } from "@/types"
 import { formatTitleProduct } from "@/utils/format-title-product"
+import Image from "next/image"
 
 interface ProductCardProps {
   id: string
@@ -25,8 +26,11 @@ const ProductCard = ({
 
   return (
     <Link href={urlProdcut} className="flex flex-col relative">
-      <img
-        src={image.image}
+      <Image
+        src={image.image ?? ""}
+        width={700}
+        height={700}
+        // placeholder="blur"
         alt={title}
         className="w-full aspect-[9/10] mb-5 hover:brightness-95 transition-all object-cover"
       />

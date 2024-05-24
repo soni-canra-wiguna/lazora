@@ -1,6 +1,7 @@
 "use client"
 
 import { ImageProps } from "@/types"
+import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
 
 interface ImageProductProps {
@@ -30,18 +31,24 @@ const ImageProduct = ({ images, title }: ImageProductProps) => {
               "hover:brightness-75 brightness-75 border-primary"
             } transition-all hover:brightness-75 cursor-pointer w-full aspect-square bg-secondary border border-border/40`}
           >
-            <img
-              src={image}
+            <Image
+              src={image ?? ""}
               alt={title}
+              width={250}
+              height={250}
+              // placeholder="blur"
               className="size-full object-cover object-center"
             />
           </div>
         ))}
       </div>
       <div className="size-full flex-1">
-        <img
-          src={images[param || 0].image}
+        <Image
+          src={images[param || 0].image ?? ""}
           alt={title}
+          width={700}
+          height={700}
+          // placeholder="blur"
           className="size-full object-cover object-center"
         />
       </div>

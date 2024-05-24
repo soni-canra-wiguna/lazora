@@ -16,6 +16,7 @@ import axios from "axios"
 import { ProductPostProps } from "@/types"
 import { formatToIDR } from "@/utils/format-to-idr"
 import { formatTitleProduct } from "@/utils/format-title-product"
+import Image from "next/image"
 
 const Search = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -139,9 +140,11 @@ const SearchResult = ({
       className="flex flex-col w-full h-max"
     >
       <div className="w-full h-[260px] mb-3">
-        <img
+        <Image
           alt={title}
-          src={image}
+          src={image ?? ""}
+          width={400}
+          height={400}
           className="w-full h-full object-center object-contain"
         />
       </div>
