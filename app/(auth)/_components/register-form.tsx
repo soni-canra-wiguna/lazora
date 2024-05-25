@@ -90,7 +90,7 @@ const RegisterForm = ({ className }: { className?: string }) => {
   }
 
   const registerConfig = {
-    title: "create account!",
+    title: "Create account!",
     desc: "buat akun untuk mendapatkan informasi dan notifikasi dari kami",
     href_title: "sign in",
     desc_href: "have an account",
