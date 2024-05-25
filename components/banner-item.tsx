@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Button } from "./ui/button"
 import { ArrowRight } from "lucide-react"
 import Image from "next/image"
-import { Banner } from "@prisma/client"
+import { BannerProps } from "@/types"
 
 const BannerItem = ({
   title,
@@ -14,7 +14,7 @@ const BannerItem = ({
   href_button,
   image,
   alt_image,
-}: Banner) => {
+}: BannerProps) => {
   return (
     <Card
       style={{

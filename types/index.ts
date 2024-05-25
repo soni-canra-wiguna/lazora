@@ -44,3 +44,13 @@ export interface CommentProps {
   createdAt: Date
   updatedAt: Date
 }
+
+export interface BannerProps {
+  title: string
+  description: string
+  background_color: string
+  title_button: string
+  href_button: string
+  image: string
+  alt_image: string
+}
