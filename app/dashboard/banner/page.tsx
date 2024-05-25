@@ -22,19 +22,17 @@ import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { getBanners } from "@/services/get-banners"
-import { parseISO, setHours, setMinutes, format } from "date-fns"
+import { parseISO, format } from "date-fns"
 import { useState } from "react"
-import DeleteBannerItem from "../_components/delete-item-banner"
 import { Banner } from "@prisma/client"
 import Link from "next/link"
+import EditItemBanner from "../_components/edit-item-banner"
+import DeleteItemBanner from "../_components/delete-item-banner"
 
 const BannerPage = () => {
   const { data, isPending, isError } = getBanners()
@@ -76,9 +74,9 @@ const BannerPage = () => {
               </TableHeader>
               <TableBody>
                 {isPending ? (
-                  <div>loading banner</div>
+                  <div className="text-primary">loading banner</div>
                 ) : isError ? (
-                  <div>error banner</div>
+                  <div className="text-primary">error banner</div>
                 ) : (
                   data?.map((banner) => {
                     return <TableRowBanner key={banner.id} banner={banner} />
@@ -119,7 +117,7 @@ const TableRowBanner = ({ banner }: { banner: Banner }) => {
       </TableCell>
       <TableCell className="font-medium">{banner.title}</TableCell>
       <TableCell>
-        <Badge variant="outline">Draft</Badge>
+        <Badge variant="outline">Active</Badge>
       </TableCell>
       <TableCell>
         <div className="flex items-center gap-2">
@@ -143,8 +141,8 @@ const TableRowBanner = ({ banner }: { banner: Banner }) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DeleteBannerItem id={banner.id} setIsAction={setIsAction} />
+            <EditItemBanner banner={banner} setIsAction={setIsAction} />
+            <DeleteItemBanner id={banner.id} setIsAction={setIsAction} />
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>

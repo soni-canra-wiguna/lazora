@@ -23,14 +23,14 @@ type DeleteType = {
   setIsAction: (isAction: boolean) => void
 }
 
-const DeleteBannerItem = ({ id, setIsAction }: DeleteType) => {
+const DeleteItemBanner = ({ id, setIsAction }: DeleteType) => {
   const router = useRouter()
   const { toast } = useToast()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const {
-    mutate: deleteBannerItem,
+    mutate: deleteItemBanner,
     isPending,
     isError,
   } = useMutation({
@@ -83,7 +83,7 @@ const DeleteBannerItem = ({ id, setIsAction }: DeleteType) => {
           </AlertDialogCancel>
           <AlertDialogAction
             disabled={isPending}
-            onClick={() => deleteBannerItem()}
+            onClick={() => deleteItemBanner()}
           >
             {isPending ? "loading..." : "hapus"}
             {isPending && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
@@ -94,4 +94,4 @@ const DeleteBannerItem = ({ id, setIsAction }: DeleteType) => {
   )
 }
 
-export default DeleteBannerItem
+export default DeleteItemBanner
