@@ -39,7 +39,7 @@ const BannerItem = ({
           </Link>
         </div>
       </div>
-      <div className="col-span-5 flex items-center justify-center">
+      <div className="col-span-5 flex items-center justify-center overflow-hidden">
         <div className="size-[90%] overflow-hidden flex items-center justify-center rounded-2xl selection:bg-transparent">
           <Image
             src={image || ""}
