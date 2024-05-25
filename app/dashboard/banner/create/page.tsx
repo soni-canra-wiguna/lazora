@@ -86,7 +86,7 @@ const CreateBannerPage = () => {
   }
 
   return (
-    <MaxWidthWrapper className="my-32 flex flex-col gap-10">
+    <MaxWidthWrapper className="mb-32 flex flex-col gap-10">
       <PreviewBanner form={form} />
       <Form {...form}>
         <form
