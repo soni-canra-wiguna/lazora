@@ -24,7 +24,7 @@ const BannerItem = ({
     >
       <div className="col-span-7 flex items-center pl-20">
         <div className="flex flex-col">
-          <h1 className="text-6xl font-canelaRegular mb-4 capitalize">
+          <h1 className="text-6xl font-canelaRegular mb-4 capitalize selection:bg-transparent">
             <Balancer>{title}</Balancer>
           </h1>
           <p className="mb-6">{description}</p>
