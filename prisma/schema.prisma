@@ -113,13 +113,13 @@ model Comment {
 }
 
 model Banner {
-  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+  id               String @id @default(auto()) @map("_id") @db.ObjectId
   title            String
   description      String
   title_button     String
   href_button      String
   image            String
-  alt_image        String?
+  alt_image        String
   background_color String
 
   createdAt DateTime @default(now())

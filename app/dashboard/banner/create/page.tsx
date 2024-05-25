@@ -26,16 +26,12 @@ import { UploadDropzone } from "@/lib/uploadthing"
 import { FORM_OPTIONS } from "@/data/form-options"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import authImage from "@/public/auth-image.jpg"
-import Balancer from "react-wrap-balancer"
 import { useForm } from "react-hook-form"
-import { ArrowRight } from "lucide-react"
 import { BannerSchema } from "@/schema"
-import Image from "next/image"
-import Link from "next/link"
 import axios from "axios"
 import * as z from "zod"
 import { useRouter } from "next/navigation"
+import BannerItem from "@/components/banner-item"
 
 const CreateBannerPage = () => {
   const queryClient = useQueryClient()
@@ -280,43 +276,14 @@ interface FormPreview {
 }
 
 const PreviewBanner = ({ form }: FormPreview) => {
-  return (
-    <div className="w-full h-full">
-      <Card
-        style={{
-          backgroundColor: form.watch("background_color"),
-        }}
-        className="w-full h-[450px] border-none rounded-xl grid grid-cols-12 overflow-hidden"
-      >
-        <div className="col-span-7 flex items-center pl-20">
-          <div className="flex flex-col">
-            <h1 className="text-6xl font-canelaRegular mb-4 capitalize">
-              <Balancer>{form.watch("title")}</Balancer>
-            </h1>
-            <p className="mb-6">{form.watch("description")}</p>
-            <Button
-              size="lg"
-              className="capitalize w-max rounded-full font-canelaThin shimmer"
-            >
-              <Link href={form.watch("href_button")}>
-                {form.watch("title_button")}
-              </Link>
-              <ArrowRight className="text-inherit size-4 ml-2 stroke-[1.5]" />
-            </Button>
-          </div>
-        </div>
-        <div className="col-span-5 flex items-center justify-center">
-          <div className="size-[90%]">
-            <Image
-              src={form.watch("image") || authImage}
-              width={600}
-              height={600}
-              alt={form.watch("alt_image")}
-              className="size-full object-contain object-center"
-            />
-          </div>
-        </div>
-      </Card>
-    </div>
-  )
+  const bannerData = {
+    title: form.watch("title"),
+    description: form.watch("description"),
+    background_color: form.watch("background_color"),
+    title_button: form.watch("title_button"),
+    href_button: form.watch("href_button"),
+    image: form.watch("image"),
+    alt_image: form.watch("alt_image"),
+  }
+  return <BannerItem {...bannerData} />
 }
