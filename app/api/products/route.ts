@@ -90,14 +90,6 @@ export const GET = async (req: NextRequest) => {
       take: limit,
     })
 
-    // when we search and result is 0
-    if (decodeQuery && products.length === 0) {
-      return NextResponse.json({
-        message: "hasil pencarian tidak di temukan",
-        status: 404,
-      })
-    }
-
     if (decodeQuery) {
       return NextResponse.json({
         message: "data pencarian berhasil di ambil",
