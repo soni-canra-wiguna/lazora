@@ -57,7 +57,7 @@ export const GET = async (req: NextRequest) => {
   try {
     // pagination
     const page = parseInt(req.nextUrl.searchParams.get("page") ?? "1")
-    const limit = parseInt(req.nextUrl.searchParams.get("limit") ?? "20")
+    const limit = parseInt(req.nextUrl.searchParams.get("limit") ?? "10")
     const skip = (page - 1) * limit
 
     // search product

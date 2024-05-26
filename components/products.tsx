@@ -1,13 +1,13 @@
 "use client"
 
-import getproducts from "@/services/get-products"
+import { getShuffleProducts } from "@/services/get-products"
 import ProductCard from "./product-card"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"
 import { ChevronDown } from "lucide-react"
 
 const ListProducts = () => {
-  const { data, isPending, isError } = getproducts()
+  const { data, isPending, isError } = getShuffleProducts()
   return (
     <div className="flex flex-col gap-10">
       <div className="flex items-center justify-between">
