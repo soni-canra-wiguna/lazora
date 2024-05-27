@@ -34,7 +34,7 @@ export default function DashboardLayout({
     },
     {
       title: "banner",
-      href: "/dashboard/banner",
+      href: "/dashboard/banners",
       icon: <Square className="h-5 w-5" />,
     },
     {

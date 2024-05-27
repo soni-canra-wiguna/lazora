@@ -27,14 +27,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Link from "next/link"
 
 const ProductPage = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className="w-full flex justify-end">
-        <Button className="capitalize">
-          create product <Plus className="ml-2 size-4" />
-        </Button>
+        <Link href="/dashboard/products/create">
+          <Button className="capitalize">
+            create product <Plus className="ml-2 size-4" />
+          </Button>
+        </Link>
       </div>
       <div>
         <Card x-chunk="dashboard-06-chunk-0">

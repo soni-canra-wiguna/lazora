@@ -4,6 +4,6 @@ export const disableNavbarWithFooter = [
   "/dashboard",
   "/dashboard/products",
   "/dashboard/products/create",
-  "/dashboard/banner",
-  "/dashboard/banner/create",
+  "/dashboard/banners",
+  "/dashboard/banners/create",
 ]

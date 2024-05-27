@@ -42,7 +42,7 @@ const BannerPage = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className="w-full flex justify-end">
-        <Link href="/dashboard/banner/create">
+        <Link href="/dashboard/banners/create">
           <Button className="capitalize">
             create banner <Plus className="ml-2 size-4" />
           </Button>
