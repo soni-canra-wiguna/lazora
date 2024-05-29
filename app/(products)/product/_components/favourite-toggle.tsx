@@ -9,6 +9,7 @@ import { ProductPostProps } from "@/types"
 import { Heart } from "lucide-react"
 import { useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
+import { toast } from "@/components/ui/use-toast"
 
 const FavouriteToggle = ({ data }: { data: ProductPostProps | undefined }) => {
   const [isFavourite, setIsFavourite] = useState(false)
@@ -24,6 +25,15 @@ const FavouriteToggle = ({ data }: { data: ProductPostProps | undefined }) => {
         stock: data?.stock,
       })
     )
+    if (!isFavourite) {
+      toast({
+        description: "Tersimpan di Favourite!",
+      })
+    } else {
+      toast({
+        description: "Barang telah di hapus dari favourite.",
+      })
+    }
     setIsFavourite(!isFavourite)
   }
 
