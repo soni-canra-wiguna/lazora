@@ -2,10 +2,7 @@ import { Heart, HeartOff } from "lucide-react"
 import CustomTooltip from "../custom-tooltip"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { useState } from "react"
-import { Card } from "../ui/card"
-import { formatToIDR } from "@/utils/format-to-idr"
 import {
-  FavouriteProps,
   removeFavourite,
   resetFavourite,
 } from "@/redux/features/favourite/favourite-slice"
@@ -13,16 +10,13 @@ import { Button } from "../ui/button"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/redux/store"
 import Link from "next/link"
-import Balancer from "react-wrap-balancer"
+import FavouriteCard from "./favourite-card"
 
 const Favourite = () => {
   const { favourites } = useSelector((state: RootState) => state.favourites)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const dispatch = useDispatch()
 
-  const closeSheetModal = () => {
-    setIsOpen(!isOpen)
-  }
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger>
@@ -33,26 +27,20 @@ const Favourite = () => {
         className="flex flex-col gap-4 p-4 justify-between"
       >
         <h3 className="font-semibold text-xl capitalize">
-          favourites({favourites.length})
+          favourites ({favourites.length})
         </h3>
         <div className="flex flex-col gap-4 w-full overflow-y-auto relative flex-1 sheet_scrollbar pr-2">
           {favourites.length > 0 ? (
-            favourites?.map(({ id, image, title, price, stock }) => {
+            favourites?.map((favourite) => {
               const handleRemoveFavourite = () => {
-                dispatch(removeFavourite(id))
+                dispatch(removeFavourite(favourite.id))
               }
               return (
-                <Card key={id} className="flex flex-col gap-2 p-2 h-max">
-                  <h4 className="font-medium text-base">{title}</h4>
-                  <p className="text-xs">{formatToIDR(price ?? 0)}</p>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={handleRemoveFavourite}
-                  >
-                    remove
-                  </Button>
-                </Card>
+                <FavouriteCard
+                  key={favourite.id}
+                  handleRemoveFavourite={handleRemoveFavourite}
+                  {...favourite}
+                />
               )
             })
           ) : (
@@ -67,7 +55,7 @@ const Favourite = () => {
         </div>
         <div className="w-full h-max flex flex-col gap-3 pb-2">
           <Link href="/account/favourites">
-            <Button className="w-full">View All</Button>
+            <Button className="w-full">View All ({favourites.length})</Button>
           </Link>
           <div className="flex items-center justify-center w-full">
             <Button
