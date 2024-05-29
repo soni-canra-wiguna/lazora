@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react"
+import { Heart, HeartOff } from "lucide-react"
 import CustomTooltip from "../custom-tooltip"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { useState } from "react"
@@ -13,6 +13,7 @@ import { Button } from "../ui/button"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/redux/store"
 import Link from "next/link"
+import Balancer from "react-wrap-balancer"
 
 const Favourite = () => {
   const { favourites } = useSelector((state: RootState) => state.favourites)
@@ -55,7 +56,13 @@ const Favourite = () => {
               )
             })
           ) : (
-            <p>add favourite</p>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center w-full">
+              <HeartOff className="stroke-[1.5] text-secondary-foreground/30 size-20 mb-3" />
+              <h5 className="font-medium text-lg mb-1">Belum ada items</h5>
+              <p className="text-sm text-center w-4/5 text-muted-foreground">
+                Tandai product yang kamu suka dengan click tombol hati
+              </p>
+            </div>
           )}
         </div>
         <div className="w-full h-max flex flex-col gap-3 pb-2">
