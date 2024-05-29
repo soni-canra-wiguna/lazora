@@ -21,6 +21,7 @@ import { CommentSchema } from "@/schema"
 import { createSafeComment } from "@/lib/action"
 import { useAction } from "next-safe-action/hooks"
 import { MessageSquare } from "lucide-react"
+import CustomTooltip from "@/components/custom-tooltip"
 
 const CommentWS = ({
   comments,
@@ -84,17 +85,37 @@ const CommentWS = ({
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Input
-                    disabled={status === "executing" || !session}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && !isInputValid) {
-                        e.preventDefault()
-                      }
-                    }}
-                    placeholder="tulis komentar kamu (min 5 karakter)"
-                    className="border bg-transparent border-primary w-full"
-                    {...field}
-                  />
+                  {session ? (
+                    <Input
+                      disabled={status === "executing" || !session}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !isInputValid) {
+                          e.preventDefault()
+                        }
+                      }}
+                      placeholder="tulis komentar kamu (min 5 karakter)"
+                      className="border bg-transparent border-primary w-full"
+                      {...field}
+                    />
+                  ) : (
+                    <CustomTooltip
+                      side="bottom"
+                      title="login untuk memberikan komentar"
+                      className="rounded-md text-primary bg-secondary"
+                    >
+                      <Input
+                        disabled={status === "executing" || !session}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && !isInputValid) {
+                            e.preventDefault()
+                          }
+                        }}
+                        placeholder="tulis komentar kamu (min 5 karakter)"
+                        className="border bg-transparent border-primary w-full"
+                        {...field}
+                      />
+                    </CustomTooltip>
+                  )}
                 </FormControl>
                 <FormMessage />
               </FormItem>
