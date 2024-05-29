@@ -151,3 +151,16 @@
   background-color: #e4e4e7;
   border-radius: 40px;
 }
+
+.sheet_scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sheet_scrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.sheet_scrollbar::-webkit-scrollbar-thumb {
+  background-color: #e4e4e7;
+  border-radius: 40px;
+}
