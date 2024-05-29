@@ -71,6 +71,7 @@ const Favourite = () => {
           </Link>
           <div className="flex items-center justify-center w-full">
             <Button
+              disabled={favourites.length <= 0}
               onClick={() => dispatch(resetFavourite())}
               variant="link"
               className="text-muted-foreground hover:text-red-500 text-xs capitalize py-0 size-max"
