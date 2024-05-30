@@ -1,5 +1,8 @@
 export const CATEGORIES = [
   {
+    title: "keyboard",
+  },
+  {
     title: "deskmat",
   },
   {
