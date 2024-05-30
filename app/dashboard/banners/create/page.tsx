@@ -66,7 +66,7 @@ const CreateBannerPage = () => {
         description: "new banner successfully created!!",
       })
       queryClient.invalidateQueries({ queryKey: ["banners"] })
-      router.push("/")
+      router.push("/dashboard/products")
     },
     onError: () => {
       toast({
