@@ -1,5 +1,5 @@
 import React from "react"
-import FormCreateProduct from "@/app/dashboard/_components/form-create-product"
+import FormCreateProduct from "../../_components/form-create-product"
 
 const CreateProductPage = () => {
   return (
