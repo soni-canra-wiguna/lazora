@@ -31,7 +31,7 @@ export const getSingleProduct = (id: string) => {
 
 export const getShuffleProducts = () => {
   const { data, isPending, isError } = useQuery<ProductPostProps[]>({
-    queryKey: ["products"],
+    queryKey: ["shuffle-products"],
     queryFn: async () => {
       const { data } = await axios.get(`/api/products`)
       const shuffleProducts = shuffleArrayProducts(data.products)
