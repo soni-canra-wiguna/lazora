@@ -256,8 +256,8 @@ const CreateProductPage = () => {
             }}
             onUploadError={(error: Error) => {
               toast({
-                title: "succes uploaded",
-                description: `ERROR! ${error.message}`,
+                title: "failed to upload",
+                description: `something went wrong`,
                 variant: "destructive",
               })
             }}
