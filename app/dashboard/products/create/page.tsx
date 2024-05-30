@@ -117,8 +117,14 @@ const CreateProductPage = () => {
         title: "product created",
         description: "product successfully created",
       })
-      queryClient.invalidateQueries({ queryKey: ["products"] })
-      router.push("/")
+      // invalidate queries
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ["shuffle-products"],
+      })
+      router.push("/dashboard/products")
     },
     onError: () => {
       console.log("failed post product")

@@ -46,6 +46,7 @@ const DeleteItemProduct = ({ id, setIsAction }: DeleteType) => {
       setIsOpen(false)
       setIsAction(false)
       queryClient.invalidateQueries({ queryKey: ["products"] })
+      queryClient.invalidateQueries({ queryKey: ["shuffle-products"] })
     },
     onError: () => {
       setIsAction(false)
