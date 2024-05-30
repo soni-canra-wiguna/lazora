@@ -5,7 +5,7 @@ import axios from "axios"
 import { ProductPostProps } from "@/types"
 import { shuffleArrayProducts } from "@/utils/shuffle-array-products"
 
-export default function getproducts() {
+export default function getProducts() {
   const { data, isPending, isError } = useQuery<ProductPostProps[]>({
     queryKey: ["products"],
     queryFn: async () => {
