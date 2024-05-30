@@ -1,7 +1,12 @@
 import BackButton from "@/components/back-button"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import { Metadata } from "next"
 import Link from "next/link"
+
+export const metadata: Metadata = {
+  title: "unauthorized",
+}
 
 export default function DeniedPage() {
   return (

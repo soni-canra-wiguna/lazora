@@ -1,8 +1,13 @@
 import BackButton from "@/components/back-button"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import { Metadata } from "next"
 import Link from "next/link"
 import React from "react"
+
+export const metadata: Metadata = {
+  title: "page not found",
+}
 
 const NotFound = () => {
   return (
