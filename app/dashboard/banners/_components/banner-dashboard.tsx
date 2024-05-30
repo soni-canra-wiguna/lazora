@@ -15,8 +15,8 @@ import Image from "next/image"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { MoreHorizontal } from "lucide-react"
-import EditItemBanner from "../../_components/edit-item-banner"
-import DeleteItemBanner from "../../_components/delete-item-banner"
+import EditItemBanner from "./edit-item-banner"
+import DeleteItemBanner from "./delete-item-banner"
 
 export const BodyBannerDashboard = () => {
   const { data, isPending, isError } = getBanners()
@@ -38,12 +38,12 @@ export const BodyBannerDashboard = () => {
 
 export const FooterBannerDashboard = () => {
   const { data } = getBanners()
-  const totalProduct = data?.length ?? 0
+  const totalBanner = data?.length ?? 0
 
   return (
     <div className="text-xs text-muted-foreground">
-      Showing <strong>1-{totalProduct}</strong> of{" "}
-      <strong>{totalProduct}</strong> banners
+      Showing <strong>1-{totalBanner}</strong> of <strong>{totalBanner}</strong>{" "}
+      banners
     </div>
   )
 }
