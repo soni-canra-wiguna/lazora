@@ -52,6 +52,10 @@ export const FooterProductDashboard = () => {
 const TableRowProduct = ({ product }: { product: ProductPostProps }) => {
   const [isAction, setIsAction] = useState(false)
 
+  const title =
+    product.title.length > 55
+      ? product.title.slice(0, 54) + "..."
+      : product.title
   const date = parseISO(product.createdAt.toString())
   const formattedDate = format(date, "yyyy-MM-dd hh:mm a")
   return (
@@ -65,7 +69,7 @@ const TableRowProduct = ({ product }: { product: ProductPostProps }) => {
           width="64"
         />
       </TableCell>
-      <TableCell className="font-medium">{product.title}</TableCell>
+      <TableCell className="font-medium">{title}</TableCell>
       <TableCell>
         <Badge variant="outline">Active</Badge>
       </TableCell>
