@@ -74,6 +74,7 @@ const TableRowProduct = ({ product }: { product: ProductPostProps }) => {
         <Badge variant="outline">Active</Badge>
       </TableCell>
       <TableCell>{formatToIDR(product.price)}</TableCell>
+      <TableCell>{product.stock}</TableCell>
       <TableCell className="hidden md:table-cell">{formattedDate}</TableCell>
       <TableCell>
         <DropdownMenu open={isAction} onOpenChange={setIsAction}>

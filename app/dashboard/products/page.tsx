@@ -49,7 +49,7 @@ const ProductPage = () => {
                   <TableHead>Title</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Price</TableHead>
-                  <TableHead className="hidden md:table-cell">Stock</TableHead>
+                  <TableHead>Stock</TableHead>
                   <TableHead className="hidden md:table-cell">
                     Created at
                   </TableHead>
