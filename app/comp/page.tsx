@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -20,7 +21,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { EllipsisVertical, ShoppingCart } from "lucide-react"
+import { EllipsisVertical, ShoppingCart, Trash2 } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -53,6 +54,7 @@ export default function ComponentsUI() {
       <DropdownUI />
       <CarouselUI />
       <FileUploadComp />
+      <DeleteModal />
     </div>
   )
 }
@@ -374,6 +376,46 @@ const FileUploadComp = () => {
           <p className="text-black">belum ada review nih</p>
         )}
       </div>
+    </WrapperUI>
+  )
+}
+
+const DeleteModal = () => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const openCloseModalDialog = () => {
+    setIsOpen(!isOpen)
+  }
+  return (
+    <WrapperUI title="delete modal">
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <Button className="w-max border-2 border-red-500/50 bg-red-500/30 hover:bg-red-500/40 border-dashed rounded-full text-red-500">
+            delete modal <Trash2 className="size-4 ml-2" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent closeIcon={false} className="max-w-[85vw] sm:max-w-lg">
+          <DialogHeader className="mb-4">
+            <DialogTitle className="font-semibold text-left leading-snug">
+              Apakah anda yakin ingin menghapus banner ini?
+            </DialogTitle>
+            <DialogDescription className="text-left">
+              aksi ini akan menghapus banner secara permanen dari server, apakah
+              anda yakin ingin menghapusnya?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="w-full flex sm:flex-row items-center justify-end gap-4">
+            <Button
+              className="w-full sm:w-max"
+              variant="outline"
+              onClick={openCloseModalDialog}
+            >
+              Close
+            </Button>
+            <Button className="w-full sm:w-max">Delete</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </WrapperUI>
   )
 }
