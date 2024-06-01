@@ -19,7 +19,7 @@ export default withUt({
         md: "768px",
         lg: "1280px",
         xl: "1366px",
-        "2xl": "1400px",
+        "2xl": "1440px",
       },
     },
     extend: {
