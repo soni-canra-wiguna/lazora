@@ -13,7 +13,7 @@ import { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 
 const ProductsPage = () => {
-  const { data: dataProduct } = getDataProduct()
+  const { data: dataProduct, isPending: pendingTotalProduct } = getDataProduct()
   const { ref, inView } = useInView()
   const {
     data,
@@ -50,16 +50,22 @@ const ProductsPage = () => {
     <MaxWidthWrapper className="mt-32 min-h-screen flex items-start gap-4">
       <FilterSidebar />
       <div className="w-5/6 h-full flex flex-col">
-        <h2 className="capitalize text-xl font-semibold mb-3">
-          products({dataProduct?.totalProducts})
+        <h2 className="capitalize text-xl font-semibold mb-3 flex items-center">
+          products(
+          {pendingTotalProduct ? (
+            <Skeleton className="h-5 w-6 inline-block" />
+          ) : (
+            dataProduct?.totalProducts
+          )}
+          )
         </h2>
-        <div className=" w-full grid grid-cols-4 gap-4">
+        <div className="w-full grid grid-cols-4 gap-4">
           {isPending ? (
             <LoadingProducts />
           ) : (
             isSuccess &&
             data?.pages?.map((page) => {
-              return page.products.map((data) => (
+              return page.products?.map((data) => (
                 <ProductCard
                   // ref={ref}
                   key={data.id}
