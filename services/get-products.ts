@@ -2,8 +2,24 @@
 
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
-import { ProductPostProps } from "@/types"
+import { ProductDataType, ProductPostProps } from "@/types"
 import { shuffleArrayProducts } from "@/utils/shuffle-array-products"
+
+export const getDataProduct = () => {
+  const { data, isPending, isError } = useQuery<ProductDataType>({
+    queryKey: ["data-products"],
+    queryFn: async () => {
+      const { data } = await axios.get(`/api/products`)
+      return data
+    },
+  })
+
+  return {
+    data,
+    isPending,
+    isError,
+  }
+}
 
 export default function getProducts() {
   const { data, isPending, isError } = useQuery<ProductPostProps[]>({

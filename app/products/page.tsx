@@ -4,24 +4,16 @@ import FilterSidebar from "@/components/filter-sidebar"
 import MaxWidthWrapper from "@/components/max-width-wrapper"
 import { ProductCard } from "@/components/product-card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { ProductPostProps } from "@/types"
+import { getDataProduct } from "@/services/get-products"
+import { ProductDataType } from "@/types"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { Loader2 } from "lucide-react"
 import { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 
-interface ProductPage {
-  message: string
-  products: ProductPostProps[]
-  currentPage: number
-  totalPages: number
-  totalItems: number
-  totalProducts: number
-  status: number
-}
-
 const ProductsPage = () => {
+  const { data: dataProduct } = getDataProduct()
   const { ref, inView } = useInView()
   const {
     data,
@@ -34,7 +26,7 @@ const ProductsPage = () => {
   } = useInfiniteQuery({
     queryKey: ["product page"],
     queryFn: async ({ pageParam = 1 }) => {
-      const { data }: { data: ProductPage } = await axios.get(
+      const { data }: { data: ProductDataType } = await axios.get(
         `/api/products?page=${+pageParam}&limit=${10}`
       )
       return data
@@ -58,6 +50,9 @@ const ProductsPage = () => {
     <MaxWidthWrapper className="mt-32 min-h-screen flex items-start gap-4">
       <FilterSidebar />
       <div className="w-5/6 h-full flex flex-col">
+        <h2 className="capitalize text-xl font-semibold mb-3">
+          products({dataProduct?.totalProducts})
+        </h2>
         <div className=" w-full grid grid-cols-4 gap-4">
           {isPending ? (
             <LoadingProducts />
@@ -78,7 +73,10 @@ const ProductsPage = () => {
             })
           )}
         </div>
-        <div ref={ref} className="flex items-center justify-center w-full py-4">
+        <div
+          ref={ref}
+          className="flex items-center justify-center w-full mt-4 mb-8"
+        >
           {isFetchingNextPage && (
             <p className="flex items-center gap-2">
               <Loader2 className="size-4 text-primary animate-spin" /> Load

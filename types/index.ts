@@ -54,3 +54,13 @@ export interface BannerProps {
   image: string
   alt_image: string
 }
+
+export interface ProductDataType {
+  message: string
+  products: ProductPostProps[]
+  currentPage: number
+  totalPages: number
+  totalItems: number
+  totalProducts: number
+  status: number
+}
