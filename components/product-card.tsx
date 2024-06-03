@@ -6,6 +6,7 @@ import { ImageProps } from "@/types"
 import { formatTitleProduct } from "@/utils/format-title-product"
 import Image from "next/image"
 import { forwardRef } from "react"
+import { Badge } from "./ui/badge"
 
 interface ProductCardProps {
   id: string
@@ -15,42 +16,80 @@ interface ProductCardProps {
   price: number
 }
 
-const ProductCard = forwardRef(
-  ({ id, image, title, categories, price }: ProductCardProps, ref: any) => {
-    const titleProduct = formatTitleProduct(title)
-    const urlProdcut = `/product/${titleProduct}/${id}`
+export const ProductCard = ({
+  id,
+  image,
+  title,
+  categories,
+  price,
+}: ProductCardProps) => {
+  const titleProduct = formatTitleProduct(title)
+  const urlProdcut = `/product/${titleProduct}/${id}`
 
-    return (
-      <Link ref={ref} href={urlProdcut} className="flex flex-col relative">
-        <Image
-          src={image.image ?? ""}
-          width={700}
-          height={700}
-          // placeholder="blur"
-          alt={title}
-          className="w-full aspect-[9/10] mb-5 hover:brightness-95 transition-all object-cover"
-        />
-        <div className="flex gap-1.5 items-center mb-3">
-          {categories?.map(({ title }, index) => (
-            <p
-              key={title + index}
-              className="text-sm font-medium text-muted-foreground"
-            >
-              {title}
-            </p>
-          ))}
-        </div>
-        <h3 className="font-semibold text-xl mb-1.5">
-          <Balancer>{title}</Balancer>
-        </h3>
-        <p className="text-base font-medium text-muted-foreground">
-          {formatToIDR(price)}
-        </p>
-      </Link>
-    )
-  }
-)
+  return (
+    <Link href={urlProdcut} className="flex flex-col relative">
+      <Image
+        src={image.image ?? ""}
+        width={700}
+        height={700}
+        // placeholder="blur"
+        alt={title}
+        className="w-full aspect-[9/10] mb-5 hover:brightness-95 transition-all object-cover"
+      />
+      <div className="flex gap-1.5 items-center mb-3">
+        {categories?.map(({ title }, index) => (
+          <Badge variant="secondary" key={index + title}>
+            {title}
+          </Badge>
+        ))}
+      </div>
+      <h3 className="font-semibold mb-1.5">
+        <Balancer>
+          {title.length > 45 ? title.slice(0, 45) + "..." : title}
+        </Balancer>
+      </h3>
+      <p className="text-base font-medium text-muted-foreground">
+        {formatToIDR(price)}
+      </p>
+    </Link>
+  )
+}
 
-ProductCard.displayName = "ProductCard"
+export const ProductCard2 = ({
+  id,
+  image,
+  title,
+  categories,
+  price,
+}: ProductCardProps) => {
+  const titleProduct = formatTitleProduct(title)
+  const urlProdcut = `/product/${titleProduct}/${id}`
 
-export default ProductCard
+  return (
+    <Link href={urlProdcut} className="flex flex-col relative">
+      <Image
+        src={image.image ?? ""}
+        width={700}
+        height={700}
+        // placeholder="blur"
+        alt={title}
+        className="w-full aspect-[9/10] mb-5 hover:brightness-95 transition-all object-cover"
+      />
+      <div className="flex gap-1.5 items-center mb-3">
+        {categories?.map(({ title }, index) => (
+          <Badge variant="secondary" key={index + title}>
+            {title}
+          </Badge>
+        ))}
+      </div>
+      <h3 className="font-semibold text-xl mb-1.5">
+        <Balancer>
+          {title.length > 60 ? title.slice(0, 60) + "..." : title}
+        </Balancer>
+      </h3>
+      <p className="text-base font-medium text-muted-foreground">
+        {formatToIDR(price)}
+      </p>
+    </Link>
+  )
+}
