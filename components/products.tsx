@@ -1,7 +1,7 @@
 "use client"
 
 import { getShuffleProducts } from "@/services/get-products"
-import ProductCard from "./product-card"
+import { ProductCard2 } from "./product-card"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"
 import { ChevronDown } from "lucide-react"
@@ -29,7 +29,7 @@ const ListProducts = () => {
           : isError
           ? "productnya kenapa nih"
           : data?.map(({ id, images, title, categories, price }) => (
-              <ProductCard
+              <ProductCard2
                 key={id + title}
                 id={id}
                 image={images[0]}
