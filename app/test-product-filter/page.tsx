@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 /**
  * v0 by Vercel.
  * @see https://v0.dev/t/gNQB2SwcZUa
@@ -13,104 +11,57 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import Link from "next/link"
 import MaxWidthWrapper from "@/components/max-width-wrapper"
+import { Badge } from "@/components/ui/badge"
+import getProducts from "@/services/get-products"
+import { CATEGORIES } from "@/data/categories"
+import { ProductCard } from "@/components/product-card"
+import { RADIO_ITEM } from "@/data/radio-items"
 
 export default function Component() {
-  const products = [
-    {
-      id: 1,
-      image: "/placeholder.svg",
-      title: "Wireless Headphones",
-      price: 99.99,
-      rating: 4.5,
-      category: "Electronics",
-    },
-    {
-      id: 2,
-      image: "/placeholder.svg",
-      title: "Leather Backpack",
-      price: 149.99,
-      rating: 4.2,
-      category: "Bags",
-    },
-    {
-      id: 3,
-      image: "/placeholder.svg",
-      title: "Outdoor Camping Gear",
-      price: 79.99,
-      rating: 4.7,
-      category: "Outdoors",
-    },
-    {
-      id: 4,
-      image: "/placeholder.svg",
-      title: "Ergonomic Office Chair",
-      price: 299.99,
-      rating: 4.3,
-      category: "Furniture",
-    },
-    {
-      id: 5,
-      image: "/placeholder.svg",
-      title: "Stylish Sunglasses",
-      price: 49.99,
-      rating: 4.6,
-      category: "Accessories",
-    },
-    {
-      id: 6,
-      image: "/placeholder.svg",
-      title: "Smart Home Hub",
-      price: 129.99,
-      rating: 4.4,
-      category: "Electronics",
-    },
-    {
-      id: 7,
-      image: "/placeholder.svg",
-      title: "Cozy Throw Blanket",
-      price: 59.99,
-      rating: 4.8,
-      category: "Home",
-    },
-    {
-      id: 8,
-      image: "/placeholder.svg",
-      title: "Fitness Tracker Watch",
-      price: 89.99,
-      rating: 4.5,
-      category: "Wearables",
-    },
-  ]
+  const { data, isPending, isError } = getProducts()
   const [sortBy, setSortBy] = useState("featured")
-  const [selectedCategories, setSelectedCategories] = useState([])
-  const handleSortChange = (value) => {
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+
+  const handleSortChange = (value: string) => {
     setSortBy(value)
   }
-  const handleCategoryChange = (category) => {
+
+  const handleCategoryChange = (category: string) => {
     if (selectedCategories.includes(category)) {
-      setSelectedCategories(selectedCategories.filter((c) => c !== category))
+      setSelectedCategories(
+        selectedCategories.filter((c) => c.toLowerCase() !== category)
+      )
     } else {
       setSelectedCategories([...selectedCategories, category])
     }
   }
+
   const filteredProducts = useMemo(() => {
-    let filtered = products
+    let products = data
     if (selectedCategories.length > 0) {
-      filtered = filtered.filter((product) =>
-        selectedCategories.includes(product.category)
+      products = products?.filter((p) =>
+        selectedCategories.includes(p.categories[0].title.toLowerCase())
       )
     }
     switch (sortBy) {
+      case "featured":
+        return products?.sort((a, b) => {
+          const time1 = new Date(b.createdAt)
+          const time2 = new Date(a.createdAt)
+          return time1.getTime() - time2.getTime()
+        })
       case "low":
-        return filtered.sort((a, b) => a.price - b.price)
+        return products?.sort((a, b) => a.price - b.price)
       case "high":
-        return filtered.sort((a, b) => b.price - a.price)
-      case "rating":
-        return filtered.sort((a, b) => b.rating - a.rating)
+        return products?.sort((a, b) => b.price - a.price)
+      case "asc":
+        return products?.sort((a, b) => a.title.localeCompare(b.title))
+      case "desc":
+        return products?.sort((a, b) => b.title.localeCompare(a.title))
       default:
-        return filtered
+        return products
     }
-  }, [products, sortBy, selectedCategories])
+  }, [data, sortBy, selectedCategories])
 
   return (
     <MaxWidthWrapper className="mt-32 grid grid-cols-1 md:grid-cols-[240px_1fr] gap-8 p-4 md:p-6">
@@ -124,119 +75,61 @@ export default function Component() {
               onValueChange={handleSortChange}
               className="grid gap-2"
             >
-              <Label className="flex items-center gap-2 font-normal">
-                <RadioGroupItem value="featured" />
-                Featured
-              </Label>
-              <Label className="flex items-center gap-2 font-normal">
-                <RadioGroupItem value="low" />
-                Price: Low to High
-              </Label>
-              <Label className="flex items-center gap-2 font-normal">
-                <RadioGroupItem value="high" />
-                Price: High to Low
-              </Label>
-              <Label className="flex items-center gap-2 font-normal">
-                <RadioGroupItem value="rating" />
-                Rating
-              </Label>
+              {RADIO_ITEM.map((radio) => (
+                <Label
+                  key={radio.title}
+                  className="flex items-center gap-2 font-normal"
+                >
+                  <RadioGroupItem value={radio.value} />
+                  {radio.title}
+                </Label>
+              ))}
             </RadioGroup>
           </div>
           <div>
             <h3 className="text-base font-medium mb-2">Category</h3>
             <div className="grid gap-2">
-              <Label className="flex items-center gap-2 font-normal">
-                <Checkbox
-                  checked={selectedCategories.includes("Electronics")}
-                  onCheckedChange={() => handleCategoryChange("Electronics")}
-                />
-                Electronics
-              </Label>
-              <Label className="flex items-center gap-2 font-normal">
-                <Checkbox
-                  checked={selectedCategories.includes("Bags")}
-                  onCheckedChange={() => handleCategoryChange("Bags")}
-                />
-                Bags
-              </Label>
-              <Label className="flex items-center gap-2 font-normal">
-                <Checkbox
-                  checked={selectedCategories.includes("Outdoors")}
-                  onCheckedChange={() => handleCategoryChange("Outdoors")}
-                />
-                Outdoors
-              </Label>
-              <Label className="flex items-center gap-2 font-normal">
-                <Checkbox
-                  checked={selectedCategories.includes("Furniture")}
-                  onCheckedChange={() => handleCategoryChange("Furniture")}
-                />
-                Furniture
-              </Label>
-              <Label className="flex items-center gap-2 font-normal">
-                <Checkbox
-                  checked={selectedCategories.includes("Accessories")}
-                  onCheckedChange={() => handleCategoryChange("Accessories")}
-                />
-                Accessories
-              </Label>
-              <Label className="flex items-center gap-2 font-normal">
-                <Checkbox
-                  checked={selectedCategories.includes("Home")}
-                  onCheckedChange={() => handleCategoryChange("Home")}
-                />
-                Home
-              </Label>
-              <Label className="flex items-center gap-2 font-normal">
-                <Checkbox
-                  checked={selectedCategories.includes("Wearables")}
-                  onCheckedChange={() => handleCategoryChange("Wearables")}
-                />
-                Wearables
-              </Label>
+              {CATEGORIES.map((category) => (
+                <Label
+                  key={category.value}
+                  className="flex items-center gap-2 font-normal capitalize"
+                >
+                  <Checkbox
+                    checked={selectedCategories.includes(
+                      category.value.toLowerCase()
+                    )}
+                    onCheckedChange={() =>
+                      handleCategoryChange(category.value.toLowerCase())
+                    }
+                  />
+                  {category.value}
+                </Label>
+              ))}
             </div>
           </div>
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredProducts.map((product) => (
-          <div
-            key={product.id}
-            className="bg-white dark:bg-gray-950 rounded-lg shadow-sm overflow-hidden"
-          >
-            <Link href="#" className="block" prefetch={false}>
-              <img
-                src="/placeholder.svg"
-                alt={product.title}
-                width={400}
-                height={300}
-                className="w-full h-48 object-cover"
-              />
-            </Link>
-            <div className="p-4">
-              <h3 className="text-lg font-semibold mb-2">{product.title}</h3>
-              <div className="flex items-center mb-2">
-                <div className="flex items-center gap-0.5 text-yellow-500">
-                  <StarIcon className="w-5 h-5" />
-                  <StarIcon className="w-5 h-5" />
-                  <StarIcon className="w-5 h-5" />
-                  <StarIcon className="w-5 h-5" />
-                  <StarIcon className="w-5 h-5" />
-                </div>
-                <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
-                  ({product.rating})
-                </span>
-              </div>
-              <div className="text-xl font-semibold">${product.price}</div>
-            </div>
-          </div>
-        ))}
+        {isPending ? (
+          <div>pending dulu mase</div>
+        ) : (
+          filteredProducts?.map((product) => (
+            <ProductCard
+              key={product.id}
+              id={product.id}
+              image={product.images[0]}
+              title={product.title}
+              categories={product.categories}
+              price={product.price}
+            />
+          ))
+        )}
       </div>
     </MaxWidthWrapper>
   )
 }
 
-function StarIcon(props) {
+function StarIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
