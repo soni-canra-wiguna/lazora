@@ -1,10 +1,12 @@
 import prisma from "@/lib/prismadb"
 import { NextResponse, NextRequest } from "next/server"
 import { ProductPostProps } from "@/types"
+import * as z from "zod"
+import { PostMethodeProductSchema } from "@/schema"
 
 export const GET = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) => {
   try {
     const { id } = params
@@ -45,32 +47,44 @@ export const GET = async (
 }
 
 // WIP, cannot update one to many relation(i'm so confuseeeee how to update this model data /: )
+// 8 june 2024: ni patch methode udah bisa cuma buat typenya masih conflict dan harus dibuat optional semua,
+//              jadi ya buat sekarang kita hide dulu ya ni methode, kalo ngga dan kita coba update dia bakal
+//              kena error dari zod schema nya.
 // export const PATCH = async (
 //   req: NextRequest,
-//   { params }: { params: { id: string } }
+//   { params }: { params: { id: string } },
 // ) => {
 //   try {
 //     const { id } = params
-//     const body: ProductPostProps = await req.json()
-//     const { title, price, description, stock, categories, images } = body
+//     const body = await req.json()
+//     const parsedBody = PostMethodeProductSchema.parse(body)
+//     const { title, price, description, stock, categories, images } = parsedBody
 
-//     const updateData: any = { title, price, description, stock }
-
-//     // Check if categories and images are provided in the request
-//     if (categories && categories.length > 0) {
-//       updateData.categories = {
-//         create: categories.map(({ title }) => ({ title })),
-//       }
+//     const updateData = {
+//       ...(title && { title }),
+//       ...(price && { price }),
+//       ...(description && { description }),
+//       ...(stock && { stock }),
+//       ...(categories && {
+//         categories: {
+//           deleteMany: {},
+//           create: categories.map(({ title }) => ({
+//             title,
+//           })),
+//         },
+//       }),
+//       ...(images && {
+//         images: {
+//           deleteMany: {},
+//           create: images.map(({ image }) => ({
+//             image,
+//           })),
+//         },
+//       }),
 //     }
 
-//     if (images && images.length > 0) {
-//       updateData.images = { create: images.map(({ image }) => ({ image })) }
-//     }
-
-//     const updateProduct = await prisma.product.update({
-//       where: {
-//         id,
-//       },
+//     const updatedProduct = await prisma.product.update({
+//       where: { id },
 //       data: updateData,
 //       include: {
 //         images: true,
@@ -78,21 +92,22 @@ export const GET = async (
 //       },
 //     })
 
-//     if (!updateProduct) {
+//     return NextResponse.json({
+//       message: "Product successfully updated",
+//       product: updatedProduct,
+//       status: 200,
+//     })
+//   } catch (error) {
+//     if (error instanceof z.ZodError) {
 //       return NextResponse.json({
-//         message: "data not found",
-//         status: 404,
+//         message: "Validation error",
+//         errors: error.errors,
+//         status: 400,
 //       })
 //     }
 
 //     return NextResponse.json({
-//       message: "product updated",
-//     })
-//   } catch (error) {
-//     console.log(error)
-//     return NextResponse.json({
-//       message: "internal server error",
-//       error,
+//       message: "Internal server error",
 //       status: 500,
 //     })
 //   }
@@ -100,7 +115,7 @@ export const GET = async (
 
 export const DELETE = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) => {
   try {
     const { id } = params

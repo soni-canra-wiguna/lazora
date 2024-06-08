@@ -33,6 +33,7 @@ export const ProductSchema = z.object({
   categories: z.array(z.string()),
 })
 
+// =======================
 const ImageSchema = z.object({
   image: z.string().url(),
 })
@@ -49,6 +50,27 @@ export const PostMethodeProductSchema = z.object({
   categories: z.array(CategorySchema),
   images: z.array(ImageSchema),
 })
+
+//dia ni di pake buat patch methode product, tapi masih conflict di schemanya,
+//untuk patch methodenya sendiri working perfectly fine sih
+
+// const ImageSchema = z.object({
+//   image: z.string().url().optional(),
+// })
+
+// const CategorySchema = z.object({
+//   title: z.string().optional(),
+// })
+
+// export const PostMethodeProductSchema = z.object({
+//   title: z.string().optional(),
+//   price: z.number().positive().optional(),
+//   description: z.string().optional(),
+//   stock: z.number().positive().optional(),
+//   categories: z.array(CategorySchema).optional(),
+//   images: z.array(ImageSchema).optional(),
+// })
+// =======================
 
 export const CommentSchema = z.object({
   comment: z.string().optional(),
