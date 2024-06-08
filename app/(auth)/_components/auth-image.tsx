@@ -5,7 +5,7 @@ import authImage from "@/public/auth-image.jpg"
 
 const AuthImageLayout = () => {
   return (
-    <div className="md:col-span-8 w-full h-full relative">
+    <div className="md:col-span-8 w-full h-full relative hidden lg:block">
       <Image
         src={authImage}
         alt="auth image image"
