@@ -67,6 +67,32 @@ export const GET = async (req: NextRequest) => {
     // get total product
     const totalProducts = await prisma.product.count()
 
+    // sortBy -> feature(descending/desc), price(high to low), price(low to high), A - Z, Z - A
+    const sortBy = req.nextUrl.searchParams.get("sortBy")
+    let orderBy = {}
+    switch (sortBy) {
+      case "feature":
+        orderBy = { createdAt: "desc" }
+        break
+      case "price-high-to-low":
+        orderBy = { price: "desc" }
+        break
+      case "price-low-to-high":
+        orderBy = { price: "asc" }
+        break
+      case "a-z":
+        orderBy = { title: "asc" }
+        break
+      case "z-a":
+        orderBy = { title: "desc" }
+        break
+      default:
+        orderBy = { createdAt: "desc" }
+    }
+
+    // category -> keyboard, deskmat, keycaps, coiled cable, mouse, switch, sticker, barebone
+    const categories = req.nextUrl.searchParams.get("categories")
+
     const products = await prisma.product.findMany({
       where: {
         title: {
@@ -83,9 +109,7 @@ export const GET = async (req: NextRequest) => {
           },
         },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy,
       skip: skip,
       take: limit,
     })
