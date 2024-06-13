@@ -5,18 +5,18 @@ export const RADIO_ITEM = [
   },
   {
     title: "Price: Low to High",
-    value: "low",
+    value: "price-low-to-high",
   },
   {
     title: "Price: High to Low",
-    value: "high",
+    value: "price-high-to-low",
   },
   {
     title: "A - Z",
-    value: "asc",
+    value: "a-z",
   },
   {
     title: "Z - A",
-    value: "desc",
+    value: "z-a",
   },
 ]

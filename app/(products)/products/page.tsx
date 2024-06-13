@@ -18,6 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 const ProductsPage = () => {
   const { data: dataProduct, isPending: pendingTotalProduct } = getDataProduct()
+  const [sortBy, setSortBy] = useState("featured")
   const { ref, inView } = useInView()
   const {
     data,
@@ -28,10 +29,10 @@ const ProductsPage = () => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["product page"],
+    queryKey: ["product page", sortBy],
     queryFn: async ({ pageParam = 1 }) => {
       const { data }: { data: ProductDataType } = await axios.get(
-        `/api/products?page=${+pageParam}&limit=${10}`
+        `/api/products?sortBy=${sortBy}&page=${+pageParam}&limit=${10}`,
       )
       return data
     },
@@ -51,45 +52,35 @@ const ProductsPage = () => {
   }, [inView, fetchNextPage, hasNextPage])
 
   return (
-    <MaxWidthWrapper className="mt-32 min-h-screen flex items-start gap-4">
-      <FilterSidebar />
-      <div className="w-5/6 h-full flex flex-col">
-        <h2 className="capitalize text-xl font-semibold mb-3 flex items-center">
+    <MaxWidthWrapper className="mt-32 flex min-h-screen items-start gap-4">
+      <FilterSidebar sortBy={sortBy} setSortBy={setSortBy} />
+      <div className="flex h-full w-5/6 flex-col">
+        <h2 className="mb-3 flex items-center text-xl font-semibold capitalize">
           products(
           {pendingTotalProduct ? (
-            <Skeleton className="h-5 w-6 inline-block" />
+            <Skeleton className="inline-block h-5 w-6" />
           ) : (
             dataProduct?.totalProducts
           )}
           )
         </h2>
-        <div className="w-full grid grid-cols-4 gap-4">
+        <div className="grid w-full grid-cols-4 gap-4">
           {isPending ? (
             <LoadingProducts />
           ) : (
             isSuccess &&
-            data?.pages?.map((page) => {
-              return page.products?.map((data) => (
-                <ProductCard
-                  // ref={ref}
-                  key={data.id}
-                  id={data.id}
-                  image={data.images[0]}
-                  title={data.title}
-                  categories={data.categories}
-                  price={data.price}
-                />
-              ))
-            })
+            data?.pages?.map((page, index) => (
+              <ListProductInfinite key={index} products={page?.products} />
+            ))
           )}
         </div>
         <div
           ref={ref}
-          className="flex items-center justify-center w-full mt-4 mb-8"
+          className="mb-8 mt-4 flex w-full items-center justify-center"
         >
           {isFetchingNextPage && (
             <p className="flex items-center gap-2">
-              <Loader2 className="size-4 text-primary animate-spin" /> Load
+              <Loader2 className="size-4 animate-spin text-primary" /> Load
               more...
             </p>
           )}
@@ -101,11 +92,31 @@ const ProductsPage = () => {
 
 export default ProductsPage
 
+const ListProductInfinite = ({
+  products,
+}: {
+  products: ProductPostProps[]
+}) => {
+  const product = products?.map((data) => (
+    <ProductCard
+      // ref={ref}
+      key={data.id}
+      id={data.id}
+      image={data.images[0]}
+      title={data.title}
+      categories={data.categories}
+      price={data.price}
+    />
+  ))
+
+  return <>{product}</>
+}
+
 const LoadingProducts = () => {
   const loading = Array.from({ length: 9 }, (_, index) => {
     return (
       <div key={index} className="size-full">
-        <Skeleton className="w-full aspect-[9/10] mb-5" />
+        <Skeleton className="mb-5 aspect-[9/10] w-full" />
       </div>
     )
   })

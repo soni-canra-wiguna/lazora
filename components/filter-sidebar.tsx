@@ -8,48 +8,31 @@ import { ProductDataType, ProductPostProps } from "@/types"
 import { CATEGORIES } from "@/data/categories"
 import { RADIO_ITEM } from "@/data/radio-items"
 
-const FilterSidebar = ({ data }: { data?: ProductPostProps[] }) => {
-  const [sortBy, setSortBy] = useState("featured")
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+interface Sorting {
+  sortBy: string
+  setSortBy: (sortBy: string) => void
+}
 
-  const handleSortChange = (value: string) => {
-    setSortBy(value)
-  }
+const FilterSidebar = ({ sortBy, setSortBy }: Sorting) => {
+  // const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
-  const handleCategoryChange = (category: string) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(selectedCategories.filter((c) => c !== category))
-    } else {
-      setSelectedCategories([...selectedCategories, category])
-    }
-  }
-
-  const filteredProducts = useMemo(() => {
-    let products = data
-    if (selectedCategories.length) {
-      products = products?.filter((p) =>
-        selectedCategories.includes(p.categories[0].title)
-      )
-    }
-    switch (sortBy) {
-      case "low":
-        return products?.sort((a, b) => a.price - b.price)
-      case "high":
-        return products?.sort((a, b) => b.price - a.price)
-      default:
-        return products
-    }
-  }, [data, sortBy, selectedCategories])
+  // const handleCategoryChange = (category: string) => {
+  //   if (selectedCategories.includes(category)) {
+  //     setSelectedCategories(selectedCategories.filter((c) => c !== category))
+  //   } else {
+  //     setSelectedCategories([...selectedCategories, category])
+  //   }
+  // }
 
   return (
-    <div className="sticky top-[120px] w-1/6 h-screen bg-background">
-      <h2 className="font-medium text-xl capitalize mb-4">filter</h2>
+    <div className="sticky top-[120px] h-screen w-1/6 bg-background">
+      <h2 className="mb-4 text-xl font-medium capitalize">filter</h2>
       <div className="grid gap-4">
         <div>
-          <h3 className="text-base font-medium mb-2">Sort By</h3>
+          <h3 className="mb-2 text-base font-medium">Sort By</h3>
           <RadioGroup
             value={sortBy}
-            onValueChange={handleSortChange}
+            onValueChange={(value) => setSortBy(value)}
             className="grid gap-2"
           >
             {RADIO_ITEM.map((radio) => (
@@ -63,8 +46,9 @@ const FilterSidebar = ({ data }: { data?: ProductPostProps[] }) => {
             ))}
           </RadioGroup>
         </div>
+        {/* filter categories */}
         <div>
-          <h3 className="text-base font-medium mb-2">Category</h3>
+          <h3 className="mb-2 text-base font-medium">Category</h3>
           <div className="grid gap-2">
             {CATEGORIES.map((category) => (
               <Label
@@ -72,8 +56,8 @@ const FilterSidebar = ({ data }: { data?: ProductPostProps[] }) => {
                 className="flex items-center gap-2 font-normal"
               >
                 <Checkbox
-                  checked={selectedCategories.includes(category.value)}
-                  onCheckedChange={() => handleCategoryChange(category.value)}
+                // checked={selectedCategories.includes(category.value)}
+                // onCheckedChange={() => handleCategoryChange(category.value)}
                 />
                 {category.value}
               </Label>
