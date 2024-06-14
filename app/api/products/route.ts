@@ -91,7 +91,7 @@ export const GET = async (req: NextRequest) => {
     }
 
     // category -> keyboard, deskmat, keycaps, coiled cable, mouse, switch, sticker, barebone
-    const categories = req.nextUrl.searchParams.get("categories")
+    const categories = req.nextUrl.searchParams.get("categories")?.split(",")
 
     const products = await prisma.product.findMany({
       where: {
@@ -99,6 +99,14 @@ export const GET = async (req: NextRequest) => {
           contains: decodeQuery,
           mode: "insensitive",
         },
+        // sumpah ni gua gak ngerti lagi, ini gimana caranya filter data relation brooo
+        // categories: {
+        //   every: {
+        //     title: {
+        //       in: categories,
+        //     }
+        //   }
+        // }
       },
       include: {
         images: true,
