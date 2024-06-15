@@ -23,15 +23,15 @@ const FavouriteToggle = ({ data }: { data: ProductPostProps | undefined }) => {
         image: data?.images[0].image,
         price: data?.price,
         stock: data?.stock,
-      })
+      }),
     )
     if (!isFavourite) {
       toast({
-        description: "Tersimpan di Favourite!",
+        title: "Tersimpan di Favourite!",
       })
     } else {
       toast({
-        description: "Barang telah di hapus dari favourite.",
+        title: "Barang telah di hapus dari favourite.",
       })
     }
     setIsFavourite(!isFavourite)
@@ -41,7 +41,7 @@ const FavouriteToggle = ({ data }: { data: ProductPostProps | undefined }) => {
     typeof window !== "undefined"
       ? (JSON.parse(
           // @ts-ignore
-          localStorage.getItem("favourites")
+          localStorage.getItem("favourites"),
         ) as FavouriteProps[])
       : null
 
@@ -61,7 +61,7 @@ const FavouriteToggle = ({ data }: { data: ProductPostProps | undefined }) => {
     >
       favourite{" "}
       <Heart
-        className={`size-4 ml-2 ${isFavourite && "fill-red-500 stroke-none"}`}
+        className={`ml-2 size-4 ${isFavourite && "fill-red-500 stroke-none"}`}
         strokeWidth={1.5}
       />
     </Button>

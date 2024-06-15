@@ -16,6 +16,7 @@ import Image from "next/image"
 import Balancer from "react-wrap-balancer"
 import { formatToIDR } from "@/utils/format-to-idr"
 import { toast } from "../ui/use-toast"
+import { addToCart } from "@/redux/features/cart/cart-slice"
 
 const Favourite = () => {
   const { favourites } = useSelector((state: RootState) => state.favourites)
@@ -39,9 +40,29 @@ const Favourite = () => {
             favourites?.map((favourite) => {
               const handleRemoveFavourite = () => {
                 dispatch(removeFavourite(favourite.id))
+                toast({
+                  title: "product di hapus dari favourite",
+                })
+              }
+
+              const handleAddToCart = () => {
+                dispatch(
+                  addToCart({
+                    id: favourite.id,
+                    title: favourite.title,
+                    image: favourite.image,
+                    price: favourite.price,
+                    stock: favourite.stock,
+                    qty: 1,
+                  }),
+                )
+                toast({
+                  title: "product ditambahkan ke cart",
+                })
               }
               return (
                 <FavouriteCard
+                  handleAddToCart={handleAddToCart}
                   key={favourite.id}
                   handleRemoveFavourite={handleRemoveFavourite}
                   {...favourite}
@@ -105,6 +126,7 @@ interface FavouriteCardProps {
   image?: string | undefined
   price?: number | undefined
   handleRemoveFavourite: () => void
+  handleAddToCart: () => void
 }
 
 const FavouriteCard = ({
@@ -113,6 +135,7 @@ const FavouriteCard = ({
   image,
   price,
   handleRemoveFavourite,
+  handleAddToCart,
 }: FavouriteCardProps) => {
   return (
     <Card className="flex h-max gap-3 p-2 transition-all hover:bg-secondary">
@@ -147,11 +170,7 @@ const FavouriteCard = ({
           <Button
             variant="link"
             className="hover p-0 text-xs"
-            onClick={() =>
-              toast({
-                title: "building process...",
-              })
-            }
+            onClick={handleAddToCart}
           >
             Add to cart
           </Button>
