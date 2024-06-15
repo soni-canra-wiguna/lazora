@@ -18,28 +18,25 @@ const Navbar = () => {
   // const { visible } = useVisibleNavbar()
   // const isVisible = visible ? "translate-y-0 opacity-100" : "-translate-y-20 opacity-0"
   const patname = usePathname()
-  const cartItems = 1
 
   return (
     <>
       {!disableNavbarWithFooter.includes(patname) && (
-        <div className="flex flex-col w-full items-start fixed top-0 left-0 z-50">
+        <div className="fixed left-0 top-0 z-50 flex w-full flex-col items-start">
           <TopBar />
           <nav
-            className={`
-            bg-white border-b flex items-center w-full transition duration-300 ease-in-out py-4
-        `}
+            className={`flex w-full items-center border-b bg-white py-4 transition duration-300 ease-in-out`}
           >
             <MaxWidthWrapper className="flex items-center justify-between">
               <div className="flex items-center gap-24">
                 <Logo />
                 <NavList />
               </div>
-              <div className="flex items-center gap-8 w-max">
+              <div className="flex w-max items-center gap-8">
                 {/* <div className="h-11 w-40 bg-secondary rounded-full"></div> */}
                 <Search />
                 <Favourite />
-                <Cart cartItems={cartItems} />
+                <Cart />
               </div>
             </MaxWidthWrapper>
           </nav>
