@@ -10,7 +10,12 @@ import { Button } from "../ui/button"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/redux/store"
 import Link from "next/link"
-import FavouriteCard from "./favourite-card"
+import { Card } from "../ui/card"
+import { formatTitleProduct } from "@/utils/format-title-product"
+import Image from "next/image"
+import Balancer from "react-wrap-balancer"
+import { formatToIDR } from "@/utils/format-to-idr"
+import { toast } from "../ui/use-toast"
 
 const Favourite = () => {
   const { favourites } = useSelector((state: RootState) => state.favourites)
@@ -24,12 +29,12 @@ const Favourite = () => {
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="flex flex-col gap-4 p-4 justify-between"
+        className="flex flex-col justify-between gap-4 p-4"
       >
-        <h3 className="font-semibold text-xl capitalize">
+        <h3 className="text-xl font-semibold capitalize">
           favourites ({favourites.length})
         </h3>
-        <div className="flex flex-col gap-4 w-full overflow-y-auto relative flex-1 sheet_scrollbar pr-2">
+        <div className="sheet_scrollbar relative flex w-full flex-1 flex-col gap-4 overflow-y-auto pr-2">
           {favourites.length > 0 ? (
             favourites?.map((favourite) => {
               const handleRemoveFavourite = () => {
@@ -44,25 +49,25 @@ const Favourite = () => {
               )
             })
           ) : (
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center w-full">
-              <HeartOff className="stroke-[1.5] text-secondary-foreground/30 size-20 mb-3" />
-              <h5 className="font-medium text-lg mb-1">Belum ada items</h5>
-              <p className="text-sm text-center w-4/5 text-muted-foreground">
+            <div className="absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 flex-col items-center">
+              <HeartOff className="mb-3 size-20 stroke-[1.5] text-secondary-foreground/30" />
+              <h5 className="mb-1 text-lg font-medium">Belum ada items</h5>
+              <p className="w-4/5 text-center text-sm text-muted-foreground">
                 Tandai product yang kamu suka dengan click tombol hati
               </p>
             </div>
           )}
         </div>
-        <div className="w-full h-max flex flex-col gap-3 pb-2">
+        <div className="flex h-max w-full flex-col gap-3 pb-2">
           <Link href="/account/favourites">
             <Button className="w-full">View All ({favourites.length})</Button>
           </Link>
-          <div className="flex items-center justify-center w-full">
+          <div className="flex w-full items-center justify-center">
             <Button
               disabled={favourites.length <= 0}
               onClick={() => dispatch(resetFavourite())}
               variant="link"
-              className="text-muted-foreground hover:text-red-500 text-xs capitalize py-0 size-max"
+              className="size-max py-0 text-xs capitalize text-muted-foreground hover:text-red-500"
             >
               Remove All
             </Button>
@@ -81,15 +86,77 @@ export const FavouriteButton = ({
   totalFavourites: number
 }) => {
   return (
-    <div className="relative w-max h-max cursor-pointer">
+    <div className="relative h-max w-max cursor-pointer">
       <CustomTooltip title="favourite" side="bottom">
         <Heart className="size-6" strokeWidth={1.5} />
       </CustomTooltip>
       {totalFavourites > 0 && (
-        <span className="absolute -right-1.5 -bottom-1 bg-primary text-background w-4 h-4 p-2 rounded-full border-[2px] border-white text-xs flex items-center justify-center">
+        <span className="absolute -bottom-1 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full border-[2px] border-white bg-primary p-2 text-xs text-background">
           {totalFavourites}
         </span>
       )}
     </div>
+  )
+}
+
+interface FavouriteCardProps {
+  id?: string | undefined
+  title?: string | undefined
+  image?: string | undefined
+  price?: number | undefined
+  handleRemoveFavourite: () => void
+}
+
+const FavouriteCard = ({
+  id,
+  title,
+  image,
+  price,
+  handleRemoveFavourite,
+}: FavouriteCardProps) => {
+  return (
+    <Card className="flex h-max gap-3 p-2 transition-all hover:bg-secondary">
+      <Link
+        href={`/product/${formatTitleProduct(title ?? "")}/${id}`}
+        className="shimmer size-16 border"
+      >
+        <Image
+          src={image ?? ""}
+          alt={title ?? ""}
+          width={150}
+          height={150}
+          className="size-full object-scale-down object-center"
+        />
+      </Link>
+      <div className="flex flex-col gap-1">
+        <Link
+          href={`/product/${formatTitleProduct(title ?? "")}/${id}`}
+          className="text-sm font-medium"
+        >
+          <Balancer>{title?.slice(0, 30) + "..."}</Balancer>
+        </Link>
+        <p className="text-xs">{formatToIDR(price ?? 0)}</p>
+        <div className="flex items-center gap-2.5">
+          <Button
+            variant="link"
+            className="p-0 text-xs text-red-500"
+            onClick={handleRemoveFavourite}
+          >
+            Remove
+          </Button>
+          <Button
+            variant="link"
+            className="hover p-0 text-xs"
+            onClick={() =>
+              toast({
+                title: "building process...",
+              })
+            }
+          >
+            Add to cart
+          </Button>
+        </div>
+      </div>
+    </Card>
   )
 }
