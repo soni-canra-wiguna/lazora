@@ -6,11 +6,11 @@ import { Button } from "./ui/button"
 const ListCategory = () => {
   return (
     <MaxWidthWrapper className="scrollX my-10 flex items-center gap-5 overflow-x-auto pb-2">
-      {CATEGORIES.map((c) => {
+      {CATEGORIES.map((c, index) => {
         const replaceCategory = c.value.toLowerCase().replace(/ /g, "-") // from "hello world" to "hello-world"
         const url = `/c/${replaceCategory}`
         return (
-          <Link href={url} className="size-max">
+          <Link href={url} className="size-max" key={index}>
             <Button
               className="m-max rounded-full capitalize"
               variant="secondary"
