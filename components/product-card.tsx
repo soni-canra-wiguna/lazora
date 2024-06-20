@@ -82,12 +82,12 @@ export const ProductCard2 = ({
           </Badge>
         ))}
       </div>
-      <h3 className="mb-1.5 text-xl font-semibold">
+      <h3 className="mb-1.5 text-base font-semibold">
         <Balancer>
           {title.length > 60 ? title.slice(0, 60) + "..." : title}
         </Balancer>
       </h3>
-      <p className="text-base font-medium text-muted-foreground">
+      <p className="text-sm font-medium text-muted-foreground">
         {formatToIDR(price)}
       </p>
     </Link>

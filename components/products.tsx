@@ -11,35 +11,35 @@ const ListProducts = () => {
   const { data, isPending, isError } = getShuffleProducts()
   return (
     <MaxWidthWrapper>
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h3 className="text-2xl font-medium">Products</h3>
-          <Popover>
+          {/* <Popover>
             <PopoverTrigger asChild>
               <Button variant="outline" className="rounded-full">
-                Sort by <ChevronDown className="size-4 ml-2" />{" "}
+                Sort by <ChevronDown className="ml-2 size-4" />{" "}
               </Button>
             </PopoverTrigger>
             <PopoverContent align="end" className="rounded-none shadow-none">
               price
             </PopoverContent>
-          </Popover>
+          </Popover> */}
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
           {isPending
             ? "loading data..."
             : isError
-            ? "productnya kenapa nih"
-            : data?.map(({ id, images, title, categories, price }) => (
-                <ProductCard2
-                  key={id + title}
-                  id={id}
-                  image={images[0]}
-                  title={title}
-                  categories={categories}
-                  price={price}
-                />
-              ))}
+              ? "productnya kenapa nih"
+              : data?.map(({ id, images, title, categories, price }) => (
+                  <ProductCard2
+                    key={id + title}
+                    id={id}
+                    image={images[0]}
+                    title={title}
+                    categories={categories}
+                    price={price}
+                  />
+                ))}
         </div>
       </div>
     </MaxWidthWrapper>
