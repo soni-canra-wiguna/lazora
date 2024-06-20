@@ -164,3 +164,16 @@
   background-color: #e4e4e7;
   border-radius: 40px;
 }
+
+.scrollX::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scrollX::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.scrollX::-webkit-scrollbar-thumb {
+  background-color: #e4e4e7;
+  border-radius: 40px;
+}
