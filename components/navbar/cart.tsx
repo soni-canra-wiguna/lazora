@@ -20,6 +20,10 @@ const Cart = () => {
   const { cart: carts } = useSelector((state: RootState) => state.carts)
   const dispatch = useDispatch()
 
+  const closeSheet = () => {
+    setIsOpen(false)
+  }
+
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger>
@@ -42,6 +46,7 @@ const Cart = () => {
                 <CartCard
                   key={cart.id}
                   handleRemoveCartItems={handleRemoveCartItem}
+                  closeSheet={closeSheet}
                   {...cart}
                 />
               )
@@ -102,6 +107,7 @@ interface CartCardProps {
   price?: number
   qty?: number
   handleRemoveCartItems: () => void
+  closeSheet: () => void
 }
 
 const CartCard = ({
@@ -111,6 +117,7 @@ const CartCard = ({
   price,
   qty,
   handleRemoveCartItems,
+  closeSheet,
 }: CartCardProps) => {
   const [totalQty, setTotalQty] = useState(qty)
 
@@ -118,6 +125,7 @@ const CartCard = ({
     <Card className="flex h-max gap-3 p-2 transition-all hover:bg-secondary">
       <Link
         href={`/p/${formatTitleProduct(title ?? "")}/${id}`}
+        onClick={closeSheet}
         className="shimmer size-16 border"
       >
         <Image
@@ -131,6 +139,7 @@ const CartCard = ({
       <div className="flex flex-col gap-1">
         <Link
           href={`/p/${formatTitleProduct(title ?? "")}/${id}`}
+          onClick={closeSheet}
           className="text-sm font-medium"
         >
           <Balancer>{title?.slice(0, 30) + "..."}</Balancer>

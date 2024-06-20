@@ -23,6 +23,10 @@ const Favourite = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const dispatch = useDispatch()
 
+  const closeSheet = () => {
+    setIsOpen(false)
+  }
+
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger>
@@ -65,6 +69,7 @@ const Favourite = () => {
                   handleAddToCart={handleAddToCart}
                   key={favourite.id}
                   handleRemoveFavourite={handleRemoveFavourite}
+                  closeSheet={closeSheet}
                   {...favourite}
                 />
               )
@@ -127,6 +132,7 @@ interface FavouriteCardProps {
   price?: number | undefined
   handleRemoveFavourite: () => void
   handleAddToCart: () => void
+  closeSheet: () => void
 }
 
 const FavouriteCard = ({
@@ -136,11 +142,13 @@ const FavouriteCard = ({
   price,
   handleRemoveFavourite,
   handleAddToCart,
+  closeSheet,
 }: FavouriteCardProps) => {
   return (
     <Card className="flex h-max gap-3 p-2 transition-all hover:bg-secondary">
       <Link
         href={`/p/${formatTitleProduct(title ?? "")}/${id}`}
+        onClick={closeSheet}
         className="shimmer size-16 border"
       >
         <Image
@@ -154,6 +162,7 @@ const FavouriteCard = ({
       <div className="flex flex-col gap-1">
         <Link
           href={`/p/${formatTitleProduct(title ?? "")}/${id}`}
+          onClick={closeSheet}
           className="text-sm font-medium"
         >
           <Balancer>{title?.slice(0, 30) + "..."}</Balancer>
