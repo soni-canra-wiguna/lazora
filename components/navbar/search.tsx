@@ -17,13 +17,14 @@ import { ProductPostProps } from "@/types"
 import { formatToIDR } from "@/utils/format-to-idr"
 import { formatTitleProduct } from "@/utils/format-title-product"
 import Image from "next/image"
+import { CartButton } from "./cart"
 
 const Search = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [searchInput, setSearchInput] = useState<string>("")
   const [debounceSearchInput] = useDebounce(
     searchInput?.replace(/\s+/g, "-"),
-    500
+    500,
   )
 
   const {
@@ -34,7 +35,7 @@ const Search = () => {
     queryKey: ["search_input", debounceSearchInput],
     queryFn: async () => {
       const { data } = await axios.get(
-        `/api/products?search=${debounceSearchInput}`
+        `/api/products?search=${debounceSearchInput}`,
       )
       return data.products
     },
@@ -43,21 +44,21 @@ const Search = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger>
-        <div className="w-64 h-11 bg-secondary hover:bg-secondary-foreground/10 relative cursor-text rounded-full">
-          <span className="flex items-center gap-2 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/50 font-medium">
+        <div className="relative h-11 w-64 cursor-text rounded-full bg-secondary hover:bg-secondary-foreground/10">
+          <span className="absolute left-3 top-1/2 flex -translate-y-1/2 items-center gap-2 font-medium text-muted-foreground/50">
             <SearchIcon className="size-6" strokeWidth={2} />
             <p>search products</p>
           </span>
         </div>
       </SheetTrigger>
       <SheetContent side="top" className="h-max w-full py-8">
-        <MaxWidthWrapper className="max-w-6xl h-full flex flex-col space-y-10">
+        <MaxWidthWrapper className="flex h-full max-w-6xl flex-col space-y-10">
           <div className="flex items-center justify-between px-4">
             <Logo />
-            <div className="max-w-lg w-full relative h-max">
-              <SearchIcon className="size-6 text-primary absolute left-2.5 top-1/2 -translate-y-1/2 stroke-[1.5]" />
+            <div className="relative h-max w-full max-w-lg">
+              <SearchIcon className="absolute left-2.5 top-1/2 size-6 -translate-y-1/2 stroke-[1.5] text-primary" />
               <Input
-                className="h-12 text-sm px-10 placeholder:capitalize border bg-transparent focus:border-primary"
+                className="h-12 border bg-transparent px-10 text-sm placeholder:capitalize focus:border-primary"
                 placeholder="cari produk"
                 spellCheck="false"
                 value={searchInput}
@@ -66,22 +67,22 @@ const Search = () => {
               {searchInput.length > 0 && (
                 <X
                   onClick={() => setSearchInput("")}
-                  className="size-4 text-primary absolute right-2.5 top-1/2 -translate-y-1/2 stroke-[1.5] cursor-pointer"
+                  className="absolute right-2.5 top-1/2 size-4 -translate-y-1/2 cursor-pointer stroke-[1.5] text-primary"
                 />
               )}
             </div>
             <CartAndFavouriteLink />
           </div>
           {debounceSearchInput.length === 0 ? null : isPending ? (
-            <div className="w-full flex justify-center">
-              <Loader2 className="w-6 h-6 animate-spin stroke-1 stroke-primary" />
+            <div className="flex w-full justify-center">
+              <Loader2 className="h-6 w-6 animate-spin stroke-primary stroke-1" />
             </div>
           ) : isError ? (
-            <div className="w-full flex justify-center">
+            <div className="flex w-full justify-center">
               cek koneksi kamu dan coba lagi
             </div>
           ) : searchProducts?.length > 0 ? (
-            <div className="grid grid-cols-4 gap-6 w-full h-full max-h-[500px] overflow-y-auto result__search px-4 transition-all">
+            <div className="result__search grid h-full max-h-[500px] w-full grid-cols-4 gap-6 overflow-y-auto px-4 transition-all">
               {searchProducts?.map((product) => (
                 <SearchResult
                   key={product.id}
@@ -94,7 +95,7 @@ const Search = () => {
               ))}
             </div>
           ) : (
-            <div className="w-full flex justify-center">
+            <div className="flex w-full justify-center">
               productnya ngga ada nih...
             </div>
           )}
@@ -102,9 +103,9 @@ const Search = () => {
         <Button
           onClick={() => setIsOpen(!isOpen)}
           variant="link"
-          className="absolute right-8 -bottom-14 text-xl text-background px-0 font-canelaRegular tracking-wide"
+          className="absolute -bottom-14 right-8 px-0 font-canelaRegular text-xl tracking-wide text-background"
         >
-          <ArrowUpFromDot className="text-inherit size-5 mr-1.5" />
+          <ArrowUpFromDot className="mr-1.5 size-5 text-inherit" />
           Close
         </Button>
       </SheetContent>
@@ -128,7 +129,7 @@ const SearchResult = ({
   closeSheet: (isOpen: boolean) => void
 }) => {
   const titleProduct = formatTitleProduct(title)
-  const urlProdcut = `/product/${titleProduct}/${id}`
+  const urlProdcut = `/p/${titleProduct}/${id}`
 
   console.log(title, price)
 
@@ -137,18 +138,18 @@ const SearchResult = ({
       // @ts-ignore
       onClick={closeSheet}
       href={urlProdcut}
-      className="flex flex-col w-full h-max"
+      className="flex h-max w-full flex-col"
     >
-      <div className="w-full h-[260px] mb-3">
+      <div className="mb-3 h-[260px] w-full">
         <Image
           alt={title}
           src={image ?? ""}
           width={400}
           height={400}
-          className="w-full h-full object-center object-contain"
+          className="h-full w-full object-contain object-center"
         />
       </div>
-      <h4 className="font-medium text-xl text-primary mb-1.5">{title}</h4>
+      <h4 className="mb-1.5 text-xl font-medium text-primary">{title}</h4>
       <p className="text-sm text-muted-foreground">{formatToIDR(price)}</p>
     </Link>
   )
@@ -156,12 +157,15 @@ const SearchResult = ({
 
 const CartAndFavouriteLink = () => {
   const { favourites } = useSelector((state: RootState) => state.favourites)
+  const { cart } = useSelector((state: RootState) => state.carts)
   return (
     <div className="flex items-center gap-6">
       <Link href="/account/favourite">
         <FavouriteButton totalFavourites={favourites.length} />
       </Link>
-      <Cart cartItems={1} />
+      <Link href="/account/cart">
+        <CartButton totalCartItems={cart.length} />
+      </Link>
     </div>
   )
 }

@@ -140,7 +140,7 @@ const FavouriteCard = ({
   return (
     <Card className="flex h-max gap-3 p-2 transition-all hover:bg-secondary">
       <Link
-        href={`/product/${formatTitleProduct(title ?? "")}/${id}`}
+        href={`/p/${formatTitleProduct(title ?? "")}/${id}`}
         className="shimmer size-16 border"
       >
         <Image
@@ -153,7 +153,7 @@ const FavouriteCard = ({
       </Link>
       <div className="flex flex-col gap-1">
         <Link
-          href={`/product/${formatTitleProduct(title ?? "")}/${id}`}
+          href={`/p/${formatTitleProduct(title ?? "")}/${id}`}
           className="text-sm font-medium"
         >
           <Balancer>{title?.slice(0, 30) + "..."}</Balancer>

@@ -24,26 +24,26 @@ export const ProductCard = ({
   price,
 }: ProductCardProps) => {
   const titleProduct = formatTitleProduct(title)
-  const urlProdcut = `/product/${titleProduct}/${id}`
+  const urlProdcut = `/p/${titleProduct}/${id}`
 
   return (
-    <Link href={urlProdcut} className="flex flex-col relative">
+    <Link href={urlProdcut} className="relative flex flex-col">
       <Image
         src={image.image ?? ""}
         width={700}
         height={700}
         // placeholder="blur"
         alt={title}
-        className="w-full aspect-[9/10] mb-5 hover:brightness-95 transition-all object-cover"
+        className="mb-5 aspect-[9/10] w-full object-cover transition-all hover:brightness-95"
       />
-      <div className="flex gap-1.5 items-center mb-3">
+      <div className="mb-3 flex items-center gap-1.5">
         {categories?.map(({ title }, index) => (
           <Badge variant="secondary" key={index + title}>
             {title}
           </Badge>
         ))}
       </div>
-      <h3 className="font-semibold mb-1.5">
+      <h3 className="mb-1.5 font-semibold">
         <Balancer>
           {title.length > 45 ? title.slice(0, 45) + "..." : title}
         </Balancer>
@@ -63,26 +63,26 @@ export const ProductCard2 = ({
   price,
 }: ProductCardProps) => {
   const titleProduct = formatTitleProduct(title)
-  const urlProdcut = `/product/${titleProduct}/${id}`
+  const urlProdcut = `/p/${titleProduct}/${id}`
 
   return (
-    <Link href={urlProdcut} className="flex flex-col relative">
+    <Link href={urlProdcut} className="relative flex flex-col">
       <Image
         src={image.image ?? ""}
         width={700}
         height={700}
         // placeholder="blur"
         alt={title}
-        className="w-full aspect-[9/10] mb-5 hover:brightness-95 transition-all object-cover"
+        className="mb-5 aspect-[9/10] w-full object-cover transition-all hover:brightness-95"
       />
-      <div className="flex gap-1.5 items-center mb-3">
+      <div className="mb-3 flex items-center gap-1.5">
         {categories?.map(({ title }, index) => (
           <Badge variant="secondary" key={index + title}>
             {title}
           </Badge>
         ))}
       </div>
-      <h3 className="font-semibold text-xl mb-1.5">
+      <h3 className="mb-1.5 text-xl font-semibold">
         <Balancer>
           {title.length > 60 ? title.slice(0, 60) + "..." : title}
         </Balancer>

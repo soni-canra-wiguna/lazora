@@ -80,7 +80,7 @@ const Cart = () => {
 
 export default Cart
 
-const CartButton = ({ totalCartItems }: { totalCartItems: number }) => {
+export const CartButton = ({ totalCartItems }: { totalCartItems: number }) => {
   return (
     <div className="relative h-max w-max cursor-pointer">
       <CustomTooltip title="cart" side="bottom">
@@ -117,7 +117,7 @@ const CartCard = ({
   return (
     <Card className="flex h-max gap-3 p-2 transition-all hover:bg-secondary">
       <Link
-        href={`/product/${formatTitleProduct(title ?? "")}/${id}`}
+        href={`/p/${formatTitleProduct(title ?? "")}/${id}`}
         className="shimmer size-16 border"
       >
         <Image
@@ -130,7 +130,7 @@ const CartCard = ({
       </Link>
       <div className="flex flex-col gap-1">
         <Link
-          href={`/product/${formatTitleProduct(title ?? "")}/${id}`}
+          href={`/p/${formatTitleProduct(title ?? "")}/${id}`}
           className="text-sm font-medium"
         >
           <Balancer>{title?.slice(0, 30) + "..."}</Balancer>

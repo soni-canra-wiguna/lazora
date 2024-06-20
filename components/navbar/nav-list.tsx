@@ -2,21 +2,21 @@ import Link from "next/link"
 
 const NavList = () => {
   return (
-    <div className="flex items-center gap-7 mt-1">
+    <div className="mt-1 flex items-center gap-7">
       <Link
-        className="capitalize font-medium leading-none text-secondary-foreground/70 text-sm hover:text-primary"
-        href="/products"
+        className="text-sm font-medium capitalize leading-none text-secondary-foreground/70 hover:text-primary"
+        href="/p"
       >
         all products
       </Link>
       <Link
-        className="capitalize font-medium leading-none text-secondary-foreground/70 text-sm hover:text-primary"
-        href="/"
+        className="text-sm font-medium capitalize leading-none text-secondary-foreground/70 hover:text-primary"
+        href="/c"
       >
         category
       </Link>
       <Link
-        className="capitalize font-medium leading-none text-secondary-foreground/70 text-sm hover:text-primary"
+        className="text-sm font-medium capitalize leading-none text-secondary-foreground/70 hover:text-primary"
         href="/"
       >
         popular

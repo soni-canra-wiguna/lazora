@@ -44,7 +44,7 @@ const PreviewKeyboards = () => {
                 className="pl-4 sm:basis-1/2 md:basis-1/4"
               >
                 <Link
-                  href={`/product/${formatTitleProduct(item.title)}/${item.id}`}
+                  href={`/p/${formatTitleProduct(item.title)}/${item.id}`}
                   className="h-[500px] w-full overflow-hidden"
                 >
                   <Image
