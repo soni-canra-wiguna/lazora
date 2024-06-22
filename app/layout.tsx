@@ -7,6 +7,7 @@ import SessionClientProvider from "@/lib/provider/session-client-provider"
 import TanstackProvider from "@/lib/provider/tanstask-provider"
 import { Toaster } from "@/components/ui/toaster"
 import ReduxProvider from "@/lib/provider/redux-provider"
+import Footer from "@/components/footer"
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   weight: ["200", "300", "400", "500", "600", "700"],
@@ -101,6 +102,7 @@ export default function RootLayout({
               <NextTopLoader color="#111111" height={3} showSpinner={false} />
               <Navbar />
               <main>{children}</main>
+              <Footer />
               <Toaster />
             </body>
           </ReduxProvider>
