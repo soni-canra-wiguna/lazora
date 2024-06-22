@@ -57,7 +57,7 @@ export default ListProducts
 
 const Loading = () => {
   const loading = Array.from({ length: 8 }, (_, i) => {
-    return <Skeleton className="aspect-[9/10] w-full" />
+    return <Skeleton key={i} className="aspect-[9/10] w-full" />
   })
 
   return <>{loading}</>
