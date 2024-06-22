@@ -87,7 +87,7 @@ export const ProductCard2 = ({
           {title.length > 60 ? title.slice(0, 60) + "..." : title}
         </Balancer>
       </h3>
-      <p className="text-sm font-medium text-muted-foreground">
+      <p className="text-base font-medium text-muted-foreground">
         {formatToIDR(price)}
       </p>
     </Link>
