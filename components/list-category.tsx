@@ -6,7 +6,7 @@ import Image from "next/image"
 
 const ListCategory = () => {
   return (
-    <MaxWidthWrapper className="mb-20 flex flex-row flex-wrap gap-4">
+    <MaxWidthWrapper className="mb-20 grid grid-cols-5 gap-4">
       {CATEGORIES.map((c, index) => {
         const replaceCategory = c.value.toLowerCase().replace(/ /g, "-") // from "hello world" to "hello-world"
         const url = `/c/${replaceCategory}`
@@ -16,7 +16,7 @@ const ListCategory = () => {
             className="group inline-block overflow-hidden"
             key={index}
           >
-            <Card className="relative flex aspect-[14/8] w-[260px] items-center justify-center rounded-xl border-none bg-secondary transition-all duration-300 hover:bg-secondary-foreground/10">
+            <Card className="relative flex aspect-[14/8] w-full items-center justify-center overflow-hidden rounded-xl border-none bg-secondary transition-all duration-300 hover:bg-secondary-foreground/10">
               <h3 className="z-20 font-canelaLight capitalize tracking-wide transition-all duration-300 group-hover:-translate-x-16">
                 {c.title}
               </h3>
