@@ -45,14 +45,19 @@ export const getSingleProduct = (id: string) => {
   return { data, isPending, isError }
 }
 
-export const getShuffleProducts = () => {
+export const getShuffleProducts = ({
+  isShouldFetch = true,
+}: {
+  isShouldFetch: boolean
+}) => {
   const { data, isPending, isError } = useQuery<ProductPostProps[]>({
-    queryKey: ["shuffle-products"],
+    queryKey: ["shuffle-products", isShouldFetch],
     queryFn: async () => {
       const { data } = await axios.get(`/api/products`)
       const shuffleProducts = shuffleArrayProducts(data.products)
       return shuffleProducts
     },
+    enabled: isShouldFetch,
   })
 
   return { data, isPending, isError }

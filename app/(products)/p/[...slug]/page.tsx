@@ -10,6 +10,7 @@ import { formatToIDR } from "@/utils/format-to-idr"
 import FavouriteToggle from "../_components/favourite-toggle"
 import CartButton from "../_components/cart-button"
 import ProductInfo from "../_components/product-info"
+import Recommendation from "../_components/recommendation"
 
 interface GenerateMetadataProps {
   params: { slug: string[] }
@@ -27,7 +28,7 @@ const getProduct = async (slug: string[]) => {
         next: {
           tags: ["singleProduct"],
         },
-      }
+      },
     )
     const { product }: { product: ProductPostProps } = await response.json()
     return {
@@ -67,35 +68,35 @@ const SingleProductPage = async ({ params }: GenerateMetadataProps) => {
   const { slug } = params
   const { product } = await getProduct(slug)
   return (
-    <MaxWidthWrapper className="py-32 relative">
-      <div className="flex gap-12 items-start">
+    <MaxWidthWrapper className="relative pt-32">
+      <div className="mb-[100px] flex items-start gap-12">
         <ImageProduct
           images={product.images ?? []}
           title={product.title ?? ""}
         />
-        <div className="w-[500px] flex flex-col">
+        <div className="flex w-[500px] flex-col">
           {/*  */}
-          <div className="flex items-center gap-3 mb-2.5">
+          <div className="mb-2.5 flex items-center gap-3">
             {product.categories?.map(({ title: category }) => (
               <Badge
                 key={category}
                 variant="secondary"
-                className="font-medium bg-secondary hover:bg-secondary"
+                className="bg-secondary font-medium hover:bg-secondary"
               >
                 {category}
               </Badge>
             ))}
           </div>
-          <h2 className="text-2xl font-bold mb-3.5">
+          <h2 className="mb-3.5 text-2xl font-bold">
             <Balancer>{product.title}</Balancer>
           </h2>
-          <h6 className=" text-lg mb-3 font-semibold">
+          <h6 className="mb-3 text-lg font-semibold">
             {formatToIDR(product.price ?? 0)}
           </h6>
-          <div className="flex items-center text-sm text-muted-foreground mb-3">
+          <div className="mb-3 flex items-center text-sm text-muted-foreground">
             stock: {product.stock}
           </div>
-          <div className="flex items-center gap-4 mb-4">
+          <div className="mb-4 flex items-center gap-4">
             <FavouriteToggle data={product} />
             <CartButton data={product} />
           </div>
@@ -106,6 +107,7 @@ const SingleProductPage = async ({ params }: GenerateMetadataProps) => {
           />
         </div>
       </div>
+      <Recommendation category={product.categories[0].title} id={product.id} />
     </MaxWidthWrapper>
   )
 }
