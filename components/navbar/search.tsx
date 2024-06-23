@@ -18,6 +18,7 @@ import { formatToIDR } from "@/utils/format-to-idr"
 import { formatTitleProduct } from "@/utils/format-title-product"
 import Image from "next/image"
 import { CartButton } from "./cart"
+import Balancer from "react-wrap-balancer"
 
 const Search = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -149,8 +150,14 @@ const SearchResult = ({
           className="h-full w-full object-contain object-center"
         />
       </div>
-      <h4 className="mb-1.5 text-xl font-medium text-primary">{title}</h4>
-      <p className="text-sm text-muted-foreground">{formatToIDR(price)}</p>
+      <h3 className="mb-1.5 text-base font-semibold">
+        <Balancer>
+          {title.length > 60 ? title.slice(0, 60) + "..." : title}
+        </Balancer>
+      </h3>
+      <p className="text-base font-medium text-muted-foreground">
+        {formatToIDR(price)}
+      </p>
     </Link>
   )
 }
