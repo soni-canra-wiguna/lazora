@@ -8,6 +8,7 @@ import TanstackProvider from "@/lib/provider/tanstask-provider"
 import { Toaster } from "@/components/ui/toaster"
 import ReduxProvider from "@/lib/provider/redux-provider"
 import Footer from "@/components/footer"
+import BackToTop from "@/components/back-to-top"
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   weight: ["200", "300", "400", "500", "600", "700"],
@@ -103,6 +104,7 @@ export default function RootLayout({
               <Navbar />
               <main>{children}</main>
               <Footer />
+              {/* <BackToTop /> */}
               <Toaster />
             </body>
           </ReduxProvider>
