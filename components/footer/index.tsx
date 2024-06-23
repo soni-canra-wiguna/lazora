@@ -167,7 +167,7 @@ const News = ({ className }: { className?: string }) => {
         </div>
       </FooterItem>
       <p className="capitalize text-primary">
-        &copy; Lazora, all right reserved.
+        &copy; {new Date().getFullYear()} Lazora, all right reserved.
       </p>
     </div>
   )
