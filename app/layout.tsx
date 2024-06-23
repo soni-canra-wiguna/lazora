@@ -104,7 +104,7 @@ export default function RootLayout({
               <Navbar />
               <main>{children}</main>
               <Footer />
-              {/* <BackToTop /> */}
+              <BackToTop />
               <Toaster />
             </body>
           </ReduxProvider>
