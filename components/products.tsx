@@ -8,14 +8,26 @@ import { ChevronDown, RefreshCcw } from "lucide-react"
 import MaxWidthWrapper from "./max-width-wrapper"
 import { Skeleton } from "./ui/skeleton"
 import { useRouter } from "next/navigation"
+import { useInView } from "react-intersection-observer"
+import { useEffect, useState } from "react"
 
 const ListProducts = () => {
-  const { data, isPending, isError } = getShuffleProducts()
+  const { inView, ref } = useInView()
+  const [isShouldFetch, setIsShouldFetch] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (inView) {
+      setIsShouldFetch(true)
+    }
+  }, [inView])
+
+  const { data, isPending, isError } = getShuffleProducts({ isShouldFetch })
+
   return (
     <MaxWidthWrapper>
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
-          <h3 className="text-2xl font-medium">Products</h3>
+          <h3 ref={ref} className="text-2xl font-medium">Products</h3>
           {/* <Popover>
             <PopoverTrigger asChild>
               <Button variant="outline" className="rounded-full">
