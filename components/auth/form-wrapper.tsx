@@ -1,6 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { formatTitleProduct } from "@/utils/format-title-product"
 
 export interface FormWrapperPorps {
   className?: string
@@ -19,24 +20,24 @@ const FormWrapper = ({
   desc_href,
   href_title,
 }: FormWrapperPorps) => {
-  const href = "/" + href_title?.toLowerCase().replace(/\s+/g, "-")
+  const href = `/${formatTitleProduct(href_title ?? "")}`
 
   return (
     <div
       className={cn(
-        "col-span-12 lg:col-span-4 h-full flex items-center justify-center gap-4 flex-col bg-background lg:px-12 max-w-lg mx-auto w-full",
-        className
+        "col-span-12 mx-auto flex h-full w-full max-w-lg flex-col items-center justify-center gap-4 bg-background lg:col-span-4 lg:px-12",
+        className,
       )}
     >
-      <div className="self-start flex flex-col gap-1.5 pb-6">
-        <h4 className="text-3xl font-canelaLight">{title}</h4>
-        <p className="text-[#303030] text-sm">{desc}</p>
+      <div className="flex flex-col gap-1.5 self-start pb-6">
+        <h4 className="font-canelaLight text-3xl">{title}</h4>
+        <p className="text-sm text-[#303030]">{desc}</p>
       </div>
       {/* this children is form submit */}
       {children}
-      <p className="text-[#303030] text-sm pt-10">
+      <p className="pt-10 text-sm text-[#303030]">
         {desc_href}?{" "}
-        <Link className="hover:underline text-main capitalize" href={href}>
+        <Link className="capitalize text-main hover:underline" href={href}>
           {href_title}
         </Link>
       </p>

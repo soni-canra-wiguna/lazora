@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/select"
 import { toast } from "@/components/ui/use-toast"
 import { UploadDropzone } from "@/lib/uploadthing"
-import { FORM_OPTIONS } from "@/data/form-options"
+import { FORM_OPTIONS } from "@/constants/form-options"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"

@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils"
 import MaxWidthWrapper from "./../max-width-wrapper"
 import Link from "next/link"
-import { CATEGORIES } from "@/data/categories"
+import { CATEGORIES } from "@/constants/categories"
 import { Input } from "../ui/input"
 import { Mail, ArrowRight } from "lucide-react"
 import { IoLogoInstagram } from "react-icons/io"
@@ -12,7 +12,7 @@ import { RiTwitterXLine } from "react-icons/ri"
 import Image from "next/image"
 import googlePlayBadge from "@/public/google-play-badge.svg"
 import appStoreBadge from "@/public/app-store-badge.svg"
-import { disableNavbarWithFooter } from "@/data/disable-navbar-with-footer"
+import { disableNavbarWithFooter } from "@/constants/disable-navbar-with-footer"
 import { usePathname } from "next/navigation"
 
 const footer = {

@@ -1,4 +1,4 @@
-import { listCensorWord } from "../data/list-censor-word"
+import { listCensorWord } from "../constants/list-censor-word"
 
 export default function censorWordMessage(message: string) {
   const censorMessage = (prevMessage: string, censorWord: string) => {

@@ -1,49 +1,9 @@
 import CustomTooltip from "@/components/custom-tooltip"
-import {
-  Home,
-  LineChart,
-  Package,
-  Package2,
-  Settings,
-  ShoppingCart,
-  Square,
-  SquareUserRound,
-} from "lucide-react"
+import { LINKS_SIDEBAR_DASHBOARD } from "@/constants/links-sidebar-dashboard"
+import { SquareUserRound } from "lucide-react"
 import Link from "next/link"
 
 const SidebarDashboard = () => {
-  const links = [
-    {
-      title: "dashboard",
-      href: "/dashboard",
-      icon: <Home className="h-5 w-5" />,
-    },
-    {
-      title: "orders",
-      href: "/orders",
-      icon: <ShoppingCart className="h-5 w-5" />,
-    },
-    {
-      title: "products",
-      href: "/dashboard/products",
-      icon: <Package className="h-5 w-5" />,
-    },
-    {
-      title: "banner",
-      href: "/dashboard/banners",
-      icon: <Square className="h-5 w-5" />,
-    },
-    {
-      title: "analytics",
-      href: "/dashboard/analytics",
-      icon: <LineChart className="h-5 w-5" />,
-    },
-    {
-      title: "settings",
-      href: "/dashboard/settings",
-      icon: <Settings className="h-5 w-5" />,
-    },
-  ]
   return (
     <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
       <nav className="flex flex-col items-center gap-3 px-2 py-4">
@@ -55,11 +15,11 @@ const SidebarDashboard = () => {
             <span className="mr-2">l</span>
           </Link>
         </CustomTooltip>
-        {links.map((link) => (
+        {LINKS_SIDEBAR_DASHBOARD.map((link) => (
           <CustomTooltip key={link.title} title={link.title} side="right">
             <Link
               href={link.href}
-              className="flex h-9 items-center justify-center text-primary transition-colors hover:bg-muted w-full apsect-square"
+              className="apsect-square flex h-9 w-full items-center justify-center text-primary transition-colors hover:bg-muted"
             >
               {link.icon}
               <span className="sr-only">{link.title}</span>
@@ -71,7 +31,7 @@ const SidebarDashboard = () => {
         <CustomTooltip title="account" side="right">
           <Link
             href="/dashboard/account"
-            className="flex h-9 items-center justify-center text-primary transition-colors hover:bg-muted w-full apsect-square"
+            className="apsect-square flex h-9 w-full items-center justify-center text-primary transition-colors hover:bg-muted"
           >
             <SquareUserRound className="h-5 w-5" />
             <span className="sr-only">account</span>

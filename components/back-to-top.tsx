@@ -2,7 +2,7 @@
 
 import { ArrowUpToLine } from "lucide-react"
 import { usePathname } from "next/navigation"
-import { disableNavbarWithFooter } from "@/data/disable-navbar-with-footer"
+import { disableNavbarWithFooter } from "@/constants/disable-navbar-with-footer"
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 

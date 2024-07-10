@@ -37,7 +37,7 @@ import { toast } from "@/components/ui/use-toast"
 import { BannerItem } from "@/components/home/banner"
 import { Input } from "@/components/ui/input"
 import LoadingButton from "@/components/loading-button"
-import { FORM_OPTIONS } from "@/data/form-options"
+import { FORM_OPTIONS } from "@/constants/form-options"
 import { UploadDropzone } from "@/lib/uploadthing"
 
 type EditType = {
