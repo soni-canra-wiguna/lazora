@@ -64,3 +64,11 @@ export interface ProductDataType {
   totalProducts: number
   status: number
 }
+
+export interface ProductCardProps {
+  id: string
+  image: ImageProps
+  title: string
+  categories: Category[]
+  price: number
+}

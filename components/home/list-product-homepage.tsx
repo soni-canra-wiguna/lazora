@@ -1,17 +1,22 @@
 "use client"
 
 import { getShuffleProducts } from "@/services/get-products"
-import { ProductCard2 } from "./product-card"
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
-import { Button } from "./ui/button"
-import { ChevronDown, RefreshCcw } from "lucide-react"
-import MaxWidthWrapper from "./max-width-wrapper"
-import { Skeleton } from "./ui/skeleton"
+import { Button } from "../ui/button"
+import { RefreshCcw } from "lucide-react"
+import MaxWidthWrapper from "../max-width-wrapper"
+import { Skeleton } from "../ui/skeleton"
 import { useRouter } from "next/navigation"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
+import { ProductCardProps } from "@/types"
+import { formatTitleProduct } from "@/utils/format-title-product"
+import Link from "next/link"
+import Image from "next/image"
+import { Badge } from "../ui/badge"
+import Balancer from "react-wrap-balancer"
+import { formatToIDR } from "@/utils/format-to-idr"
 
-const ListProducts = () => {
+export default function ListProductHomepage() {
   const { inView, ref } = useInView()
   const [isShouldFetch, setIsShouldFetch] = useState<boolean>(false)
 
@@ -27,19 +32,10 @@ const ListProducts = () => {
     <MaxWidthWrapper>
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
-          <h3 ref={ref} className="text-2xl font-medium">Products</h3>
-          {/* <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="rounded-full">
-                Sort by <ChevronDown className="ml-2 size-4" />{" "}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent align="end" className="rounded-none shadow-none">
-              price
-            </PopoverContent>
-          </Popover> */}
+          <h3 ref={ref} className="text-2xl font-medium">
+            Products
+          </h3>
         </div>
-        {/* <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4"> */}
         {isPending ? (
           <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
             <Loading />
@@ -49,7 +45,7 @@ const ListProducts = () => {
         ) : (
           <div className="grid grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-3 lg:grid-cols-4">
             {data?.map(({ id, images, title, categories, price }) => (
-              <ProductCard2
+              <ListProductCard
                 key={id + title}
                 id={id}
                 image={images[0]}
@@ -65,7 +61,44 @@ const ListProducts = () => {
   )
 }
 
-export default ListProducts
+const ListProductCard = ({
+  id,
+  image,
+  title,
+  categories,
+  price,
+}: ProductCardProps) => {
+  const titleProduct = formatTitleProduct(title)
+  const urlProdcut = `/p/${titleProduct}/${id}`
+
+  return (
+    <Link href={urlProdcut} className="relative flex flex-col">
+      <Image
+        src={image.image ?? ""}
+        width={700}
+        height={700}
+        // placeholder="blur"
+        alt={title}
+        className="mb-5 aspect-[9/10] w-full object-cover transition-all hover:brightness-95"
+      />
+      <div className="mb-3 flex items-center gap-1.5">
+        {categories?.map(({ title }, index) => (
+          <Badge variant="secondary" key={index + title}>
+            {title}
+          </Badge>
+        ))}
+      </div>
+      <h3 className="mb-1.5 text-base font-semibold">
+        <Balancer>
+          {title.length > 60 ? title.slice(0, 60) + "..." : title}
+        </Balancer>
+      </h3>
+      <p className="text-base font-medium text-muted-foreground">
+        {formatToIDR(price)}
+      </p>
+    </Link>
+  )
+}
 
 const Loading = () => {
   const loading = Array.from({ length: 8 }, (_, i) => {

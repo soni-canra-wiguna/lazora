@@ -1,4 +1,4 @@
-import AuthImageLayout from "./_components/auth-image"
+import AuthImageLayout from "@/components/auth/auth-image"
 
 export interface FormAuthLayoutPorps {
   children: React.ReactNode
@@ -10,7 +10,7 @@ export interface FormAuthLayoutPorps {
 
 const FormAuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="grid grid-cols-12 w-screen h-screen overflow-hidden p-8 md:p-6 lg:p-0 bg-background">
+    <div className="grid h-screen w-screen grid-cols-12 overflow-hidden bg-background p-8 md:p-6 lg:p-0">
       {children}
       <AuthImageLayout />
     </div>

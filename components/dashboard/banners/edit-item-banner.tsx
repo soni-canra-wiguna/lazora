@@ -34,7 +34,7 @@ import {
   SelectItem,
 } from "@/components/ui/select"
 import { toast } from "@/components/ui/use-toast"
-import BannerItem from "@/components/banner-item"
+import { BannerItem } from "@/components/home/banner"
 import { Input } from "@/components/ui/input"
 import LoadingButton from "@/components/loading-button"
 import { FORM_OPTIONS } from "@/data/form-options"
@@ -104,12 +104,12 @@ const EditItemBanner = ({ banner, setIsAction }: EditType) => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger className="cursor-pointer" asChild>
-        <div className="flex justify-between items-center px-2 py-1 hover:bg-muted transition-all">
+        <div className="flex items-center justify-between px-2 py-1 transition-all hover:bg-muted">
           edit
           <Pencil size={18} strokeWidth={1.5} />
         </div>
       </DialogTrigger>
-      <DialogContent className="max-w-[1360px] h-[90vh] overflow-y-auto">
+      <DialogContent className="h-[90vh] max-w-[1360px] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Banner</DialogTitle>
           <DialogDescription>edit banner item</DialogDescription>
@@ -117,10 +117,10 @@ const EditItemBanner = ({ banner, setIsAction }: EditType) => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="w-full flex flex-col gap-6"
+              className="flex w-full flex-col gap-6"
             >
-              <div className="w-full grid grid-cols-2 gap-6">
-                <div className="flex flex-col gap-6 w-full">
+              <div className="grid w-full grid-cols-2 gap-6">
+                <div className="flex w-full flex-col gap-6">
                   <FormField
                     control={form.control}
                     name="title"
@@ -198,7 +198,7 @@ const EditItemBanner = ({ banner, setIsAction }: EditType) => {
                     }}
                   />
                 </div>
-                <div className="flex flex-col gap-6 w-full">
+                <div className="flex w-full flex-col gap-6">
                   <FormItem>
                     <FormLabel>image</FormLabel>
                     <UploadDropzone
@@ -278,7 +278,7 @@ const EditItemBanner = ({ banner, setIsAction }: EditType) => {
                 </div>
               </div>
               {isError && (
-                <div className="p-4 bg-red-200 rounded-md text-center w-full">
+                <div className="w-full rounded-md bg-red-200 p-4 text-center">
                   <p className="text-sm text-red-500">
                     something went wrong, check your connection!!
                   </p>
@@ -286,7 +286,7 @@ const EditItemBanner = ({ banner, setIsAction }: EditType) => {
               )}
               <LoadingButton
                 type="submit"
-                className="w-full capitalize mt-3"
+                className="mt-3 w-full capitalize"
                 loading={isPending}
                 disabled={isPending}
               >

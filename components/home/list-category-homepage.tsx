@@ -1,15 +1,15 @@
 import Link from "next/link"
-import MaxWidthWrapper from "./max-width-wrapper"
+import MaxWidthWrapper from "../max-width-wrapper"
 import { CATEGORIES } from "@/data/categories"
-import { Card } from "./ui/card"
+import { Card } from "../ui/card"
 import Image from "next/image"
+import { formatTitleProduct } from "@/utils/format-title-product"
 
-const ListCategory = () => {
+export default function ListCategoryHomepage() {
   return (
     <MaxWidthWrapper className="mb-20 grid grid-cols-5 gap-4">
       {CATEGORIES.map((c, index) => {
-        const replaceCategory = c.value.toLowerCase().replace(/ /g, "-") // from "hello world" to "hello-world"
-        const url = `/c/${replaceCategory}`
+        const url = `/c/${formatTitleProduct(c.value)}`
         return (
           <Link
             href={url}
@@ -36,5 +36,3 @@ const ListCategory = () => {
     </MaxWidthWrapper>
   )
 }
-
-export default ListCategory

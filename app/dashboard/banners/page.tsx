@@ -4,7 +4,7 @@ import Link from "next/link"
 import {
   BodyBannerDashboard,
   FooterBannerDashboard,
-} from "./_components/banner-dashboard"
+} from "@/components/dashboard/banners/banner-dashboard"
 import {
   Card,
   CardContent,
@@ -24,7 +24,7 @@ import {
 const BannerPage = () => {
   return (
     <div className="flex flex-col gap-4">
-      <div className="w-full flex justify-end">
+      <div className="flex w-full justify-end">
         <Link href="/dashboard/banners/create">
           <Button className="capitalize">
             create banner <Plus className="ml-2 size-4" />

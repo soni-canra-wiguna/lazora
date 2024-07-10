@@ -3,17 +3,16 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-import { useMemo, useState } from "react"
-import { ProductDataType, ProductPostProps } from "@/types"
 import { CATEGORIES } from "@/data/categories"
-import { RADIO_ITEM } from "@/data/radio-items"
+import { ITEMS_SORT_BY } from "@/data/items-sort-by"
+import { useSelector } from "react-redux"
+import { RootState } from "@/redux/store"
+import { useDispatch } from "react-redux"
+import { setSortBy } from "@/redux/features/filter/sort-by-slice"
 
-interface Sorting {
-  sortBy: string
-  setSortBy: (sortBy: string) => void
-}
-
-const FilterSidebar = ({ sortBy, setSortBy }: Sorting) => {
+const FilterSidebar = () => {
+  const { value: sortBy } = useSelector((state: RootState) => state.sortBy)
+  const dispatch = useDispatch()
   // const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
   // const handleCategoryChange = (category: string) => {
@@ -32,16 +31,16 @@ const FilterSidebar = ({ sortBy, setSortBy }: Sorting) => {
           <h3 className="mb-2 text-base font-medium">Sort By</h3>
           <RadioGroup
             value={sortBy}
-            onValueChange={(value) => setSortBy(value)}
+            onValueChange={(value) => dispatch(setSortBy(value))}
             className="grid gap-2"
           >
-            {RADIO_ITEM.map((radio) => (
+            {ITEMS_SORT_BY.map((item) => (
               <Label
-                key={radio.title}
+                key={item.title}
                 className="flex items-center gap-2 font-normal"
               >
-                <RadioGroupItem value={radio.value} />
-                {radio.title}
+                <RadioGroupItem value={item.value} />
+                {item.title}
               </Label>
             ))}
           </RadioGroup>

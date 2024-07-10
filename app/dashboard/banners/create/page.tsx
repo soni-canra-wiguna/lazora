@@ -31,7 +31,7 @@ import { BannerSchema } from "@/schema"
 import axios from "axios"
 import * as z from "zod"
 import { useRouter } from "next/navigation"
-import BannerItem from "@/components/banner-item"
+import { BannerItem } from "@/components/home/banner"
 
 const CreateBannerPage = () => {
   const queryClient = useQueryClient()
@@ -91,10 +91,10 @@ const CreateBannerPage = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full flex flex-col gap-6"
+          className="flex w-full flex-col gap-6"
         >
-          <div className="w-full grid grid-cols-2 gap-6">
-            <div className="flex flex-col gap-6 w-full">
+          <div className="grid w-full grid-cols-2 gap-6">
+            <div className="flex w-full flex-col gap-6">
               <FormField
                 control={form.control}
                 name="title"
@@ -172,7 +172,7 @@ const CreateBannerPage = () => {
                 }}
               />
             </div>
-            <div className="flex flex-col gap-6 w-full">
+            <div className="flex w-full flex-col gap-6">
               <FormItem>
                 <FormLabel>image</FormLabel>
                 <UploadDropzone
@@ -249,7 +249,7 @@ const CreateBannerPage = () => {
             </div>
           </div>
           {isError && (
-            <div className="p-4 bg-red-200 rounded-md text-center w-full">
+            <div className="w-full rounded-md bg-red-200 p-4 text-center">
               <p className="text-sm text-red-500">
                 something went wrong, check your connection!!
               </p>
@@ -257,7 +257,7 @@ const CreateBannerPage = () => {
           )}
           <LoadingButton
             type="submit"
-            className="w-full capitalize mt-3"
+            className="mt-3 w-full capitalize"
             loading={isPending}
             disabled={isPending}
           >

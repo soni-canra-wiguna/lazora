@@ -1,5 +1,5 @@
 import MaxWidthWrapper from "@/components/max-width-wrapper"
-import LoadingProduct from "../_components/loading-product"
+import LoadingProduct from "@/components/detail-product/loading-product"
 
 export default function Loading() {
   return (

@@ -19,12 +19,12 @@ import Link from "next/link"
 import {
   BodyProductDashboard,
   FooterProductDashboard,
-} from "./_components/product-dashboard"
+} from "@/components/dashboard/products/product-dashboard"
 
 const ProductPage = () => {
   return (
     <div className="flex flex-col gap-4">
-      <div className="w-full flex justify-end">
+      <div className="flex w-full justify-end">
         <Link href="/dashboard/products/create">
           <Button className="capitalize">
             create product <Plus className="ml-2 size-4" />

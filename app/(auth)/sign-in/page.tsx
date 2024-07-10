@@ -1,5 +1,5 @@
 import { useUserServer } from "@/hook/use-user"
-import SignInForm from "../_components/signin-form"
+import SignInForm from "@/components/auth/signin-form"
 import { redirect } from "next/navigation"
 import { Metadata } from "next"
 

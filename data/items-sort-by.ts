@@ -1,4 +1,4 @@
-export const RADIO_ITEM = [
+export const ITEMS_SORT_BY = [
   {
     title: "featured",
     value: "featured",

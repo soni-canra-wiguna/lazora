@@ -1,7 +1,7 @@
 import { useUserServer } from "@/hook/use-user"
 import { redirect } from "next/navigation"
 import { Metadata } from "next"
-import RegisterForm from "../_components/register-form"
+import RegisterForm from "@/components/auth/register-form"
 
 export const metadata: Metadata = {
   title: "Register",

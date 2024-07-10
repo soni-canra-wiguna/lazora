@@ -6,14 +6,20 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "./ui/carousel"
+} from "../ui/carousel"
 import AutoPlay from "embla-carousel-autoplay"
 import { getBanners } from "@/services/get-banners"
-import { Skeleton } from "./ui/skeleton"
-import BannerItem from "./banner-item"
-import MaxWidthWrapper from "./max-width-wrapper"
+import { Skeleton } from "../ui/skeleton"
+import MaxWidthWrapper from "../max-width-wrapper"
+import { BannerProps } from "@/types"
+import Balancer from "react-wrap-balancer"
+import { Card } from "../ui/card"
+import Link from "next/link"
+import { Button } from "../ui/button"
+import { ArrowRight } from "lucide-react"
+import Image from "next/image"
 
-const BannerHomepage = () => {
+export default function BannerHomepage() {
   const { data, isPending, isError } = getBanners()
 
   return (
@@ -66,7 +72,53 @@ const BannerHomepage = () => {
   )
 }
 
-export default BannerHomepage
+export const BannerItem = ({
+  title,
+  description,
+  background_color,
+  title_button,
+  href_button,
+  image,
+  alt_image,
+}: BannerProps) => {
+  return (
+    <Card
+      style={{
+        backgroundColor: background_color,
+      }}
+      className="grid h-[450px] w-full grid-cols-12 overflow-hidden rounded-xl border-none"
+    >
+      <div className="col-span-7 flex items-center pl-20">
+        <div className="flex flex-col">
+          <h1 className="mb-4 font-canelaRegular text-6xl capitalize selection:bg-transparent">
+            <Balancer>{title}</Balancer>
+          </h1>
+          <p className="mb-6">{description}</p>
+          <Link href={href_button} className="size-max">
+            <Button
+              size="lg"
+              className="shimmer w-max rounded-full font-canelaThin capitalize"
+            >
+              {title_button}
+              <ArrowRight className="ml-2 size-4 stroke-[1.5] text-inherit" />
+            </Button>
+          </Link>
+        </div>
+      </div>
+      <div className="col-span-5 flex items-center justify-center overflow-hidden">
+        <div className="flex size-[90%] items-center justify-center overflow-hidden rounded-2xl selection:bg-transparent">
+          <Image
+            src={image || ""}
+            width={600}
+            height={600}
+            alt={alt_image}
+            className="size-full object-scale-down object-center"
+          />
+        </div>
+      </div>
+    </Card>
+  )
+}
 
 const LoadingBanner = () => {
   return (
@@ -82,9 +134,7 @@ const LoadingBanner = () => {
         </div>
       </div>
       <div className="col-span-5 flex items-center justify-center">
-        <Skeleton className="flex size-[90%] items-center justify-center overflow-hidden rounded-2xl bg-secondary-foreground/10">
-          {/* <Skeleton className="size-1/2 bg-secondary-foreground/20" /> */}
-        </Skeleton>
+        <Skeleton className="flex size-[90%] items-center justify-center overflow-hidden rounded-2xl bg-secondary-foreground/10" />
       </div>
     </Skeleton>
   )

@@ -68,7 +68,7 @@ const CreateProductPage = () => {
 
   const handleAddCategoryDefault = (titleCategory: string) => {
     const isCategoryExist = categories.some(
-      ({ title }) => title === titleCategory
+      ({ title }) => title === titleCategory,
     )
 
     if (!isCategoryExist) {
@@ -81,7 +81,7 @@ const CreateProductPage = () => {
 
   const handleAddCategoryByInput = () => {
     const isCategoryExist = categories.some(
-      ({ title }) => title === categoryByInput
+      ({ title }) => title === categoryByInput,
     )
     if (!isCategoryExist) {
       const newCategoryByInput = { title: categoryByInput }
@@ -153,7 +153,7 @@ const CreateProductPage = () => {
     <div className="mb-32 min-h-screen w-full">
       <form
         onSubmit={handleSubmit}
-        className="w-full flex flex-col gap-5 max-w-7xl mx-auto"
+        className="mx-auto flex w-full max-w-7xl flex-col gap-5"
       >
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="title">title</Label>
@@ -167,10 +167,10 @@ const CreateProductPage = () => {
           />
         </div>
         {/*  */}
-        <div className="grid grid-cols-2 gap-6 w-full">
+        <div className="grid w-full grid-cols-2 gap-6">
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="price">price</Label>
-            <div className="flex w-full gap-4 items-center">
+            <div className="flex w-full items-center gap-4">
               <Input
                 required
                 id="price"
@@ -179,7 +179,7 @@ const CreateProductPage = () => {
                 min={0}
                 onChange={(e) => setPrice(parseInt(e.target.value))}
               />
-              <div className="w-full h-full flex items-center px-2 bg-secondary">
+              <div className="flex h-full w-full items-center bg-secondary px-2">
                 {formatToIDR(price)}
               </div>
             </div>
@@ -197,14 +197,14 @@ const CreateProductPage = () => {
           </div>
         </div>
         {/*  */}
-        <div className="grid grid-cols-2 gap-4 w-full">
-          <div className="flex flex-col w-full gap-1.5">
+        <div className="grid w-full grid-cols-2 gap-4">
+          <div className="flex w-full flex-col gap-1.5">
             <Label htmlFor="description">description</Label>
             <TextEditor value={description} setValue={setDescription} />
           </div>
-          <div className="flex flex-col w-full gap-1.5">
+          <div className="flex w-full flex-col gap-1.5">
             <Label htmlFor="description">preview description</Label>
-            <div className="w-full border border-primary h-[500px] overflow-y-auto prose p-2">
+            <div className="prose h-[500px] w-full overflow-y-auto border border-primary p-2">
               {parse(description)}
             </div>
           </div>
@@ -268,13 +268,13 @@ const CreateProductPage = () => {
               })
             }}
           />
-          <div className="flex w-full gap-4 items-center">
+          <div className="flex w-full items-center gap-4">
             {imageProducts?.map((image, index) => (
-              <div key={index} className="w-20 h-20 overflow-hidden">
+              <div key={index} className="h-20 w-20 overflow-hidden">
                 <Image
                   src={image.image}
                   alt={title}
-                  className="size-full object-center object-cover"
+                  className="size-full object-cover object-center"
                   width={300}
                   height={300}
                 />
@@ -286,8 +286,8 @@ const CreateProductPage = () => {
         {/* categories start */}
         <div className="flex flex-col gap-1.5">
           <Label>category product</Label>
-          <div className="flex flex-col w-full bg-secondary p-4">
-            <div className="flex items-center gap-3 flex-wrap w-full bg-secondary">
+          <div className="flex w-full flex-col bg-secondary p-4">
+            <div className="flex w-full flex-wrap items-center gap-3 bg-secondary">
               {categories?.map(({ title }, indexCategory) => (
                 <Button
                   type="button"
@@ -300,11 +300,11 @@ const CreateProductPage = () => {
                 </Button>
               ))}
             </div>
-            <hr className="border-muted-foreground/30 h-px w-full my-4" />
+            <hr className="my-4 h-px w-full border-muted-foreground/30" />
 
             <div className="flex flex-col gap-2">
               <p>tambahkan category</p>
-              <div className="flex flex-wrap gap-2 items-center w-full">
+              <div className="flex w-full flex-wrap items-center gap-2">
                 {CATEGORIES?.map(({ title }, indexList) => {
                   return (
                     <Button
@@ -322,7 +322,7 @@ const CreateProductPage = () => {
                 })}
               </div>
             </div>
-            <hr className="border-muted-foreground/30 h-px w-full my-4" />
+            <hr className="my-4 h-px w-full border-muted-foreground/30" />
 
             <div className="flex flex-col gap-2">
               <p>tambahkan category baru</p>

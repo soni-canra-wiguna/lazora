@@ -1,16 +1,14 @@
 import MaxWidthWrapper from "@/components/max-width-wrapper"
-import Product from "../_components/product"
 import { ProductPostProps } from "@/types"
 import { Metadata } from "next"
-import axios from "axios"
-import ImageProduct from "../_components/image-product"
+import ImageProduct from "@/components/detail-product/image-product"
 import { Badge } from "@/components/ui/badge"
 import Balancer from "react-wrap-balancer"
 import { formatToIDR } from "@/utils/format-to-idr"
-import FavouriteToggle from "../_components/favourite-toggle"
-import CartButton from "../_components/cart-button"
-import ProductInfo from "../_components/product-info"
-import Recommendation from "../_components/recommendation"
+import FavouriteToggle from "@/components/detail-product/favourite-toggle"
+import CartButton from "@/components/detail-product/cart-button"
+import ProductInfo from "@/components/detail-product/product-info"
+import Recommendation from "@/components/detail-product/recommendation"
 
 interface GenerateMetadataProps {
   params: { slug: string[] }
