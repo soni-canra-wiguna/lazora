@@ -14,13 +14,13 @@ export default function Error() {
     <MaxWidthWrapper className="mt-40 flex min-h-screen max-w-lg flex-col items-center gap-8 px-6">
       <Image
         alt="image not found"
-        src="/notfound.svg"
+        src="/no-internet.svg"
         width={500}
         height={500}
         className="aspect-square w-full max-w-sm grayscale selection:bg-transparent"
       />
       <h4 className="text-center text-xl font-medium">
-        Yahh error nih, coba refresh lagi deh...
+        Jaringan kamu lemot nih, coba refresh deh...
       </h4>
     </MaxWidthWrapper>
   )
