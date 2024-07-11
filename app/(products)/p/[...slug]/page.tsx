@@ -34,7 +34,7 @@ const getProduct = async (slug: string[]) => {
       slugProduct: slug,
     }
   } catch (error) {
-    throw new Error("something went wrong")
+    throw new Error(`[SINGLE_PRODUCT] => ${error}`)
   }
 }
 
