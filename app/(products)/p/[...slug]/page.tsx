@@ -66,7 +66,7 @@ const SingleProductPage = async ({ params }: GenerateMetadataProps) => {
   const { slug } = params
   const { product } = await getProduct(slug)
   return (
-    <MaxWidthWrapper className="relative pt-32">
+    <MaxWidthWrapper className="relative min-h-screen pt-32">
       <div className="mb-[100px] flex items-start gap-12">
         <ImageProduct
           images={product.images ?? []}
