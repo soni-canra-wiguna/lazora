@@ -21,7 +21,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { EllipsisVertical, ShoppingCart, Trash2 } from "lucide-react"
+import { EllipsisVertical, ShoppingCart, Trash2, X } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,6 +34,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel"
 import AutoPlay from "embla-carousel-autoplay"
 import { UploadDropzone } from "@/lib/uploadthing"
@@ -42,6 +44,8 @@ import Image from "next/image"
 import { UploadFileResponse } from "uploadthing/client"
 import { toast } from "@/components/ui/use-toast"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import * as DialogPrimitive from "@radix-ui/react-dialog"
+import { cn } from "@/lib/utils"
 
 export default function ComponentsUI() {
   return (
@@ -57,6 +61,7 @@ export default function ComponentsUI() {
       <FileUploadComp />
       <DeleteModal />
       <ScrollAreaComp />
+      <ModalImageSlider />
     </div>
   )
 }
@@ -501,5 +506,89 @@ const ScrollAreaComp = () => {
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
     </WrapperUI>
+  )
+}
+
+const DialogClose = DialogPrimitive.Close
+
+const ModalImageSlider = () => {
+  const [isScaleImage, setIsScaleImage] = useState(false)
+
+  const toggleScaleImage = () => {
+    setIsScaleImage(!isScaleImage)
+  }
+
+  const images = [
+    "/test1.webp",
+    "/test2.webp",
+    "/test3.jpg",
+    "/placeholder.jpg",
+    "/auth-image.jpg",
+    "/auth-image2.jpg",
+  ]
+
+  return (
+    <WrapperUI title="modal image slider">
+      <Dialog>
+        <DialogTrigger asChild>
+          <div className="relative size-[300px] cursor-zoom-in rounded-md">
+            <Image alt="modal image slider" src="/placeholder.jpg" fill />
+          </div>
+        </DialogTrigger>
+        <DialogContent
+          className="max-w-screen h-screen w-screen overflow-hidden p-0"
+          closeIcon={false}
+        >
+          <Carousel
+            opts={{
+              loop: true,
+            }}
+            className="mx-auto h-full w-full max-w-[80%]"
+          >
+            <CarouselContent classNameParent="h-full">
+              {images.map((image) => (
+                <CarouselImageItem
+                  key={image}
+                  image={image}
+                  toggleScaleImage={toggleScaleImage}
+                  isScaleImage={isScaleImage}
+                />
+              ))}
+            </CarouselContent>
+            <div className="absolute bottom-10 left-1/2 flex -translate-x-1/2 items-center gap-5">
+              <CarouselPrevious
+                className="relative -left-0 flex size-12 transform-none items-center justify-center rounded-full border-none bg-background shadow-md hover:border-none"
+                classNameIcon="size-6"
+              />
+              <DialogClose className="group flex size-12 items-center justify-center rounded-full bg-background shadow-md">
+                <X className="size-6 text-primary transition-all duration-300 group-hover:text-red-500" />
+              </DialogClose>
+              <CarouselNext
+                className="group relative -right-0 flex size-12 transform-none items-center justify-center rounded-full border-none bg-background shadow-md hover:border-none"
+                classNameIcon="size-6"
+              />
+            </div>
+          </Carousel>
+        </DialogContent>
+      </Dialog>
+    </WrapperUI>
+  )
+}
+
+const CarouselImageItem = ({ image, toggleScaleImage, isScaleImage }: any) => {
+  return (
+    <CarouselItem className="relative flex h-screen w-full items-center selection:bg-transparent">
+      <Image
+        onClick={toggleScaleImage}
+        alt="modal image slider"
+        src={image}
+        fill
+        className={cn(
+          "cursor-zoom-in object-contain transition-all duration-300",
+          isScaleImage &&
+            "scale-150 cursor-zoom-out transition-all duration-300",
+        )}
+      />
+    </CarouselItem>
   )
 }
