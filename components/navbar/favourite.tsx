@@ -17,15 +17,19 @@ import Balancer from "react-wrap-balancer"
 import { formatToIDR } from "@/utils/format-to-idr"
 import { toast } from "../ui/use-toast"
 import { addToCart } from "@/redux/features/cart/cart-slice"
+import { useMounted } from "@/hook/use-mounted"
 
 const Favourite = () => {
   const { favourites } = useSelector((state: RootState) => state.favourites)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const dispatch = useDispatch()
+  const { isMounted } = useMounted()
 
   const closeSheet = () => {
     setIsOpen(false)
   }
+
+  if (!isMounted) return null
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
