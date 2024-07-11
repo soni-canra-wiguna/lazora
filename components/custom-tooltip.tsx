@@ -14,6 +14,8 @@ interface CustomTooltipProps {
   className?: string
   side?: "top" | "bottom" | "left" | "right"
   align?: "start" | "center" | "end"
+  delayDuration?: number
+  skipDelayDuration?: number
 }
 
 const CustomTooltip = ({
@@ -22,17 +24,22 @@ const CustomTooltip = ({
   className,
   side,
   align,
+  delayDuration = 400,
+  skipDelayDuration = 300,
 }: CustomTooltipProps) => {
   return (
-    <TooltipProvider>
+    <TooltipProvider
+      delayDuration={delayDuration}
+      skipDelayDuration={skipDelayDuration}
+    >
       <Tooltip>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent
           side={side}
           align={align}
           className={cn(
-            "bg-primary text-xs text-background rounded-none p-1.5 border-none leading-none",
-            className
+            "rounded-none border-none bg-primary p-1.5 text-xs leading-none text-background",
+            className,
           )}
         >
           {title}
