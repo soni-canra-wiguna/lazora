@@ -41,10 +41,11 @@ import { useState } from "react"
 import Image from "next/image"
 import { UploadFileResponse } from "uploadthing/client"
 import { toast } from "@/components/ui/use-toast"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
 export default function ComponentsUI() {
   return (
-    <div className="max-w-[1366px] w-full mx-auto min-h-screen my-40 flex flex-col gap-10">
+    <div className="mx-auto my-40 flex min-h-screen w-full max-w-[1366px] flex-col gap-10">
       <ColorsUI />
       <ButtonUI />
       <CardUI />
@@ -55,6 +56,7 @@ export default function ComponentsUI() {
       <CarouselUI />
       <FileUploadComp />
       <DeleteModal />
+      <ScrollAreaComp />
     </div>
   )
 }
@@ -68,7 +70,7 @@ const WrapperUI = ({
 }) => {
   return (
     <div className="flex flex-col gap-5">
-      <h1 className="font-medium text-2xl">{title}</h1>
+      <h1 className="text-2xl font-medium">{title}</h1>
       {children}
     </div>
   )
@@ -77,56 +79,56 @@ const WrapperUI = ({
 const ColorsUI = () => {
   return (
     <WrapperUI title="colors">
-      <div className="grid grid-cols-4 gap-4 w-full text-green-500">
-        <div className="bg-background w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+      <div className="grid w-full grid-cols-4 gap-4 text-green-500">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-background">
           background
         </div>
-        <div className="bg-foreground w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-foreground">
           foreground
         </div>
-        <div className="bg-card w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-card">
           card
         </div>
-        <div className="bg-card-foreground w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-card-foreground">
           card foreground
         </div>
-        <div className="bg-primary w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-primary">
           primary
         </div>
-        <div className="bg-primary-foreground w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-primary-foreground">
           primary foreground
         </div>
-        <div className="bg-secondary w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-secondary">
           secondary
         </div>
-        <div className="bg-secondary-foreground w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-secondary-foreground">
           secondary foreground
         </div>
-        <div className="bg-muted w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-muted">
           muted
         </div>
-        <div className="bg-muted-foreground w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-muted-foreground">
           muted foreground
         </div>
-        <div className="bg-accent w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-accent">
           accent
         </div>
-        <div className="bg-accent-foreground w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-accent-foreground">
           accent foreground
         </div>
-        <div className="bg-destructive w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-destructive">
           destructive
         </div>
-        <div className="bg-destructive-foreground w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-destructive-foreground">
           destructive foreground
         </div>
-        <div className="bg-border w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-border">
           border
         </div>
-        <div className="bg-input w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-input">
           input
         </div>
-        <div className="bg-ring w-full h-20 aspect-square border border-green-500 flex items-center justify-center">
+        <div className="flex aspect-square h-20 w-full items-center justify-center border border-green-500 bg-ring">
           ring
         </div>
       </div>
@@ -137,7 +139,7 @@ const ColorsUI = () => {
 const ButtonUI = () => {
   return (
     <WrapperUI title="buttons(sm/default/lg)">
-      <div className="flex gap-4 flex-wrap mb-5">
+      <div className="mb-5 flex flex-wrap gap-4">
         <Button size="sm">default</Button>
         <Button size="sm" variant="secondary">
           secondary
@@ -155,7 +157,7 @@ const ButtonUI = () => {
           outline
         </Button>
       </div>
-      <div className="flex gap-4 flex-wrap mb-5">
+      <div className="mb-5 flex flex-wrap gap-4">
         <Button>default</Button>
         <Button variant="secondary">secondary</Button>
         <Button variant="destructive">destructive</Button>
@@ -163,7 +165,7 @@ const ButtonUI = () => {
         <Button variant="link">link</Button>
         <Button variant="outline">outline</Button>
       </div>
-      <div className="flex gap-4 flex-wrap mb-5">
+      <div className="mb-5 flex flex-wrap gap-4">
         <Button size="lg">default</Button>
         <Button size="lg" variant="secondary">
           secondary
@@ -189,8 +191,8 @@ const CardUI = () => {
   return (
     <WrapperUI title="card">
       <div className="flex flex-wrap gap-4">
-        <Card className="w-64 aspect-video">hello</Card>
-        <Card className="w-64 aspect-video border-primary shadow-none">
+        <Card className="aspect-video w-64">hello</Card>
+        <Card className="aspect-video w-64 border-primary shadow-none">
           hello
         </Card>
       </div>
@@ -207,7 +209,7 @@ const InputUI = () => {
           className="max-w-md"
           placeholder="type something"
         />
-        <div className="flex flex-col gap-2.5 max-w-md">
+        <div className="flex max-w-md flex-col gap-2.5">
           <Label htmlFor="email">email</Label>
           <Input
             type="email"
@@ -230,14 +232,14 @@ const ModalUI = () => {
             dialog
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-w-7xl max-h-[90vh] h-full">
+        <DialogContent className="h-full max-h-[90vh] max-w-7xl">
           <Dialog>
             <DialogTrigger asChild>
               <Button className="w-max" size="lg">
                 dialog
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-xl aspect-square">
+            <DialogContent className="aspect-square max-w-xl">
               <DialogHeader>
                 <DialogTitle>Are you absolutely sure?</DialogTitle>
                 <DialogDescription>
@@ -310,20 +312,20 @@ const CarouselUI = () => {
         opts={{
           loop: true,
         }}
-        className="w-full max-w-xl h-[400px]"
+        className="h-[400px] w-full max-w-xl"
       >
         <CarouselContent>
           <CarouselItem>
-            <div className="w-full h-20 bg-red-300">1</div>
+            <div className="h-20 w-full bg-red-300">1</div>
           </CarouselItem>
           <CarouselItem>
-            <div className="w-full h-20 bg-red-300">2</div>
+            <div className="h-20 w-full bg-red-300">2</div>
           </CarouselItem>
           <CarouselItem>
-            <div className="w-full h-20 bg-red-300">3</div>
+            <div className="h-20 w-full bg-red-300">3</div>
           </CarouselItem>
           <CarouselItem>
-            <div className="w-full h-20 bg-red-300">4</div>
+            <div className="h-20 w-full bg-red-300">4</div>
           </CarouselItem>
         </CarouselContent>
       </Carousel>
@@ -352,21 +354,21 @@ const FileUploadComp = () => {
           })
         }}
       />
-      <div className="grid grid-cols-3 gap-4 max-w-[1280px] w-full mx-auto">
+      <div className="mx-auto grid w-full max-w-[1280px] grid-cols-3 gap-4">
         {images?.length ?? 0 > 0 ? (
           images?.map((image) => {
             return (
               <div key={image.name} className="flex flex-col gap-4 p-4">
-                <div className="w-full aspect-square">
+                <div className="aspect-square w-full">
                   <Image
                     alt={image.name}
                     src={image.url}
                     width={500}
                     height={500}
-                    className="size-full object-center object-cover"
+                    className="size-full object-cover object-center"
                   />
                 </div>
-                <h2 className="text-zinc-900 font-medium text-lg">
+                <h2 className="text-lg font-medium text-zinc-900">
                   {image.name}
                 </h2>
               </div>
@@ -390,13 +392,13 @@ const DeleteModal = () => {
     <WrapperUI title="delete modal">
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <Button className="w-max border-2 border-red-500/50 bg-red-500/30 hover:bg-red-500/40 border-dashed rounded-full text-red-500">
-            delete modal <Trash2 className="size-4 ml-2" />
+          <Button className="w-max rounded-full border-2 border-dashed border-red-500/50 bg-red-500/30 text-red-500 hover:bg-red-500/40">
+            delete modal <Trash2 className="ml-2 size-4" />
           </Button>
         </DialogTrigger>
         <DialogContent closeIcon={false} className="max-w-[85vw] sm:max-w-lg">
           <DialogHeader className="mb-4">
-            <DialogTitle className="font-semibold text-left leading-snug">
+            <DialogTitle className="text-left font-semibold leading-snug">
               Apakah anda yakin ingin menghapus banner ini?
             </DialogTitle>
             <DialogDescription className="text-left">
@@ -404,7 +406,7 @@ const DeleteModal = () => {
               anda yakin ingin menghapusnya?
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="w-full flex sm:flex-row items-center justify-end gap-4">
+          <DialogFooter className="flex w-full items-center justify-end gap-4 sm:flex-row">
             <Button
               className="w-full sm:w-max"
               variant="outline"
@@ -416,6 +418,88 @@ const DeleteModal = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+    </WrapperUI>
+  )
+}
+
+const ScrollAreaComp = () => {
+  const works = [
+    {
+      artist: "Ornella Binni",
+      art: "/placeholder.jpg",
+    },
+    {
+      artist: "Tom Byrom",
+      art: "/placeholder.jpg",
+    },
+    {
+      artist: "Vladimir Malyavko",
+      art: "/placeholder.jpg",
+    },
+    {
+      artist: "Ornella Binni",
+      art: "/placeholder.jpg",
+    },
+    {
+      artist: "Tom Byrom",
+      art: "/placeholder.jpg",
+    },
+    {
+      artist: "Vladimir Malyavko",
+      art: "/placeholder.jpg",
+    },
+    {
+      artist: "Ornella Binni",
+      art: "/placeholder.jpg",
+    },
+    {
+      artist: "Tom Byrom",
+      art: "/placeholder.jpg",
+    },
+    {
+      artist: "Vladimir Malyavko",
+      art: "/placeholder.jpg",
+    },
+    {
+      artist: "Ornella Binni",
+      art: "/placeholder.jpg",
+    },
+    {
+      artist: "Tom Byrom",
+      art: "/placeholder.jpg",
+    },
+    {
+      artist: "Vladimir Malyavko",
+      art: "/placeholder.jpg",
+    },
+  ]
+
+  return (
+    <WrapperUI title="scroll area">
+      <ScrollArea className="w-full whitespace-nowrap rounded-md">
+        <div className="flex w-max space-x-4 py-4 pl-0 pr-4">
+          {works.map((artwork) => (
+            <figure key={artwork.artist} className="shrink-0">
+              <div className="overflow-hidden rounded-md">
+                <Image
+                  src={artwork.art}
+                  alt={`Photo by ${artwork.artist}`}
+                  className="aspect-[3/4] h-fit w-fit object-cover"
+                  width={300}
+                  height={400}
+                />
+              </div>
+              <figcaption className="pt-2 text-xs text-muted-foreground">
+                Photo by{" "}
+                <span className="font-semibold text-foreground">
+                  {artwork.artist}
+                </span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     </WrapperUI>
   )
 }
