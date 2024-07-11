@@ -233,9 +233,15 @@ const CreateBannerPage = () => {
                         </FormControl>
                         <SelectContent>
                           <SelectGroup>
-                            {FORM_OPTIONS.colors.map((item) => (
-                              <SelectItem key={item.title} value={item.value}>
-                                {item.value}
+                            {FORM_OPTIONS.colors.map((color) => (
+                              <SelectItem key={color.title} value={color.value}>
+                                <p className="flex items-center gap-3">
+                                  <span
+                                    style={{ backgroundColor: color.value }}
+                                    className="inline-block size-6 rounded-full"
+                                  />
+                                  {color.value}
+                                </p>
                               </SelectItem>
                             ))}
                           </SelectGroup>
