@@ -13,31 +13,24 @@ import {
   LayoutGrid,
   Settings,
   ShoppingCart,
+  ChevronDown,
+  Globe,
 } from "lucide-react"
 import { signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { toast } from "../ui/use-toast"
 import { useState } from "react"
+import { cn } from "@/lib/utils"
 
 const TopBar = () => {
   return (
     <div className="w-full bg-secondary">
       <MaxWidthWrapper className="flex items-center justify-end py-2">
         <div className="flex items-center divide-x-2 divide-secondary-foreground/30">
-          <Button variant="link" className="py-0 leading-none h-max" asChild>
-            <Link
-              className="capitalize text-primary text-sm"
-              href="/help/contact"
-            >
-              Contact
-            </Link>
-          </Button>
-          <Button variant="link" className="py-0 leading-none h-max" asChild>
-            <Link
-              className="capitalize text-primary text-sm"
-              href="/help/privacy-policy"
-            >
-              privacy and policy
+          <ToggleLanguange />
+          <Button variant="link" className="h-max py-0 leading-none" asChild>
+            <Link className="text-sm capitalize text-primary" href="/help">
+              help
             </Link>
           </Button>
           <Account />
@@ -94,44 +87,44 @@ const Account = () => {
   return (
     <>
       {!session ? (
-        <Button variant="link" className="py-0 leading-none h-max pr-0" asChild>
-          <Link className="capitalize text-primary text-sm" href="/sign-in">
+        <Button variant="link" className="h-max py-0 pr-0 leading-none" asChild>
+          <Link className="text-sm capitalize text-primary" href="/sign-in">
             sign in
           </Link>
         </Button>
       ) : (
         <Popover open={isPopover} onOpenChange={setIsPopover}>
           <PopoverTrigger asChild>
-            <Button variant="link" className="py-0 leading-none h-max pr-0">
+            <Button variant="link" className="h-max py-0 pr-0 leading-none">
               Hi, {username}
             </Button>
           </PopoverTrigger>
           <PopoverContent
             align="end"
-            className="mt-2 rounded-none w-[550px] h-[350px] p-0 flex"
+            className="mt-2 flex h-[350px] w-[550px] rounded-none p-0"
           >
-            <div className="w-[350px] border-r h-full overflow-hidden relative">
-              <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-primary" />
+            <div className="relative h-full w-[350px] overflow-hidden border-r">
+              <div className="absolute bottom-0 left-0 h-1/2 w-full bg-gradient-to-t from-primary" />
               <img
                 alt={username ?? ""}
                 src={image}
                 className="size-full object-cover object-center selection:bg-transparent"
               />
-              <div className="flex flex-col absolute bottom-5 left-5">
-                <h2 className="text-xl font-semibold text-white capitalize">
+              <div className="absolute bottom-5 left-5 flex flex-col">
+                <h2 className="text-xl font-semibold capitalize text-white">
                   {username}
                 </h2>
                 <p className="text-xs text-muted">{email}</p>
               </div>
             </div>
-            <div className="w-[200px] h-full flex flex-col justify-between p-2">
+            <div className="flex h-full w-[200px] flex-col justify-between p-2">
               <div className="flex flex-col gap-1">
                 {URLS.map(({ title, icon, href }) => (
                   <Link
                     key={title}
                     href={href}
                     onClick={closePopover}
-                    className={`w-full flex items-center transition-all gap-2 px-3 py-2 hover:bg-secondary cursor-pointer ${
+                    className={`flex w-full cursor-pointer items-center gap-2 px-3 py-2 transition-all hover:bg-secondary ${
                       title === "dashboard" && role !== "SELLER" && "hidden"
                     }`}
                   >
@@ -142,7 +135,7 @@ const Account = () => {
               </div>
               <div
                 onClick={handleLogout}
-                className="w-full flex items-center transition-all gap-2 px-3 py-2 hover:bg-secondary cursor-pointer"
+                className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 transition-all hover:bg-secondary"
               >
                 <ArrowLeftFromLine className="size-4" />
                 <p className="capitalize">keluar</p>
@@ -152,5 +145,51 @@ const Account = () => {
         </Popover>
       )}
     </>
+  )
+}
+
+const ToggleLanguange = () => {
+  const [isPopover, setIsPopover] = useState(false)
+  const [language, setLanguage] = useState("ID")
+
+  const toggleSwitchLanguage = (language: string) => {
+    setLanguage(language)
+    setIsPopover(false)
+  }
+
+  return (
+    <Popover open={isPopover} onOpenChange={setIsPopover}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="link"
+          className="flex h-max items-center gap-2 py-0 leading-none"
+        >
+          <Globe className="size-4" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent
+        align="end"
+        className="mt-2 flex h-max w-[120px] flex-col rounded-none px-0 py-2"
+      >
+        <div
+          onClick={() => toggleSwitchLanguage("ID")}
+          className={cn(
+            "flex w-full cursor-pointer items-center gap-3 px-3 py-1 hover:bg-secondary",
+            language === "ID" && "bg-secondary",
+          )}
+        >
+          <p className="text-sm font-medium">Indonesia</p>
+        </div>
+        <div
+          onClick={() => toggleSwitchLanguage("EN")}
+          className={cn(
+            "flex w-full cursor-pointer items-center gap-3 px-3 py-1 hover:bg-secondary",
+            language === "EN" && "bg-secondary",
+          )}
+        >
+          <p className="text-sm font-medium">English</p>
+        </div>
+      </PopoverContent>
+    </Popover>
   )
 }

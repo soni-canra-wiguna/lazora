@@ -483,8 +483,8 @@ const ScrollAreaComp = () => {
     <WrapperUI title="scroll area">
       <ScrollArea className="w-full whitespace-nowrap rounded-md">
         <div className="flex w-max space-x-4 py-4 pl-0 pr-4">
-          {works.map((artwork) => (
-            <figure key={artwork.artist} className="shrink-0">
+          {works.map((artwork, index) => (
+            <figure key={index} className="shrink-0">
               <div className="overflow-hidden rounded-md">
                 <Image
                   src={artwork.art}
