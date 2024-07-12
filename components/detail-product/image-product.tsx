@@ -111,15 +111,15 @@ const ModalImageSlider = ({
           {/* button slide */}
           <div className="absolute bottom-10 left-1/2 flex -translate-x-1/2 items-center gap-5">
             <CarouselPrevious
-              className="relative -left-0 flex size-12 transform-none items-center justify-center rounded-full border-none bg-background shadow-md hover:border-none"
-              classNameIcon="size-6"
+              className="group relative -left-0 flex size-12 transform-none items-center justify-center rounded-full border-none bg-background shadow-md transition-all duration-300 hover:border-none hover:bg-primary"
+              classNameIcon="size-6 group-hover:text-background transition-all duration-300"
             />
-            <DialogClose className="group flex size-12 items-center justify-center rounded-full bg-background shadow-md">
-              <X className="size-6 text-primary transition-all duration-300 group-hover:text-red-500" />
+            <DialogClose className="group flex size-12 items-center justify-center rounded-full bg-background shadow-md transition-all duration-300 hover:bg-primary">
+              <X className="size-6 text-primary transition-all duration-300 group-hover:text-background" />
             </DialogClose>
             <CarouselNext
-              className="group relative -right-0 flex size-12 transform-none items-center justify-center rounded-full border-none bg-background shadow-md hover:border-none"
-              classNameIcon="size-6"
+              className="group relative -right-0 flex size-12 transform-none items-center justify-center rounded-full border-none bg-background shadow-md transition-all duration-300 hover:border-none hover:bg-primary"
+              classNameIcon="size-6 group-hover:text-background transition-all duration-300"
             />
           </div>
         </Carousel>
