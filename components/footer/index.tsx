@@ -3,7 +3,6 @@
 import { cn } from "@/lib/utils"
 import MaxWidthWrapper from "./../max-width-wrapper"
 import Link from "next/link"
-import { CATEGORIES } from "@/constants/categories"
 import { Input } from "../ui/input"
 import { Mail, ArrowRight } from "lucide-react"
 import { IoLogoInstagram } from "react-icons/io"
@@ -14,17 +13,7 @@ import googlePlayBadge from "@/public/google-play-badge.svg"
 import appStoreBadge from "@/public/app-store-badge.svg"
 import { disableNavbarWithFooter } from "@/constants/disable-navbar-with-footer"
 import { usePathname } from "next/navigation"
-
-const footer = {
-  browse: ["Home", "Category", "Popular", "Blog"],
-  helps: [
-    "Contact",
-    "privacy and Policy",
-    "Term of Services",
-    "Term of Use",
-    "FAQs",
-  ],
-}
+import { FOOTER_ITEMS } from "@/constants/footer-items"
 
 const Footer = () => {
   const pathname = usePathname()
@@ -37,39 +26,39 @@ const Footer = () => {
             <News className="pr-10" />
             <FooterItem title="Browse" className="col-span-2">
               <div className="flex flex-col gap-3.5">
-                {footer.browse.map((c) => (
+                {FOOTER_ITEMS.browse.map((browse) => (
                   <Link
-                    key={c}
-                    href="/"
-                    className="w-max text-base text-primary hover:underline hover:underline-offset-2"
+                    key={browse.label}
+                    href={browse.href}
+                    className="w-max text-base text-primary hover:underline hover:underline-offset-2 capitalize"
                   >
-                    {c}
+                    {browse.label}
                   </Link>
                 ))}
               </div>
             </FooterItem>
             <FooterItem title="Shop" className="col-span-2">
               <div className="flex flex-col gap-3.5">
-                {CATEGORIES.map((c) => (
+                {FOOTER_ITEMS.categories.map((category) => (
                   <Link
-                    key={c.title}
-                    href="/"
-                    className="w-max text-base text-primary hover:underline hover:underline-offset-2"
+                    key={category.label}
+                    href={category.href}
+                    className="w-max text-base capitalize text-primary hover:underline hover:underline-offset-2"
                   >
-                    {c.title}
+                    {category.label}
                   </Link>
                 ))}
               </div>
             </FooterItem>
             <FooterItem title="Bantuan dan Panduan" className="col-span-2">
               <div className="flex flex-col gap-3.5">
-                {footer.helps.map((c) => (
+                {FOOTER_ITEMS.helps.map((help) => (
                   <Link
-                    key={c}
-                    href="/"
+                    key={help.label}
+                    href={help.href}
                     className="w-max text-base text-primary hover:underline hover:underline-offset-2"
                   >
-                    {c}
+                    {help.label}
                   </Link>
                 ))}
               </div>
