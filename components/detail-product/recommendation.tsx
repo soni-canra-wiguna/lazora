@@ -114,8 +114,8 @@ const RecommendationCard = ({
 }
 
 const Loading = () => {
-  const loading = Array.from({ length: 6 }, (_, i) => {
-    return <Skeleton key={i} className="aspect-[9/12] w-[326px]" />
+  const loading = Array.from({ length: 4 }, (_, i) => {
+    return <Skeleton key={i} className="aspect-[9/11] w-[326px]" />
   })
   return <>{loading}</>
 }
