@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { useState } from "react"
 import { Share2, X, ZoomIn } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { toast } from "../ui/use-toast"
 
 interface ImageProductProps {
   images: ImageProps[]
@@ -88,6 +89,11 @@ const ModalImageSlider = ({
 const ShareProduct = () => {
   return (
     <button
+      onClick={() =>
+        toast({
+          title: "building process...",
+        })
+      }
       title="share product"
       className="group flex size-12 items-center justify-center rounded-full bg-background transition-all duration-300 hover:bg-primary"
     >

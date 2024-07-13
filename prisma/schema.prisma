@@ -40,6 +40,7 @@ enum Role {
   ADMIN
   SELLER
   BUYER
+  VIEWER
 }
 
 model User {

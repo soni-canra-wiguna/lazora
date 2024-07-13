@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog"
 import { BannerSchema } from "@/schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Banner } from "@prisma/client"
+import { Banner, Role } from "@prisma/client"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 import { Pencil } from "lucide-react"
@@ -39,6 +39,7 @@ import { Input } from "@/components/ui/input"
 import LoadingButton from "@/components/loading-button"
 import { FORM_OPTIONS } from "@/constants/form-options"
 import { UploadDropzone } from "@/lib/uploadthing"
+import { useUserClient } from "@/hook/use-user"
 
 type EditType = {
   banner: Banner
@@ -48,6 +49,8 @@ type EditType = {
 const EditItemBanner = ({ banner, setIsAction }: EditType) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const queryClient = useQueryClient()
+  const { session } = useUserClient()
+  const isViewer = session?.user.role === Role.VIEWER
 
   const form = useForm<z.infer<typeof BannerSchema>>({
     resolver: zodResolver(BannerSchema),
@@ -62,7 +65,11 @@ const EditItemBanner = ({ banner, setIsAction }: EditType) => {
     },
   })
 
-  const { mutate, isPending, isError } = useMutation({
+  const {
+    mutate: editBanner,
+    isPending,
+    isError,
+  } = useMutation({
     mutationKey: ["actionEditBanner"],
     mutationFn: async (data: z.infer<typeof BannerSchema>) => {
       await axios.patch(`/api/banners/${banner.id}`, data, {
@@ -85,7 +92,15 @@ const EditItemBanner = ({ banner, setIsAction }: EditType) => {
 
   const onSubmit = (data: z.infer<typeof BannerSchema>) => {
     try {
-      mutate(data)
+      if (isViewer) {
+        toast({
+          title: "Access Denied",
+          description: "You do not have permission to perform this action.",
+          variant: "destructive",
+        })
+      } else {
+        editBanner(data)
+      }
     } catch (error) {
       throw new Error("something went wrong")
     }

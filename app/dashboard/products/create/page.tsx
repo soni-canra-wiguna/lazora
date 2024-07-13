@@ -12,10 +12,12 @@ import { FormEvent, useState } from "react"
 import LoadingButton from "@/components/loading-button"
 import TextEditor from "@/components/text-editor"
 import parse from "html-react-parser"
-import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 import { UploadDropzone } from "@/lib/uploadthing"
 import Image from "next/image"
+import { useUserClient } from "@/hook/use-user"
+import { Role } from "@prisma/client"
+import { toast } from "@/components/ui/use-toast"
 
 export interface DataSubmission {
   title: string
@@ -47,8 +49,9 @@ const CreateProductPage = () => {
   ])
   const [categoryByInput, setCategoryByInput] = useState("")
   const queryClient = useQueryClient()
-  const { toast } = useToast()
   const router = useRouter()
+  const { session } = useUserClient()
+  const isViewer = session?.user.role === Role.VIEWER
 
   const handleAddImage = () => {
     setImageProducts([
@@ -98,7 +101,7 @@ const CreateProductPage = () => {
     setCategories(newCategory)
   }
 
-  const { mutate, isPending } = useMutation({
+  const { mutate: crateProduct, isPending } = useMutation({
     mutationFn: async (data: DataSubmission) => {
       await axios.post("/api/products", data, {
         headers: {
@@ -142,8 +145,15 @@ const CreateProductPage = () => {
         images: imageProducts,
         categories,
       }
-      mutate(dataSubmission)
-      // console.log(dataSubmission)
+      if (isViewer) {
+        toast({
+          title: "Access Denied",
+          description: "You do not have permission to perform this action.",
+          variant: "destructive",
+        })
+      } else {
+        crateProduct(dataSubmission)
+      }
     } catch (error) {
       console.log(error)
     }

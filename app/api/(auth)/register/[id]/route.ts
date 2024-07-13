@@ -5,7 +5,7 @@ import { User } from "@prisma/client"
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const { id } = params
@@ -13,9 +13,6 @@ export async function GET(
     const user = await prisma.user.findUnique({
       where: {
         id,
-      },
-      include: {
-        products: true,
       },
     })
 
@@ -35,7 +32,7 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const { id } = params
@@ -78,7 +75,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const { id } = params

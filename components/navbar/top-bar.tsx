@@ -125,7 +125,7 @@ const Account = () => {
                     href={href}
                     onClick={closePopover}
                     className={`flex w-full cursor-pointer items-center gap-2 px-3 py-2 transition-all hover:bg-secondary ${
-                      title === "dashboard" && role !== "SELLER" && "hidden"
+                      title === "dashboard" && role === "BUYER" && "hidden"
                     }`}
                   >
                     {icon}

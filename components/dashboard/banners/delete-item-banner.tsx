@@ -16,6 +16,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 import LoadingButton from "@/components/loading-button"
+import { useUserClient } from "@/hook/use-user"
+import { Role } from "@prisma/client"
 
 type DeleteType = {
   id: string
@@ -26,6 +28,8 @@ const DeleteItemBanner = ({ id, setIsAction }: DeleteType) => {
   const { toast } = useToast()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const { session } = useUserClient()
+  const isViewer = session?.user.role === Role.VIEWER
 
   const openCloseModalDialog = () => {
     setIsOpen(!isOpen)
@@ -58,17 +62,29 @@ const DeleteItemBanner = ({ id, setIsAction }: DeleteType) => {
     },
   })
 
+  const handleDeleteItemBanner = () => {
+    if (isViewer) {
+      toast({
+        title: "Access Denied",
+        description: "You do not have permission to perform this action.",
+        variant: "destructive",
+      })
+    } else {
+      deleteItemBanner()
+    }
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="cursor-pointer" asChild>
-        <div className="flex justify-between items-center px-2 py-1 hover:bg-muted transition-all">
+        <div className="flex items-center justify-between px-2 py-1 transition-all hover:bg-muted">
           delete
           <Trash2 size={18} strokeWidth={1.5} color="#ff0000" />
         </div>
       </DialogTrigger>
       <DialogContent closeIcon={false} className="max-w-[85vw] sm:max-w-lg">
         <DialogHeader className="mb-4">
-          <DialogTitle className="font-semibold text-left leading-snug">
+          <DialogTitle className="text-left font-semibold leading-snug">
             Apakah anda yakin ingin menghapus banner ini?
           </DialogTitle>
           <DialogDescription className="text-left">
@@ -76,7 +92,7 @@ const DeleteItemBanner = ({ id, setIsAction }: DeleteType) => {
             anda yakin ingin menghapusnya?
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="w-full flex sm:flex-row items-center justify-end gap-4">
+        <DialogFooter className="flex w-full items-center justify-end gap-4 sm:flex-row">
           <Button
             className="w-full sm:w-max"
             variant="outline"
@@ -86,7 +102,7 @@ const DeleteItemBanner = ({ id, setIsAction }: DeleteType) => {
           </Button>
           <LoadingButton
             disabled={isPending}
-            onClick={() => deleteItemBanner()}
+            onClick={handleDeleteItemBanner}
             className="w-full sm:w-max"
           >
             {isPending ? "loading..." : "delete"}

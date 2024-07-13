@@ -32,10 +32,14 @@ import axios from "axios"
 import * as z from "zod"
 import { useRouter } from "next/navigation"
 import { BannerItem } from "@/components/home/banner"
+import { useUserClient } from "@/hook/use-user"
+import { Role } from "@prisma/client"
 
 const CreateBannerPage = () => {
   const queryClient = useQueryClient()
   const router = useRouter()
+  const { session } = useUserClient()
+  const isViewer = session?.user.role === Role.VIEWER
 
   const form = useForm<z.infer<typeof BannerSchema>>({
     resolver: zodResolver(BannerSchema),
@@ -79,9 +83,17 @@ const CreateBannerPage = () => {
 
   function onSubmit(data: z.infer<typeof BannerSchema>) {
     try {
-      mutate(data)
+      if (isViewer) {
+        toast({
+          title: "Access Denied",
+          description: "You do not have permission to perform this action.",
+          variant: "destructive",
+        })
+      } else {
+        mutate(data)
+      }
     } catch (error) {
-      throw new Error("failed to sign in")
+      throw new Error("[SUBMIT_BANNER_ERROR]")
     }
   }
 
