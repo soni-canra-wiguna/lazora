@@ -50,6 +50,7 @@ const RegisterForm = ({ className }: { className?: string }) => {
 
   const { isPending, mutate, isError } = useMutation({
     mutationFn: async (data: z.infer<typeof RegisterSchema>) => {
+      // biar checking email nya berhasil, kita harus pending dulu untuk users datanya
       // const emailExists = users?.some((user) => user.email === data.email)
       // if (emailExists) {
       //   setIsEmailExist(true)
@@ -101,7 +102,7 @@ const RegisterForm = ({ className }: { className?: string }) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full h-auto flex flex-col gap-6"
+          className="flex h-auto w-full flex-col gap-6"
         >
           {/* <FormField
             control={form.control}
@@ -142,7 +143,7 @@ const RegisterForm = ({ className }: { className?: string }) => {
                       focus
                       icon={
                         <User2
-                          className="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 ml-4"
+                          className="absolute top-1/2 ml-4 h-4 w-4 -translate-y-1/2 transform"
                           color="black"
                         />
                       }
@@ -167,7 +168,7 @@ const RegisterForm = ({ className }: { className?: string }) => {
                       type="email"
                       icon={
                         <MailIcon
-                          className="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 ml-4"
+                          className="absolute top-1/2 ml-4 h-4 w-4 -translate-y-1/2 transform"
                           color="black"
                         />
                       }
@@ -192,7 +193,7 @@ const RegisterForm = ({ className }: { className?: string }) => {
                       type="password"
                       icon={
                         <Lock
-                          className="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 ml-4"
+                          className="absolute top-1/2 ml-4 h-4 w-4 -translate-y-1/2 transform"
                           color="black"
                         />
                       }
@@ -259,7 +260,7 @@ const RegisterForm = ({ className }: { className?: string }) => {
           )}
 
           <LoadingButton
-            className="w-full rounded-full capitalize mt-3 selection:bg-transparent"
+            className="mt-3 w-full rounded-full capitalize selection:bg-transparent"
             type="submit"
             loading={isPending}
             disabled={isPending}
