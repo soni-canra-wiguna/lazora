@@ -164,7 +164,7 @@ const ToggleLanguange = () => {
           variant="link"
           className="flex h-max items-center gap-2 py-0 leading-none"
         >
-          <Globe className="size-4" />
+          <Globe strokeWidth={1.5} className="size-4" />
         </Button>
       </PopoverTrigger>
       <PopoverContent

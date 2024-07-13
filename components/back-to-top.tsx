@@ -43,7 +43,7 @@ const BackToTop = () => {
             isVisible && "visible opacity-100",
           )}
         >
-          <ArrowUpToLine className="size-6 text-background" />
+          <ArrowUpToLine strokeWidth={1.5} className="size-6 text-background" />
         </div>
       )}
     </>
