@@ -28,6 +28,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/lazora.svg",
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION!,
+  },
   keywords: [
     "website",
     "e-commerce",
@@ -79,13 +82,17 @@ export const metadata: Metadata = {
     url: "https://lazora.vercel.app/",
     images: [
       {
-        url: "https://i.ibb.co/JtPXjrX/Screenshot-300.png",
+        url: "https://utfs.io/f/1babe6d8-edaa-41d8-a92b-38ba7a19961b-77e66h.png",
         width: 1200,
         height: 630,
       },
     ],
     type: "website",
     locale: "id_ID",
+  },
+  other: {
+    "google-site-verification":
+      process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION!,
   },
 }
 
