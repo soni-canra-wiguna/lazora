@@ -9,6 +9,7 @@ import FavouriteToggle from "@/components/detail-product/favourite-toggle"
 import CartButton from "@/components/detail-product/cart-button"
 import ProductInfo from "@/components/detail-product/product-info"
 import Recommendation from "@/components/detail-product/recommendation"
+import { notFound, redirect } from "next/navigation"
 
 interface GenerateMetadataProps {
   params: { slug: string[] }
@@ -34,6 +35,7 @@ const getProduct = async (slug: string[]) => {
       slugProduct: slug,
     }
   } catch (error) {
+    console.log("[error product]", error)
     throw new Error(`[SINGLE_PRODUCT] => ${error}`)
   }
 }
@@ -65,6 +67,12 @@ export async function generateMetadata({
 const SingleProductPage = async ({ params }: GenerateMetadataProps) => {
   const { slug } = params
   const { product } = await getProduct(slug)
+
+  if (!product) {
+    console.log("product not found")
+    notFound()
+  }
+
   return (
     <MaxWidthWrapper className="relative min-h-screen pt-32">
       <div className="mb-[100px] flex items-start gap-12">
