@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/carousel"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { useState } from "react"
-import { X } from "lucide-react"
+import { Share2, X, ZoomIn } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface ImageProductProps {
@@ -45,11 +45,9 @@ export default function ImageProduct({ images, title }: ImageProductProps) {
                 "border-primary brightness-75 hover:brightness-75",
             )}
           >
-            <Image
+            <img
               src={image ?? ""}
               alt={title}
-              width={250}
-              height={250}
               className="size-full object-cover object-center"
             />
           </div>
@@ -72,16 +70,48 @@ const ModalImageSlider = ({
   indexImage,
 }: ModalImageSliderType) => {
   return (
+    <div className="relative size-full flex-1 overflow-hidden selection:bg-transparent">
+      <img
+        src={images[indexImage || 0].image ?? ""}
+        alt={title}
+        className="size-full object-cover object-center"
+      />
+
+      <div className="absolute right-4 top-4 flex flex-col items-center gap-4">
+        <ShareProduct />
+        <ZoomInImage images={images} title={title} />
+      </div>
+    </div>
+  )
+}
+
+const ShareProduct = () => {
+  return (
+    <button
+      title="share product"
+      className="group flex size-12 items-center justify-center rounded-full bg-background transition-all duration-300 hover:bg-primary"
+    >
+      <Share2
+        strokeWidth={1.5}
+        className="size-6 text-primary transition-all duration-300 group-hover:text-background"
+      />
+    </button>
+  )
+}
+
+const ZoomInImage = ({ images, title }: ImageProductProps) => {
+  return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="relative size-full flex-1 cursor-zoom-in selection:bg-transparent">
-          <Image
-            src={images[indexImage || 0].image ?? ""}
-            alt={title}
-            fill
-            className="object-cover object-center"
+        <button
+          title="Zoom In"
+          className="group flex size-12 items-center justify-center rounded-full bg-background transition-all duration-300 hover:bg-primary"
+        >
+          <ZoomIn
+            strokeWidth={1.5}
+            className="size-6 text-primary transition-all duration-300 group-hover:text-background"
           />
-        </div>
+        </button>
       </DialogTrigger>
       <DialogContent
         className="max-w-screen h-screen w-screen overflow-hidden p-0"
