@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     icon: "/lazora.svg",
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION!,
+    google: process.env.GOOGLE_SITE_VERIFICATION,
   },
   keywords: [
     "website",
@@ -89,10 +89,6 @@ export const metadata: Metadata = {
     ],
     type: "website",
     locale: "id_ID",
-  },
-  other: {
-    "google-site-verification":
-      process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION!,
   },
 }
 
