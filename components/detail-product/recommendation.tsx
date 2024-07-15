@@ -13,6 +13,7 @@ import Link from "next/link"
 import Balancer from "react-wrap-balancer"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
+import { ProductImage } from "../product-image"
 
 export default function Recommendation({
   category,
@@ -86,14 +87,7 @@ const RecommendationCard = ({
       href={urlProdcut}
       className="relative flex aspect-auto w-[326px] flex-col"
     >
-      <Image
-        src={image.image ?? ""}
-        width={700}
-        height={700}
-        // placeholder="blur"
-        alt={title}
-        className="mb-5 aspect-[9/10] w-full object-cover transition-all hover:brightness-95"
-      />
+      <ProductImage src={image.image ?? ""} alt={title} />
       <div className="mb-3 flex items-center gap-1.5">
         {categories?.map(({ title }, index) => (
           <Badge variant="secondary" key={index + title}>

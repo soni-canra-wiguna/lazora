@@ -5,11 +5,13 @@ import authImage from "@/public/auth-image.jpg"
 
 const AuthImageLayout = () => {
   return (
-    <div className="md:col-span-8 w-full h-full relative hidden lg:block">
+    <div className="relative hidden h-full w-full md:col-span-8 lg:block">
       <Image
         src={authImage}
         alt="auth image image"
-        className="w-full h-full object-cover object-center"
+        fill
+        className="size-full object-cover object-center opacity-0 transition-all duration-1000"
+        onLoadingComplete={(image) => image.classList.remove("opacity-0")}
       />
     </div>
   )
