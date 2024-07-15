@@ -57,15 +57,19 @@ const CommentWS = ({
   })
 
   function onSubmit(data: z.infer<typeof CommentSchema>) {
-    execute({
-      comment: data.comment,
-      productId,
-      // @ts-ignore
-      username: session?.user.username,
-      email: session?.user.email,
-      image: session?.user.image,
-      role: session?.user.role,
-    })
+    try {
+      execute({
+        comment: data.comment,
+        productId,
+        // @ts-ignore
+        username: session?.user.username,
+        email: session?.user.email,
+        image: session?.user.image,
+        role: session?.user.role,
+      })
+    } catch (error) {
+      console.log("[ERROR SUBMIT COMMENT]", error)
+    }
   }
 
   const commentValue = form.watch("comment")
@@ -77,7 +81,7 @@ const CommentWS = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex gap-3 w-full"
+          className="flex w-full gap-3"
         >
           <FormField
             control={form.control}
@@ -94,14 +98,14 @@ const CommentWS = ({
                         }
                       }}
                       placeholder="tulis komentar kamu (min 5 karakter)"
-                      className="border bg-transparent border-primary w-full"
+                      className="w-full border border-primary bg-transparent"
                       {...field}
                     />
                   ) : (
                     <CustomTooltip
                       side="bottom"
                       title="login untuk memberikan komentar"
-                      className="rounded-md text-primary bg-secondary"
+                      className="rounded-md bg-secondary text-primary"
                     >
                       <Input
                         disabled={status === "executing" || !session}
@@ -111,7 +115,7 @@ const CommentWS = ({
                           }
                         }}
                         placeholder="tulis komentar kamu (min 5 karakter)"
-                        className="border bg-transparent border-primary w-full"
+                        className="w-full border border-primary bg-transparent"
                         {...field}
                       />
                     </CustomTooltip>
@@ -125,13 +129,13 @@ const CommentWS = ({
             disabled={status === "executing" || !session || !isInputValid}
             loading={status === "executing"}
             type="submit"
-            className="capitalize w-max"
+            className="w-max capitalize"
           >
             add comment
           </LoadingButton>
         </form>
       </Form>
-      <div className="flex flex-col divide-y *:py-4 first:*:pt-0 last:*:pb-0 divide-secondary">
+      <div className="flex flex-col divide-y divide-secondary *:py-4 first:*:pt-0 last:*:pb-0">
         {comments?.length > 0 ? (
           comments.map((comment: any) => (
             // buat jadi component terpisah untuk comment ui
@@ -141,7 +145,7 @@ const CommentWS = ({
           <div
             className={`${
               status === "executing" ? "hidden" : "block"
-            } flex flex-col gap-3 py-8 items-center justify-center text-muted-foreground/50`}
+            } flex flex-col items-center justify-center gap-3 py-8 text-muted-foreground/50`}
           >
             <MessageSquare className="size-16 stroke-[1.5] text-inherit" />
             <p className="text-inherit">Jadilah yang pertama berkomentar</p>
@@ -167,7 +171,7 @@ const UserComment = ({
   const censoreMessage = censorWordMessage(message)
 
   return (
-    <div className="flex flex-col gap-1 justify-center">
+    <div className="flex flex-col justify-center gap-1">
       <div className="flex items-center gap-2">
         <Avatar className="size-8">
           <AvatarImage src={image} alt={username} />

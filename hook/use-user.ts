@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth"
 import { useSession } from "next-auth/react"
 
 export const useUserClient = () => {
-  const { data: session } = useSession()
+  const { data: session, status, update } = useSession()
   return {
     id: session?.user.id,
     email: session?.user.email,
@@ -12,6 +12,8 @@ export const useUserClient = () => {
     role: session?.user.role,
     expires: session?.user.expires,
     session,
+    status,
+    update,
   }
 }
 

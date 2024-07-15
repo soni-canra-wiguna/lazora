@@ -9,26 +9,14 @@ import { useSession } from "next-auth/react"
 import { useDispatch } from "react-redux"
 import { ToastAction } from "../ui/toast"
 import { useRouter } from "next/navigation"
+import { useUserClient } from "@/hook/use-user"
 
 const CartButton = ({ data }: { data: ProductPostProps | undefined }) => {
   const dispatch = useDispatch()
-  const { status } = useSession()
+  const { status } = useUserClient()
   const router = useRouter()
 
   const handleAddToCart = () => {
-    // const item = {
-    //   id: data?.id,
-    //   title: data?.title,
-    //   image: data?.images[0].image,
-    //   price: data?.price,
-    //   stock: data?.stock,
-    //   qty: 1,
-    // }
-    // dispatch(addToCart(item))
-
-    // toast({
-    //   title: "product ditambahkan ke cart",
-    // })
     if (status === "unauthenticated") {
       toast({
         title: "unauthenticated",
@@ -43,6 +31,19 @@ const CartButton = ({ data }: { data: ProductPostProps | undefined }) => {
         ),
       })
     } else {
+      // const product = {
+      //   id: data?.id,
+      //   title: data?.title,
+      //   image: data?.images[0].image,
+      //   price: data?.price,
+      //   stock: data?.stock,
+      //   qty: 1,
+      // }
+      // dispatch(addToCart(product))
+
+      // toast({
+      //   title: "product ditambahkan ke cart",
+      // })
       toast({
         title: "building process...",
       })
