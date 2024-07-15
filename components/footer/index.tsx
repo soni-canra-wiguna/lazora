@@ -30,7 +30,7 @@ const Footer = () => {
                   <Link
                     key={browse.label}
                     href={browse.href}
-                    className="w-max text-base text-primary hover:underline hover:underline-offset-2 capitalize"
+                    className="w-max text-base capitalize text-primary hover:underline hover:underline-offset-2"
                   >
                     {browse.label}
                   </Link>
@@ -50,7 +50,7 @@ const Footer = () => {
                 ))}
               </div>
             </FooterItem>
-            <FooterItem title="Bantuan dan Panduan" className="col-span-2">
+            <FooterItem title="Help and Guide" className="col-span-2">
               <div className="flex flex-col gap-3.5">
                 {FOOTER_ITEMS.helps.map((help) => (
                   <Link
