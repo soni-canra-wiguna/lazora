@@ -18,7 +18,8 @@ const DashboardPage = () => {
           src="/building-process.svg"
           width={500}
           height={500}
-          className="mx-auto aspect-square w-full max-w-sm grayscale selection:bg-transparent"
+          className="mx-auto aspect-square w-full max-w-sm opacity-0 grayscale transition-opacity duration-1000 selection:bg-transparent"
+          onLoadingComplete={(image) => image.classList.remove("opacity-0")}
         />
         <h4 className="text-center text-xl font-medium">Building Process..</h4>
       </div>
