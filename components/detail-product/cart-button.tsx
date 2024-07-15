@@ -5,13 +5,12 @@ import { toast } from "@/components/ui/use-toast"
 import { addToCart } from "@/redux/features/cart/cart-slice"
 import { ProductPostProps } from "@/types"
 import { ShoppingCart } from "lucide-react"
-import { useSession } from "next-auth/react"
 import { useDispatch } from "react-redux"
 import { ToastAction } from "../ui/toast"
 import { useRouter } from "next/navigation"
 import { useUserClient } from "@/hook/use-user"
 
-const CartButton = ({ data }: { data: ProductPostProps | undefined }) => {
+const CartButton = ({ product }: { product: ProductPostProps | undefined }) => {
   const dispatch = useDispatch()
   const { status } = useUserClient()
   const router = useRouter()
@@ -32,11 +31,11 @@ const CartButton = ({ data }: { data: ProductPostProps | undefined }) => {
       })
     } else {
       // const product = {
-      //   id: data?.id,
-      //   title: data?.title,
-      //   image: data?.images[0].image,
-      //   price: data?.price,
-      //   stock: data?.stock,
+      //   id: product?.id,
+      //   title: product?.title,
+      //   image: product?.images[0].image,
+      //   price: product?.price,
+      //   stock: product?.stock,
       //   qty: 1,
       // }
       // dispatch(addToCart(product))

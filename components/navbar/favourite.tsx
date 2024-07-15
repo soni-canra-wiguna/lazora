@@ -3,6 +3,7 @@ import CustomTooltip from "../custom-tooltip"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { useState } from "react"
 import {
+  FavouriteProps,
   removeFavourite,
   resetFavourite,
 } from "@/redux/features/favourite/favourite-slice"
@@ -18,6 +19,7 @@ import { formatToIDR } from "@/utils/format-to-idr"
 import { toast } from "../ui/use-toast"
 import { addToCart } from "@/redux/features/cart/cart-slice"
 import { useMounted } from "@/hook/use-mounted"
+import { Dispatch, UnknownAction } from "@reduxjs/toolkit"
 
 const Favourite = () => {
   const { favourites } = useSelector((state: RootState) => state.favourites)
@@ -29,7 +31,7 @@ const Favourite = () => {
     setIsOpen(false)
   }
 
-  if (!isMounted) return null
+  if (!isMounted) return <FavouriteButton totalFavourites={0} />
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -46,33 +48,10 @@ const Favourite = () => {
         <div className="sheet_scrollbar relative flex w-full flex-1 flex-col gap-4 overflow-y-auto pr-2">
           {favourites.length > 0 ? (
             favourites?.map((favourite) => {
-              const handleRemoveFavourite = () => {
-                dispatch(removeFavourite(favourite.id))
-                toast({
-                  title: "product di hapus dari favourite",
-                })
-              }
-
-              const handleAddToCart = () => {
-                dispatch(
-                  addToCart({
-                    id: favourite.id,
-                    title: favourite.title,
-                    image: favourite.image,
-                    price: favourite.price,
-                    stock: favourite.stock,
-                    qty: 1,
-                  }),
-                )
-                toast({
-                  title: "product ditambahkan ke cart",
-                })
-              }
               return (
                 <FavouriteCard
-                  handleAddToCart={handleAddToCart}
                   key={favourite.id}
-                  handleRemoveFavourite={handleRemoveFavourite}
+                  dispatch={dispatch}
                   closeSheet={closeSheet}
                   {...favourite}
                 />
@@ -129,25 +108,46 @@ export const FavouriteButton = ({
   )
 }
 
-interface FavouriteCardProps {
-  id?: string | undefined
-  title?: string | undefined
-  image?: string | undefined
-  price?: number | undefined
-  handleRemoveFavourite: () => void
-  handleAddToCart: () => void
+type FavouriteCardProps = {
   closeSheet: () => void
-}
+  dispatch: Dispatch<UnknownAction>
+} & FavouriteProps
 
 const FavouriteCard = ({
   id,
   title,
   image,
   price,
-  handleRemoveFavourite,
-  handleAddToCart,
+  stock,
+  dispatch,
   closeSheet,
 }: FavouriteCardProps) => {
+  const handleRemoveFavourite = () => {
+    dispatch(removeFavourite(id))
+    toast({
+      title: "Product di hapus dari favourite",
+    })
+  }
+
+  const handleAddToCart = () => {
+    // dispatch(
+    //   addToCart({
+    //     id: id,
+    //     title: title,
+    //     image: image,
+    //     price: price,
+    //     stock: stock,
+    //     qty: 1,
+    //   }),
+    // )
+    // toast({
+    //   title: "product ditambahkan ke cart",
+    // })
+    toast({
+      title: "building process...",
+    })
+  }
+
   return (
     <Card className="flex h-max gap-3 p-2 transition-all hover:bg-secondary">
       <Link

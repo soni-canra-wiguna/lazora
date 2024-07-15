@@ -10,31 +10,40 @@ import { Heart } from "lucide-react"
 import { useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 import { toast } from "@/components/ui/use-toast"
+import { useSelector } from "react-redux"
+import { RootState } from "@/redux/store"
 
-const FavouriteToggle = ({ data }: { data: ProductPostProps | undefined }) => {
+const FavouriteToggle = ({
+  product,
+}: {
+  product: ProductPostProps | undefined
+}) => {
+  const { favourites } = useSelector((state: RootState) => state.favourites)
   const [isFavourite, setIsFavourite] = useState(false)
   const dispatch = useDispatch()
 
   const handleAddToFavourite = () => {
     dispatch(
       toggleFavourite({
-        id: data?.id,
-        title: data?.title,
-        image: data?.images[0].image,
-        price: data?.price,
-        stock: data?.stock,
+        id: product?.id,
+        title: product?.title,
+        image: product?.images[0].image,
+        price: product?.price,
+        stock: product?.stock,
       }),
     )
-    if (!isFavourite) {
+
+    if (favourites.some((fav) => fav.id === product?.id)) {
+      setIsFavourite(false)
       toast({
-        title: "Tersimpan di Favourite!",
+        title: "Product di hapus dari favourite.",
       })
     } else {
+      setIsFavourite(true)
       toast({
-        title: "Barang telah di hapus dari favourite.",
+        title: "Product tersimpan di Favourite!",
       })
     }
-    setIsFavourite(!isFavourite)
   }
 
   const items =
@@ -48,10 +57,10 @@ const FavouriteToggle = ({ data }: { data: ProductPostProps | undefined }) => {
   useEffect(() => {
     if (items) {
       // @ts-ignore
-      const existingItemById = items?.some((fav) => fav?.id === data?.id)
+      const existingItemById = items?.some((fav) => fav?.id === product?.id)
       existingItemById ? setIsFavourite(true) : setIsFavourite(false)
     }
-  }, [items, data?.id])
+  }, [items, product?.id])
 
   return (
     <Button
@@ -59,7 +68,7 @@ const FavouriteToggle = ({ data }: { data: ProductPostProps | undefined }) => {
       className="capitalize"
       variant="outline"
     >
-      favourite{" "}
+      favourite
       <Heart
         className={`ml-2 size-4 ${isFavourite && "fill-red-500 stroke-none"}`}
         strokeWidth={1.5}

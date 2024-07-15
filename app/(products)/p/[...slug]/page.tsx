@@ -103,8 +103,8 @@ const SingleProductPage = async ({ params }: GenerateMetadataProps) => {
             stock: {product.stock}
           </div>
           <div className="mb-4 flex items-center gap-4">
-            <FavouriteToggle data={product} />
-            <CartButton data={product} />
+            <FavouriteToggle product={product} />
+            <CartButton product={product} />
           </div>
           <ProductInfo
             comments={product.comments}

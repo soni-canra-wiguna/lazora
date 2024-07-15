@@ -1,4 +1,5 @@
 "use client"
+import { toast } from "@/components/ui/use-toast"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export interface FavouriteProps {
@@ -28,7 +29,7 @@ export const favouriteSlice = createSlice({
     },
     toggleFavourite: (state, action: PayloadAction<FavouriteProps>) => {
       const favIndex = state.favourites.findIndex(
-        (fav) => fav.id === action.payload.id
+        (fav) => fav.id === action.payload.id,
       )
       if (favIndex !== -1) {
         state.favourites.splice(favIndex, 1)
