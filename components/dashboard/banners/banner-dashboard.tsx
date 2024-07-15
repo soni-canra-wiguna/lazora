@@ -58,10 +58,11 @@ const TableRowBanner = ({ banner }: { banner: Banner }) => {
       <TableCell className="hidden sm:table-cell">
         <Image
           alt={banner.title}
-          className="aspect-square rounded-md object-cover"
-          height="64"
           src={banner.image}
+          height="64"
           width="64"
+          className="aspect-square rounded-md object-cover opacity-0 transition-opacity duration-1000"
+          onLoadingComplete={(image) => image.classList.remove("opacity-0")}
         />
       </TableCell>
       <TableCell className="font-medium">{banner.title}</TableCell>
@@ -74,7 +75,7 @@ const TableRowBanner = ({ banner }: { banner: Banner }) => {
             style={{
               backgroundColor: banner.background_color,
             }}
-            className="size-8 border rounded-full mr-2"
+            className="mr-2 size-8 rounded-full border"
           />
           {banner.background_color}
         </div>

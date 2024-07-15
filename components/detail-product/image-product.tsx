@@ -46,10 +46,13 @@ export default function ImageProduct({ images, title }: ImageProductProps) {
                 "border-primary brightness-75 hover:brightness-75",
             )}
           >
-            <img
+            <Image
               src={image ?? ""}
               alt={title}
-              className="size-full object-cover object-center"
+              width={400}
+              height={400}
+              className="object-cover object-center opacity-0 transition-opacity duration-300"
+              onLoadingComplete={(image) => image.classList.remove("opacity-0")}
             />
           </div>
         ))}
@@ -72,10 +75,11 @@ const ModalImageSlider = ({
 }: ModalImageSliderType) => {
   return (
     <div className="relative size-full flex-1 overflow-hidden selection:bg-transparent">
-      <img
+      <Image
         src={images[indexImage || 0].image ?? ""}
         alt={title}
-        className="size-full object-cover object-center"
+        className="size-full object-cover object-center opacity-0 transition-opacity duration-1000"
+        onLoadingComplete={(image) => image.classList.remove("opacity-0")}
       />
 
       <div className="absolute right-4 top-4 flex flex-col items-center gap-4">
@@ -139,7 +143,10 @@ const ZoomInImage = ({ images, title }: ImageProductProps) => {
                   alt={title}
                   src={image.image ?? ""}
                   fill
-                  className="object-contain"
+                  className="object-contain opacity-0 transition-opacity duration-1000"
+                  onLoadingComplete={(image) =>
+                    image.classList.remove("opacity-0")
+                  }
                 />
               </CarouselItem>
             ))}

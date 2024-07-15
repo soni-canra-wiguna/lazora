@@ -15,6 +15,7 @@ import Image from "next/image"
 import { Badge } from "../ui/badge"
 import Balancer from "react-wrap-balancer"
 import { formatToIDR } from "@/utils/format-to-idr"
+import { ProductImage } from "../product-image"
 
 export default function ListProductHomepage() {
   const { inView, ref } = useInView()
@@ -73,14 +74,7 @@ const ListProductCard = ({
 
   return (
     <Link href={urlProdcut} className="relative flex flex-col">
-      <Image
-        src={image.image ?? ""}
-        width={700}
-        height={700}
-        // placeholder="blur"
-        alt={title}
-        className="mb-5 aspect-[9/10] w-full object-cover transition-all hover:brightness-95"
-      />
+      <ProductImage src={image.image ?? ""} alt={title} />
       <div className="mb-3 flex items-center gap-1.5">
         {categories?.map(({ title }, index) => (
           <Badge variant="secondary" key={index + title}>

@@ -112,7 +112,8 @@ export const BannerItem = ({
             width={600}
             height={600}
             alt={alt_image}
-            className="size-full object-scale-down object-center"
+            className="size-full object-scale-down object-center opacity-0 transition-opacity duration-500"
+            onLoadingComplete={(image) => image.classList.remove("opacity-0")}
           />
         </div>
       </div>
