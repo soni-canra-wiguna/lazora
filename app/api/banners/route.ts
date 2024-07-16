@@ -30,23 +30,32 @@ export const POST = async (req: NextRequest) => {
       },
     })
 
-    return NextResponse.json({
-      status: 201,
-      message: "banner successfully created!!",
-    })
+    return NextResponse.json(
+      {
+        status: 201,
+        message: "banner successfully created!!",
+      },
+      { status: 201 },
+    )
   } catch (error) {
     console.log(error)
     if (error instanceof z.ZodError) {
-      return NextResponse.json({
-        message: "Validation error",
-        errors: error.errors,
-        status: 400,
-      })
+      return NextResponse.json(
+        {
+          message: "Validation error",
+          errors: error.errors,
+          status: 400,
+        },
+        { status: 400 },
+      )
     }
-    return NextResponse.json({
-      status: 500,
-      message: "Internal server error",
-    })
+    return NextResponse.json(
+      {
+        status: 500,
+        message: "Internal server error",
+      },
+      { status: 500 },
+    )
   }
 }
 
@@ -61,20 +70,26 @@ export const GET = async (req: NextRequest) => {
     if (banners.length > 0) {
       return NextResponse.json({
         status: 200,
-        banners,
+        data: banners,
         message: "Data retrieved successfully",
       })
     } else {
-      return NextResponse.json({
-        status: 404,
-        message: "data not found",
-      })
+      return NextResponse.json(
+        {
+          status: 404,
+          message: "data not found",
+        },
+        { status: 404 },
+      )
     }
   } catch (error) {
     console.log(error)
-    return NextResponse.json({
-      status: 500,
-      message: "Internal server error",
-    })
+    return NextResponse.json(
+      {
+        status: 500,
+        message: "Internal server error",
+      },
+      { status: 500 },
+    )
   }
 }

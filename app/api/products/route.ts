@@ -33,23 +33,32 @@ export const POST = async (req: NextRequest) => {
       },
     })
 
-    return NextResponse.json({
-      message: "product successfully created",
-      status: 201,
-    })
+    return NextResponse.json(
+      {
+        message: "product successfully created",
+        status: 201,
+      },
+      { status: 201 },
+    )
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({
-        message: "Validation error",
-        errors: error.errors,
-        status: 400,
-      })
+      return NextResponse.json(
+        {
+          message: "Validation error",
+          errors: error.errors,
+          status: 400,
+        },
+        { status: 400 },
+      )
     }
 
-    return NextResponse.json({
-      message: "internal server error",
-      status: 500,
-    })
+    return NextResponse.json(
+      {
+        message: "internal server error",
+        status: 500,
+      },
+      { status: 500 },
+    )
   }
 }
 
@@ -62,7 +71,7 @@ export const GET = async (req: NextRequest) => {
 
     // search product
     const query = req.nextUrl.searchParams.get("search")
-    const decodeQuery = query?.replace(/-/g, " ")
+    const searchQuery = query?.replace(/-/g, " ")
 
     // get total product
     const totalProducts = await prisma.product.count()
@@ -96,7 +105,7 @@ export const GET = async (req: NextRequest) => {
     const products = await prisma.product.findMany({
       where: {
         title: {
-          contains: decodeQuery,
+          contains: searchQuery,
           mode: "insensitive",
         },
         // sumpah ni gua gak ngerti lagi, ini gimana caranya filter data relation brooo
@@ -122,39 +131,55 @@ export const GET = async (req: NextRequest) => {
       take: limit,
     })
 
-    if (decodeQuery) {
-      return NextResponse.json({
-        message: "data pencarian berhasil di ambil",
-        products,
-        currentPage: page,
-        totalPages: Math.ceil(products.length / limit),
-        totalProducts: products.length,
-        status: 200,
-      })
+    if (totalProducts === 0) {
+      return NextResponse.json(
+        {
+          message: "data not found",
+          status: 404,
+        },
+        { status: 404 },
+      )
     }
 
-    if (products.length > 0) {
-      return NextResponse.json({
-        message: "data berhasil di ambil",
-        products,
-        currentPage: page,
-        totalPages: Math.ceil(totalProducts / limit),
-        totalItems: products.length,
-        totalProducts,
-        status: 200,
-      })
+    if (searchQuery && products.length === 0) {
+      return NextResponse.json(
+        {
+          message: "search result not found",
+          status: 404,
+        },
+        { status: 404 },
+      )
     }
 
-    return NextResponse.json({
-      message: "data not found",
-      status: 404,
-    })
+    const responseMessage = searchQuery
+      ? "Search results successfully retrieved"
+      : "Products successfully retrieved"
+    const responseTotalPages = Math.ceil(
+      searchQuery ? products.length : totalProducts / limit,
+    )
+
+    const response = {
+      message: responseMessage,
+      data: products,
+      currentPage: page,
+      totalPages: responseTotalPages,
+      totalProductsPerPage: products.length,
+      totalProducts,
+      status: 200,
+    }
+
+    return NextResponse.json(response, { status: 200 })
   } catch (error) {
     console.log(error)
-    return NextResponse.json({
-      message: "internal server error",
-      error: error,
-      status: 500,
-    })
+    return NextResponse.json(
+      {
+        message: "internal server error",
+        error: error,
+        status: 500,
+      },
+      {
+        status: 500,
+      },
+    )
   }
 }
