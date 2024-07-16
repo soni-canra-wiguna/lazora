@@ -1,4 +1,6 @@
+import { REDIS_EXPIRATION_TIME } from "@/constants"
 import prisma from "@/lib/prismadb"
+import { redis } from "@/lib/redis"
 import { BannerSchema } from "@/schema"
 import { Banner } from "@prisma/client"
 import { NextRequest, NextResponse } from "next/server"
@@ -29,6 +31,9 @@ export const POST = async (req: NextRequest) => {
         background_color,
       },
     })
+
+    //invalidate banner cache
+    await redis.del("banners")
 
     return NextResponse.json(
       {
@@ -61,19 +66,21 @@ export const POST = async (req: NextRequest) => {
 
 export const GET = async (req: NextRequest) => {
   try {
+    // redis cache
+    const redisCacheKey = `banners`
+    const cacheBanners = await redis.get(redisCacheKey)
+
+    if (cacheBanners) {
+      return NextResponse.json(JSON.parse(cacheBanners))
+    }
+
     const banners = await prisma.banner.findMany({
       orderBy: {
         createdAt: "desc",
       },
     })
 
-    if (banners.length > 0) {
-      return NextResponse.json({
-        status: 200,
-        data: banners,
-        message: "Data retrieved successfully",
-      })
-    } else {
+    if (!banners) {
       return NextResponse.json(
         {
           status: 404,
@@ -82,6 +89,21 @@ export const GET = async (req: NextRequest) => {
         { status: 404 },
       )
     }
+
+    const response = {
+      message: "Data retrieved successfully",
+      data: banners,
+      status: 200,
+    }
+
+    await redis.set(
+      redisCacheKey,
+      JSON.stringify(response),
+      "EX",
+      REDIS_EXPIRATION_TIME,
+    ) // EX = expiration, REDIS_EXPIRATION_TIME = expiration time
+
+    return NextResponse.json(response, { status: 200 })
   } catch (error) {
     console.log(error)
     return NextResponse.json(

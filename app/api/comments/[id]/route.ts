@@ -1,10 +1,11 @@
 import prisma from "@/lib/prismadb"
+import { redis } from "@/lib/redis"
 import { Comment } from "@prisma/client"
 import { NextResponse, NextRequest } from "next/server"
 
 export const PATCH = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) => {
   try {
     const { id } = params
@@ -24,6 +25,8 @@ export const PATCH = async (
       },
     })
 
+    await redis.del(`product:${id}`)
+
     return NextResponse.json({
       message: "comment succesfully updated",
       status: 200,
@@ -38,7 +41,7 @@ export const PATCH = async (
 
 export const DELETE = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) => {
   try {
     const { id } = params
@@ -47,6 +50,8 @@ export const DELETE = async (
         id,
       },
     })
+
+    await redis.del(`product:${id}`)
 
     return NextResponse.json({
       message: "comment was deleted",

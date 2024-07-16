@@ -56,7 +56,7 @@ export default function ListProduct() {
         ) : (
           isSuccess &&
           data?.pages?.map((page, index) => (
-            <ListProductInfinite key={index} products={page?.products} />
+            <ListProductInfinite key={index} products={page?.data} />
           ))
         )}
       </div>
@@ -96,7 +96,7 @@ const ListProductInfinite = ({
 }
 
 const LoadingProducts = () => {
-  const loading = Array.from({ length: 9 }, (_, index) => {
+  const loading = Array.from({ length: 8 }, (_, index) => {
     return (
       <div key={index} className="size-full">
         <Skeleton className="mb-5 aspect-[9/10] w-full" />

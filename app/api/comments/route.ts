@@ -1,4 +1,5 @@
 import prisma from "@/lib/prismadb"
+import { redis } from "@/lib/redis"
 import { Comment } from "@prisma/client"
 import { NextRequest, NextResponse } from "next/server"
 
@@ -34,6 +35,9 @@ export const POST = async (req: NextRequest) => {
         },
       },
     })
+
+    //invalidate redis cache
+    await redis.del(`product:${productId}`)
 
     return NextResponse.json({
       message: "comment berhasil di post",

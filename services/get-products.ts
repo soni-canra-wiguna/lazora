@@ -38,7 +38,7 @@ export const getSingleProduct = (id: string) => {
     queryKey: [id],
     queryFn: async () => {
       const { data } = await axios.get(`/api/products/${id}`)
-      return data.product
+      return data.data
     },
   })
 
@@ -54,7 +54,7 @@ export const getShuffleProducts = ({
     queryKey: ["shuffle-products", isShouldFetch],
     queryFn: async () => {
       const { data } = await axios.get(`/api/products`)
-      const shuffleProducts = shuffleArrayProducts(data.products)
+      const shuffleProducts = shuffleArrayProducts(data.data)
       return shuffleProducts
     },
     enabled: isShouldFetch,

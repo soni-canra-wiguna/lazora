@@ -1,4 +1,6 @@
+import { REDIS_EXPIRATION_TIME } from "@/constants"
 import prisma from "@/lib/prismadb"
+import { redis } from "@/lib/redis"
 import { PostMethodeProductSchema } from "@/schema"
 import { ProductPostProps } from "@/types"
 import { NextRequest, NextResponse } from "next/server"
@@ -33,6 +35,10 @@ export const POST = async (req: NextRequest) => {
       },
     })
 
+    //invalidate redis cache
+    const redisCacheKey = "products"
+    await redis.del(redisCacheKey)
+
     return NextResponse.json(
       {
         message: "product successfully created",
@@ -64,20 +70,16 @@ export const POST = async (req: NextRequest) => {
 
 export const GET = async (req: NextRequest) => {
   try {
-    // pagination
     const page = parseInt(req.nextUrl.searchParams.get("page") ?? "1")
     const limit = parseInt(req.nextUrl.searchParams.get("limit") ?? "20")
     const skip = (page - 1) * limit
-
-    // search product
-    const query = req.nextUrl.searchParams.get("search")
-    const searchQuery = query?.replace(/-/g, " ")
-
-    // get total product
-    const totalProducts = await prisma.product.count()
-
-    // sortBy -> feature(descending/desc), price(high to low), price(low to high), A - Z, Z - A
+    const categories = req.nextUrl.searchParams.get("categories")?.split(",")
     const sortBy = req.nextUrl.searchParams.get("sortBy")
+    const totalProducts = await prisma.product.count()
+    const searchQuery = req.nextUrl.searchParams
+      .get("search")
+      ?.replace(/-/g, " ")
+
     let orderBy = {}
     switch (sortBy) {
       case "feature":
@@ -99,8 +101,21 @@ export const GET = async (req: NextRequest) => {
         orderBy = { createdAt: "desc" }
     }
 
-    // category -> keyboard, deskmat, keycaps, coiled cable, mouse, switch, sticker, barebone
-    const categories = req.nextUrl.searchParams.get("categories")?.split(",")
+    // redis cache
+    let redisCacheKey = "products"
+    if (sortBy !== null) {
+      // handle cache when filter data
+      redisCacheKey = `infinitescroll:sortBy=${sortBy}:page=${page}:limit=${limit}`
+    }
+    if (searchQuery) {
+      // handle cache when searching
+      redisCacheKey = `search=${searchQuery}:page=${page}:limit=${limit}`
+    }
+
+    const cacheProducts = await redis.get(redisCacheKey)
+    if (cacheProducts) {
+      return NextResponse.json(JSON.parse(cacheProducts))
+    }
 
     const products = await prisma.product.findMany({
       where: {
@@ -131,7 +146,7 @@ export const GET = async (req: NextRequest) => {
       take: limit,
     })
 
-    if (totalProducts === 0) {
+    if (!totalProducts) {
       return NextResponse.json(
         {
           message: "data not found",
@@ -141,7 +156,7 @@ export const GET = async (req: NextRequest) => {
       )
     }
 
-    if (searchQuery && products.length === 0) {
+    if (searchQuery && !products) {
       return NextResponse.json(
         {
           message: "search result not found",
@@ -167,6 +182,13 @@ export const GET = async (req: NextRequest) => {
       totalProducts,
       status: 200,
     }
+
+    await redis.set(
+      redisCacheKey,
+      JSON.stringify(response),
+      "EX",
+      REDIS_EXPIRATION_TIME,
+    )
 
     return NextResponse.json(response, { status: 200 })
   } catch (error) {
