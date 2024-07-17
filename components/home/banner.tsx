@@ -18,6 +18,7 @@ import Link from "next/link"
 import { Button } from "../ui/button"
 import { ArrowRight } from "lucide-react"
 import Image from "next/image"
+import { cn } from "@/lib/utils"
 
 export default function BannerHomepage() {
   const { data, isPending, isError } = getBanners()
@@ -40,7 +41,7 @@ export default function BannerHomepage() {
               </CarouselItem>
             ) : isError ? (
               <CarouselItem>
-                <Skeleton className="flex h-[450px] w-full items-center justify-center overflow-hidden rounded-xl border-none bg-secondary">
+                <Skeleton className="flex h-[450px] w-full items-center justify-center overflow-hidden border-none bg-secondary">
                   <p className="text-lg font-medium">
                     Ada yang salah nih, coba deh refresh lagi
                   </p>
@@ -56,20 +57,45 @@ export default function BannerHomepage() {
           </CarouselContent>
           {isPending ? null : (
             <>
-              <CarouselPrevious
-                className="left-8 size-12 border-none bg-background opacity-0 shadow-md transition-all duration-300 hover:border-none hover:shadow-lg group-hover:-left-6 group-hover:opacity-100"
-                classNameIcon="size-6 stroke-[1.5]"
-              />
-              <CarouselNext
-                className="right-8 size-12 border-none bg-background opacity-0 shadow-md transition-all duration-300 hover:border-none hover:shadow-lg group-hover:-right-6 group-hover:opacity-100"
-                classNameIcon="size-6 stroke-[1.5]"
-              />
+              <CarouselButton type="previous" />
+              <CarouselButton type="next" />
             </>
           )}
         </Carousel>
       </section>
     </MaxWidthWrapper>
   )
+}
+
+const CarouselButton = ({
+  type,
+  className,
+}: {
+  type: "previous" | "next"
+  className?: string
+}) => {
+  if (type === "previous") {
+    return (
+      <CarouselPrevious
+        className={cn(
+          "left-8 size-12 border-none bg-background opacity-0 shadow-md transition-all duration-300 hover:border-none hover:shadow-lg group-hover:-left-6 group-hover:opacity-100",
+          className,
+        )}
+        classNameIcon="size-6 stroke-[1.5]"
+      />
+    )
+  }
+  if (type === "next") {
+    return (
+      <CarouselNext
+        className={cn(
+          "right-8 size-12 border-none bg-background opacity-0 shadow-md transition-all duration-300 hover:border-none hover:shadow-lg group-hover:-right-6 group-hover:opacity-100",
+          className,
+        )}
+        classNameIcon="size-6 stroke-[1.5]"
+      />
+    )
+  }
 }
 
 export const BannerItem = ({
@@ -86,7 +112,7 @@ export const BannerItem = ({
       style={{
         backgroundColor: background_color,
       }}
-      className="grid h-[450px] w-full grid-cols-12 overflow-hidden rounded-xl border-none"
+      className="grid h-[450px] w-full grid-cols-12 overflow-hidden border-none"
     >
       <div className="col-span-7 flex items-center pl-20">
         <div className="flex flex-col">
@@ -123,7 +149,7 @@ export const BannerItem = ({
 
 const LoadingBanner = () => {
   return (
-    <Skeleton className="grid h-[450px] w-full grid-cols-12 overflow-hidden rounded-xl border-none bg-secondary">
+    <Skeleton className="grid h-[450px] w-full grid-cols-12 overflow-hidden border-none bg-secondary">
       <div className="col-span-7 flex items-center pl-20">
         <div className="flex flex-col">
           <div className="mb-4 flex h-max w-full items-center gap-3">

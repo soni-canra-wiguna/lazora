@@ -16,7 +16,7 @@ export default function ListCategoryHomepage() {
             className="group inline-block overflow-hidden"
             key={index}
           >
-            <Card className="relative flex aspect-[14/8] w-full items-center justify-center overflow-hidden rounded-xl border-none bg-secondary transition-all duration-300 hover:bg-secondary-foreground/10">
+            <Card className="relative flex aspect-[14/8] w-full items-center justify-center overflow-hidden border-none bg-secondary transition-all duration-300 hover:bg-secondary-foreground/10">
               <h3 className="z-20 font-canelaLight capitalize tracking-wide transition-all duration-300 group-hover:-translate-x-16">
                 {c.title}
               </h3>
