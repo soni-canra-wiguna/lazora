@@ -29,9 +29,9 @@ const getProduct = async (slug: string[]) => {
         },
       },
     )
-    const { product }: { product: ProductPostProps } = await response.json()
+    const { data }: { data: ProductPostProps } = await response.json()
     return {
-      product,
+      product: data,
       slugProduct: slug,
     }
   } catch (error) {
