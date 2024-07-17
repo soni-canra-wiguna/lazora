@@ -18,17 +18,19 @@ interface GenerateMetadataProps {
   }
 }
 
+const URL =
+  process.env.NODE_ENV === "development"
+    ? process.env.DEV_URL
+    : process.env.PROD_URL
+
 const getProduct = async (slug: string[]) => {
   try {
     const productId = slug[1]
-    const response = await fetch(
-      `https://lazora.vercel.app/api/products/${productId}`,
-      {
-        next: {
-          tags: ["singleProduct"],
-        },
+    const response = await fetch(`${URL}/api/products/${productId}`, {
+      next: {
+        tags: ["singleProduct"],
       },
-    )
+    })
     const { data }: { data: ProductPostProps } = await response.json()
     return {
       product: data,
