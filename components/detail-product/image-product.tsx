@@ -78,6 +78,7 @@ const ModalImageSlider = ({
       <Image
         src={images[indexImage || 0].image ?? ""}
         alt={title}
+        fill
         className="size-full object-cover object-center opacity-0 transition-opacity duration-1000"
         onLoadingComplete={(image) => image.classList.remove("opacity-0")}
       />
