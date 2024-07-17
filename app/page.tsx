@@ -4,7 +4,7 @@ import ListProductsHomepage from "@/components/home/list-product-homepage"
 
 export default async function Home() {
   return (
-    <div className="min-h-screen py-32">
+    <div className="min-h-screen pb-32 pt-40">
       <BannerHomepage />
       <ListCategoryHomepage />
       <ListProductsHomepage />
