@@ -41,7 +41,7 @@ export default function ImageProduct({ images, title }: ImageProductProps) {
             key={index}
             onClick={() => setIndexImage(index)}
             className={cn(
-              "aspect-square w-full cursor-pointer border border-border/40 bg-secondary transition-all selection:bg-transparent hover:brightness-75",
+              "aspect-square w-full cursor-pointer overflow-hidden border border-border/40 bg-secondary transition-all selection:bg-transparent hover:brightness-75",
               index == (indexImage || 0) &&
                 "border-primary brightness-75 hover:brightness-75",
             )}
@@ -51,7 +51,7 @@ export default function ImageProduct({ images, title }: ImageProductProps) {
               alt={title}
               width={400}
               height={400}
-              className="object-cover object-center opacity-0 transition-opacity duration-300"
+              className="size-full object-cover object-center opacity-0 transition-opacity duration-300"
               onLoadingComplete={(image) => image.classList.remove("opacity-0")}
             />
           </div>
