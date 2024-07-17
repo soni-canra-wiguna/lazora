@@ -3,6 +3,8 @@ import { NextResponse, NextRequest } from "next/server"
 import { ProductPostProps } from "@/types"
 import * as z from "zod"
 import { PostMethodeProductSchema } from "@/schema"
+import { redis } from "@/lib/redis"
+import { REDIS_EXPIRATION_TIME } from "@/constants"
 
 export const GET = async (
   req: NextRequest,
@@ -10,6 +12,14 @@ export const GET = async (
 ) => {
   try {
     const { id } = params
+    // redis cache
+    const redisCacheKey = `product:${id}`
+    const cacheProduct = await redis.get(redisCacheKey)
+
+    if (cacheProduct) {
+      return NextResponse.json(JSON.parse(cacheProduct))
+    }
+
     const singleProduct = await prisma.product.findUnique({
       where: {
         id,
@@ -32,11 +42,20 @@ export const GET = async (
       })
     }
 
-    return NextResponse.json({
+    const response = {
       message: "product berhasil di ambil",
-      product: singleProduct,
+      data: singleProduct,
       status: 200,
-    })
+    }
+
+    await redis.set(
+      redisCacheKey,
+      JSON.stringify(response),
+      "EX",
+      REDIS_EXPIRATION_TIME,
+    )
+
+    return NextResponse.json(response, { status: 200 })
   } catch (error) {
     return NextResponse.json({
       message: "internal server error",
@@ -131,15 +150,24 @@ export const DELETE = async (
       },
     })
 
-    return NextResponse.json({
-      message: "product berhasil di hapus",
-      status: 201,
-    })
+    await redis.del("products")
+    await redis.del(`product:${id}`)
+
+    return NextResponse.json(
+      {
+        message: "product deleted",
+        status: 201,
+      },
+      { status: 201 },
+    )
   } catch (error) {
-    return NextResponse.json({
-      message: "internal server error",
-      error,
-      status: 500,
-    })
+    return NextResponse.json(
+      {
+        message: "internal server error",
+        error,
+        status: 500,
+      },
+      { status: 500 },
+    )
   }
 }

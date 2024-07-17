@@ -1,10 +1,11 @@
 import prisma from "@/lib/prismadb"
 import { NextRequest, NextResponse } from "next/server"
 import { Banner } from "@prisma/client"
+import { redis } from "@/lib/redis"
 
 export const PATCH = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) => {
   try {
     const { id } = params
@@ -34,6 +35,8 @@ export const PATCH = async (
       },
     })
 
+    await redis.del("banners")
+
     if (!updateBanner) {
       return NextResponse.json({
         message: "banner not found, can't updated",
@@ -56,7 +59,7 @@ export const PATCH = async (
 
 export const DELETE = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) => {
   try {
     const { id } = params
@@ -65,6 +68,8 @@ export const DELETE = async (
         id,
       },
     })
+
+    await redis.del("banners")
 
     return NextResponse.json({ status: 200, message: "banner was deleted" })
   } catch (error) {

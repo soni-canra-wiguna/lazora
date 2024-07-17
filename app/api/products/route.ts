@@ -1,4 +1,6 @@
+import { REDIS_EXPIRATION_TIME } from "@/constants"
 import prisma from "@/lib/prismadb"
+import { redis } from "@/lib/redis"
 import { PostMethodeProductSchema } from "@/schema"
 import { ProductPostProps } from "@/types"
 import { NextRequest, NextResponse } from "next/server"
@@ -33,42 +35,51 @@ export const POST = async (req: NextRequest) => {
       },
     })
 
-    return NextResponse.json({
-      message: "product successfully created",
-      status: 201,
-    })
+    //invalidate redis cache
+    const redisCacheKey = "products"
+    await redis.del(redisCacheKey)
+
+    return NextResponse.json(
+      {
+        message: "product successfully created",
+        status: 201,
+      },
+      { status: 201 },
+    )
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({
-        message: "Validation error",
-        errors: error.errors,
-        status: 400,
-      })
+      return NextResponse.json(
+        {
+          message: "Validation error",
+          errors: error.errors,
+          status: 400,
+        },
+        { status: 400 },
+      )
     }
 
-    return NextResponse.json({
-      message: "internal server error",
-      status: 500,
-    })
+    return NextResponse.json(
+      {
+        message: "internal server error",
+        status: 500,
+      },
+      { status: 500 },
+    )
   }
 }
 
 export const GET = async (req: NextRequest) => {
   try {
-    // pagination
     const page = parseInt(req.nextUrl.searchParams.get("page") ?? "1")
     const limit = parseInt(req.nextUrl.searchParams.get("limit") ?? "20")
     const skip = (page - 1) * limit
-
-    // search product
-    const query = req.nextUrl.searchParams.get("search")
-    const decodeQuery = query?.replace(/-/g, " ")
-
-    // get total product
-    const totalProducts = await prisma.product.count()
-
-    // sortBy -> feature(descending/desc), price(high to low), price(low to high), A - Z, Z - A
+    const categories = req.nextUrl.searchParams.get("categories")?.split(",")
     const sortBy = req.nextUrl.searchParams.get("sortBy")
+    const totalProducts = await prisma.product.count()
+    const searchQuery = req.nextUrl.searchParams
+      .get("search")
+      ?.replace(/-/g, " ")
+
     let orderBy = {}
     switch (sortBy) {
       case "feature":
@@ -90,13 +101,26 @@ export const GET = async (req: NextRequest) => {
         orderBy = { createdAt: "desc" }
     }
 
-    // category -> keyboard, deskmat, keycaps, coiled cable, mouse, switch, sticker, barebone
-    const categories = req.nextUrl.searchParams.get("categories")?.split(",")
+    // redis cache
+    let redisCacheKey = "products"
+    if (sortBy !== null) {
+      // handle cache when filter data
+      redisCacheKey = `infinitescroll:sortBy=${sortBy}:page=${page}:limit=${limit}`
+    }
+    if (searchQuery) {
+      // handle cache when searching
+      redisCacheKey = `search=${searchQuery}:page=${page}:limit=${limit}`
+    }
+
+    const cacheProducts = await redis.get(redisCacheKey)
+    if (cacheProducts) {
+      return NextResponse.json(JSON.parse(cacheProducts))
+    }
 
     const products = await prisma.product.findMany({
       where: {
         title: {
-          contains: decodeQuery,
+          contains: searchQuery,
           mode: "insensitive",
         },
         // sumpah ni gua gak ngerti lagi, ini gimana caranya filter data relation brooo
@@ -122,39 +146,62 @@ export const GET = async (req: NextRequest) => {
       take: limit,
     })
 
-    if (decodeQuery) {
-      return NextResponse.json({
-        message: "data pencarian berhasil di ambil",
-        products,
-        currentPage: page,
-        totalPages: Math.ceil(products.length / limit),
-        totalProducts: products.length,
-        status: 200,
-      })
+    if (!totalProducts) {
+      return NextResponse.json(
+        {
+          message: "data not found",
+          status: 404,
+        },
+        { status: 404 },
+      )
     }
 
-    if (products.length > 0) {
-      return NextResponse.json({
-        message: "data berhasil di ambil",
-        products,
-        currentPage: page,
-        totalPages: Math.ceil(totalProducts / limit),
-        totalItems: products.length,
-        totalProducts,
-        status: 200,
-      })
+    if (searchQuery && !products) {
+      return NextResponse.json(
+        {
+          message: "search result not found",
+          status: 404,
+        },
+        { status: 404 },
+      )
     }
 
-    return NextResponse.json({
-      message: "data not found",
-      status: 404,
-    })
+    const responseMessage = searchQuery
+      ? "Search results successfully retrieved"
+      : "Products successfully retrieved"
+    const responseTotalPages = Math.ceil(
+      searchQuery ? products.length : totalProducts / limit,
+    )
+
+    const response = {
+      message: responseMessage,
+      data: products,
+      currentPage: page,
+      totalPages: responseTotalPages,
+      totalProductsPerPage: products.length,
+      totalProducts,
+      status: 200,
+    }
+
+    await redis.set(
+      redisCacheKey,
+      JSON.stringify(response),
+      "EX",
+      REDIS_EXPIRATION_TIME,
+    )
+
+    return NextResponse.json(response, { status: 200 })
   } catch (error) {
     console.log(error)
-    return NextResponse.json({
-      message: "internal server error",
-      error: error,
-      status: 500,
-    })
+    return NextResponse.json(
+      {
+        message: "internal server error",
+        error: error,
+        status: 500,
+      },
+      {
+        status: 500,
+      },
+    )
   }
 }

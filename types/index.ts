@@ -57,10 +57,10 @@ export interface BannerProps {
 
 export interface ProductDataType {
   message: string
-  products: ProductPostProps[]
+  data: ProductPostProps[]
   currentPage: number
   totalPages: number
-  totalItems: number
+  totalProductsPerPage: number
   totalProducts: number
   status: number
 }

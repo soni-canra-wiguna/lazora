@@ -38,7 +38,7 @@ const Search = () => {
       const { data } = await axios.get(
         `/api/products?search=${debounceSearchInput}`,
       )
-      return data.products
+      return data.data
     },
   })
 

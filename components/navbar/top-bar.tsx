@@ -107,7 +107,7 @@ const Account = () => {
               <div className="absolute bottom-0 left-0 h-1/2 w-full bg-gradient-to-t from-primary" />
               <img
                 alt={username ?? ""}
-                src={image}
+                src={image || "/grainy.jpg"}
                 className="size-full object-cover object-center selection:bg-transparent"
               />
               <div className="absolute bottom-5 left-5 flex flex-col">

@@ -7,7 +7,7 @@ export const getBanners = () => {
     queryKey: ["banners"],
     queryFn: async () => {
       const { data } = await axios.get("/api/banners")
-      return data.banners
+      return data.data
     },
   })
 
