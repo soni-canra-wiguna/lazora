@@ -141,7 +141,7 @@ const News = ({ className }: { className?: string }) => {
         />
         <ArrowRight className="absolute right-2.5 top-1/2 size-6 -translate-y-1/2 stroke-[1.5] text-primary" />
       </div>
-      <FooterItem title="Ikuti Kami" className="mb-10">
+      <FooterItem title="Follow us" className="mb-10">
         <div className="flex items-center gap-4">
           {socialIcon.map((social) => (
             <a
