@@ -43,7 +43,7 @@ export const GET = async (
     }
 
     const response = {
-      message: "product berhasil di ambil",
+      message: "Product successfully retrieved",
       data: singleProduct,
       status: 200,
     }
