@@ -26,7 +26,10 @@ export async function GET(
       status: 200,
     })
   } catch (error) {
-    return NextResponse.json(error)
+    return NextResponse.json({
+      message: "Internal server error.",
+      status: 500,
+    })
   }
 }
 
@@ -67,7 +70,7 @@ export async function PATCH(
   } catch (error) {
     console.log(error)
     return NextResponse.json({
-      message: "failed to update, internal server error.",
+      message: "Internal server error.",
       status: 500,
     })
   }
@@ -89,7 +92,7 @@ export async function DELETE(
   } catch (error) {
     return NextResponse.json({
       status: 500,
-      message: "failed to update, internal server error.",
+      message: "Internal server error.",
     })
   }
 }
