@@ -6,11 +6,41 @@ POST `/api/register`
 
 Request Body :
 
+```json
+{
+  "username": "string",
+  "email": "string (email format)",
+  "password": "string(hash using bycrypt)",
+  "emailVerified": null, // optional
+  "image": "string (URL) | null", // optional
+  "role": "string" // optional default (BUYER)
+}
+```
+
 Response Body (Success) :
+
+```json
+{
+  "message": "register success",
+  "status": 201
+}
+```
 
 Response Body (Failed) :
 
----
+```json
+{
+  "message": "User already exist",
+  "status": 400
+}
+```
+
+```json
+{
+  "message": "Internal sever error",
+  "status": 500
+}
+```
 
 GET `/api/register`
 
@@ -18,11 +48,64 @@ parameters :
 
 - `search` (optional)
 
-Request Body :
-
 Response Body (Success) :
 
+```json
+{
+  "message": "Data retrieved successfully",
+  "status": 200,
+  "users": [
+    {
+      "id": "string",
+      "username": "string",
+      "email": "string (email format)",
+      "password": "string(hash using bycrypt)",
+      "emailVerified": "string (ISO 8601 datetime)" | null,
+      "image": "string (URL) | null",
+      "role": "string",
+      "createdAt": Date, // example: "2024-04-21T11:34:39.124Z",
+      "updatedAt": Date
+    }
+  ],
+}
+```
+
+```json
+// search results
+{
+  "message": "Users successfully retrieved",
+  "users": [
+    {
+      "id": "string",
+      "username": "string",
+      "email": "string (email format)",
+      "password": "string(hash using bycrypt)",
+      "emailVerified": null,
+      "image": "string (URL) | null",
+      "role": "string",
+      "createdAt": Date,
+      "updatedAt": Date
+    }
+  ],
+  "status": 200,
+}
+```
+
 Response Body (Failed) :
+
+```json
+{
+  "message": "users not found",
+  "status": 404
+}
+```
+
+```json
+{
+  "message": "Internal server error",
+  "status": 500
+}
+```
 
 ---
 
@@ -32,11 +115,41 @@ parameters :
 
 - `id` (required)
 
-Request Body :
-
 Response Body (Success) :
 
+```json
+{
+  "message": "user data retrieval successful",
+  "user": {
+    "id": "string",
+    "username": "string",
+    "email": "string (email format)",
+    "password": "string",
+    "emailVerified": "string (ISO 8601 datetime) | null",
+    "image": "string (URL) | null",
+    "role": "string",
+    "createdAt": Date,
+    "updatedAt": Date
+  },
+  "status": 200
+}
+```
+
 Response Body (Failed) :
+
+```json
+{
+  "message": "User not found",
+  "status": 404
+}
+```
+
+```json
+{
+  "message": "Internal server error",
+  "status": 500
+}
+```
 
 ---
 
@@ -47,9 +160,41 @@ parameters :
 
 Request Body :
 
+```json
+{
+  "username": "string",
+  "email": "string (email format)",
+  "password": "string(hash using bycrypt)",
+  "emailVerified": null, // optional
+  "image": "string (URL) | null", // optional
+  "role": "string" // optional default (BUYER)
+}
+```
+
 Response Body (Success) :
 
+```json
+{
+  "message": "data successfully updated.",
+  "status": 200
+}
+```
+
 Response Body (Failed) :
+
+```json
+{
+  "message": "user not found, can't updated",
+  "status": 404
+}
+```
+
+```json
+{
+  "message": "Internal server error",
+  "status": 500
+}
+```
 
 ---
 
@@ -59,11 +204,23 @@ parameters :
 
 - `id` (required)
 
-Request Body :
-
 Response Body (Success) :
 
+```json
+{
+  "message": "User was deleted.",
+  "status": 200
+}
+```
+
 Response Body (Failed) :
+
+```json
+{
+  "message": "Internal server error",
+  "status": 500
+}
+```
 
 ## Products
 
@@ -106,8 +263,8 @@ Response Body (Failed) :
 ```json
 {
   "message": "Validation error",
-  "errors": error.errors,
-  "status": 400,
+  "errors": "string",
+  "status": 400
 }
 ```
 
@@ -220,7 +377,7 @@ Response Body (Success) :
     "description": "string",
     "stock": "number",
     "createdAt": Date,
-    "updatedAt": Date,
+    "updatedAt": Date
     "images": [
       {
         "id": "string",
