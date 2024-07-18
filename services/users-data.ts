@@ -1,6 +1,5 @@
 "use client"
 
-// single responsibility principle
 import type { User } from "@prisma/client"
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"

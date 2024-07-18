@@ -64,8 +64,6 @@ export async function generateMetadata({
   }
 }
 
-// ketika ingin load page ini sedikit lambat karena fetch 2 kali yaitu di server(untuk metadata) dan di client(untuk product)
-//sebenarnya, yang bikin lambat/lemot itu saat fetch di server(metadata), tapi karena itu untuk SEO dan itu penting, but ya ok lah.
 const SingleProductPage = async ({ params }: GenerateMetadataProps) => {
   const { slug } = params
   const { product } = await getProduct(slug)

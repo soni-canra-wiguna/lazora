@@ -9,7 +9,6 @@ async function middleware(req: NextRequestWithAuth) {
     req.nextUrl.pathname.startsWith("/dashboard/banner/create") ||
     req.nextUrl.pathname.startsWith("/dashboard/products/create")
 
-  // check if user is not admin
   if (ProtectedRoute && !isSellerOrViewer) {
     return NextResponse.rewrite(new URL("/denied", req.url))
   }

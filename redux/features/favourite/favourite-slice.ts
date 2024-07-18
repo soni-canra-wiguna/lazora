@@ -1,5 +1,5 @@
 "use client"
-import { toast } from "@/components/ui/use-toast"
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export interface FavouriteProps {
