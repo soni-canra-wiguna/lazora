@@ -59,6 +59,7 @@ export default function ImageProduct({
               height={400}
               className="size-full object-cover object-center opacity-0 transition-opacity duration-300"
               onLoadingComplete={(image) => image.classList.remove("opacity-0")}
+              priority
             />
           </div>
         ))}
@@ -93,6 +94,7 @@ const ModalImageSlider = ({
         fill
         className="size-full object-cover object-center opacity-0 transition-opacity duration-1000"
         onLoadingComplete={(image) => image.classList.remove("opacity-0")}
+        priority
       />
 
       <div className="absolute right-4 top-4 flex flex-col items-center gap-4">
