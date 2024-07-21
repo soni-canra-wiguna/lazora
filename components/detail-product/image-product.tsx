@@ -16,13 +16,19 @@ import { useState } from "react"
 import { Share2, X, ZoomIn } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { toast } from "../ui/use-toast"
+import ShareProduct from "./share-product"
 
 interface ImageProductProps {
   images: ImageProps[]
   title: string
+  price: number
 }
 
-export default function ImageProduct({ images, title }: ImageProductProps) {
+export default function ImageProduct({
+  images,
+  title,
+  price,
+}: ImageProductProps) {
   const [indexImage, setIndexImage] = useState(0)
   // const router = useRouter()
   // const searchParam = useSearchParams()
@@ -57,7 +63,12 @@ export default function ImageProduct({ images, title }: ImageProductProps) {
           </div>
         ))}
       </div>
-      <ModalImageSlider images={images} title={title} indexImage={indexImage} />
+      <ModalImageSlider
+        images={images}
+        title={title}
+        indexImage={indexImage}
+        price={price}
+      />
     </div>
   )
 }
@@ -72,6 +83,7 @@ const ModalImageSlider = ({
   images,
   title,
   indexImage,
+  price,
 }: ModalImageSliderType) => {
   return (
     <div className="relative size-full flex-1 overflow-hidden selection:bg-transparent">
@@ -84,33 +96,43 @@ const ModalImageSlider = ({
       />
 
       <div className="absolute right-4 top-4 flex flex-col items-center gap-4">
-        <ShareProduct />
+        <ShareProduct
+          image={images[0].image ?? ""}
+          title={title}
+          price={price}
+        />
         <ZoomInImage images={images} title={title} />
       </div>
     </div>
   )
 }
 
-const ShareProduct = () => {
-  return (
-    <button
-      onClick={() =>
-        toast({
-          title: "building process...",
-        })
-      }
-      title="share product"
-      className="group flex size-12 items-center justify-center rounded-full bg-background transition-all duration-300 hover:bg-primary"
-    >
-      <Share2
-        strokeWidth={1.5}
-        className="size-6 text-primary transition-all duration-300 group-hover:text-background"
-      />
-    </button>
-  )
-}
+// const ShareProducts = () => {
+//   return (
+//     <button
+//       onClick={() =>
+//         toast({
+//           title: "building process...",
+//         })
+//       }
+//       title="share product"
+//       className="group flex size-12 items-center justify-center rounded-full bg-background transition-all duration-300 hover:bg-primary"
+//     >
+//       <Share2
+//         strokeWidth={1.5}
+//         className="size-6 text-primary transition-all duration-300 group-hover:text-background"
+//       />
+//     </button>
+//   )
+// }
 
-const ZoomInImage = ({ images, title }: ImageProductProps) => {
+const ZoomInImage = ({
+  images,
+  title,
+}: {
+  images: ImageProps[]
+  title: string
+}) => {
   return (
     <Dialog>
       <DialogTrigger asChild>

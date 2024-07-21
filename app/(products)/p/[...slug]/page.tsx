@@ -79,6 +79,7 @@ const SingleProductPage = async ({ params }: GenerateMetadataProps) => {
         <ImageProduct
           images={product.images ?? []}
           title={product.title ?? ""}
+          price={product.price ?? 0}
         />
         <div className="flex w-[500px] flex-col">
           {/*  */}

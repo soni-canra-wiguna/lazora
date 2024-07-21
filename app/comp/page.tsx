@@ -21,7 +21,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { EllipsisVertical, ShoppingCart, Trash2, X } from "lucide-react"
+import {
+  CopyIcon,
+  EllipsisVertical,
+  Facebook,
+  Share2,
+  ShoppingCart,
+  Trash2,
+  Wand2,
+  X,
+} from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,13 +48,35 @@ import {
 } from "@/components/ui/carousel"
 import AutoPlay from "embla-carousel-autoplay"
 import { UploadDropzone } from "@/lib/uploadthing"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { UploadFileResponse } from "uploadthing/client"
 import { toast } from "@/components/ui/use-toast"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { cn } from "@/lib/utils"
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  LineShareButton,
+  LinkedinShareButton,
+  TelegramShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+  WhatsappShareButton,
+} from "react-share"
+import { useRouter } from "next/navigation"
+import { SlSocialFacebook } from "react-icons/sl"
+import { FaWhatsapp } from "react-icons/fa"
+import { LiaTelegram } from "react-icons/lia"
+import {
+  RiTwitterXLine,
+  RiLinkedinFill,
+  RiLinkedinBoxFill,
+} from "react-icons/ri"
+import { LineIcon } from "react-share"
+import { ImFacebook, ImWhatsapp } from "react-icons/im"
+import { formatToIDR } from "@/utils/format-to-idr"
 
 export default function ComponentsUI() {
   return (
@@ -62,6 +93,7 @@ export default function ComponentsUI() {
       <DeleteModal />
       <ScrollAreaComp />
       <ModalImageSlider />
+      <ModalShareProduct />
     </div>
   )
 }
@@ -590,5 +622,126 @@ const CarouselImageItem = ({ image, toggleScaleImage, isScaleImage }: any) => {
         )}
       />
     </CarouselItem>
+  )
+}
+
+const ModalShareProduct = () => {
+  const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
+  const [url, setUrl] = useState<string>("")
+
+  useEffect(() => {
+    setUrl(window.location.href)
+  }, [router])
+
+  const copyToClipboard = () => {
+    // navigator.clipboard.writeText(window.location.toString())
+    navigator.clipboard.writeText(url)
+  }
+
+  return (
+    <WrapperUI title="modal share product">
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <Button
+            title="share product"
+            className="group flex size-12 items-center justify-center rounded-full bg-background transition-all duration-300 hover:bg-primary"
+          >
+            <Share2
+              strokeWidth={1.5}
+              className="size-6 text-primary transition-all duration-300 group-hover:text-background"
+            />
+          </Button>
+        </DialogTrigger>
+        <DialogContent closeIcon={true} className="max-w-[85vw] sm:max-w-2xl">
+          <DialogHeader className="mb-4">
+            <DialogTitle className="text-center font-semibold leading-snug">
+              Bagikan product dan dapatkan diskon hingga 0.5%
+            </DialogTitle>
+          </DialogHeader>
+          <div className="mb-6 flex gap-4 bg-secondary p-4">
+            <div className="size-20 overflow-hidden">
+              <Image
+                src="/grainy.jpg"
+                alt="blalba"
+                className="size-full object-cover"
+                width={300}
+                height={300}
+              />
+            </div>
+            <div className="flex w-full flex-col gap-2 overflow-hidden">
+              <h4 className="truncate text-lg font-semibold">{`Keychron Q8 (Alice Layout) QMK Custom`}</h4>
+              <p className="text-sm text-muted-foreground">
+                {formatToIDR(1000000)}
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col gap-4">
+            <h4 className="text-lg font-semibold">Mau bagikan lewat mana?</h4>
+            <SocialShare url={url} />
+          </div>
+          <div className="flex flex-col gap-4">
+            <h4 className="text-lg font-semibold">coba bagikan pake link?</h4>
+            <div className="relative w-full">
+              <Input
+                className="h-12 border bg-transparent pr-10 text-sm placeholder:capitalize focus:border-primary"
+                spellCheck="false"
+                value={url}
+              />
+              <Button
+                onClick={copyToClipboard}
+                className="absolute right-0 top-0 size-12"
+                variant="ghost"
+              >
+                <CopyIcon className="size-6" />
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </WrapperUI>
+  )
+}
+
+const SocialShare = ({ url }: { url: string }) => {
+  return (
+    <div className="flex w-full items-center gap-3 overflow-x-auto">
+      <WhatsappShareButton url={url}>
+        <button className="flex size-12 items-center justify-center rounded-full bg-secondary-foreground/10 transition-all duration-300 hover:bg-secondary-foreground/20">
+          <ImWhatsapp className="text-2xl" />
+          <p className="sr-only">whatsapp</p>
+        </button>
+      </WhatsappShareButton>
+      <FacebookShareButton url={url} title="facebook share">
+        <button className="flex size-12 items-center justify-center rounded-full bg-secondary-foreground/10 transition-all duration-300 hover:bg-secondary-foreground/20">
+          <ImFacebook className="text-2xl" />
+          <p className="sr-only">facebook</p>
+        </button>
+      </FacebookShareButton>
+      <TelegramShareButton url={url} title="telegram">
+        <button className="flex size-12 items-center justify-center rounded-full bg-secondary-foreground/10 transition-all duration-300 hover:bg-secondary-foreground/20">
+          <LiaTelegram className="text-2xl" />
+          <p className="sr-only">telegram</p>
+        </button>
+      </TelegramShareButton>
+      <TwitterShareButton url={url}>
+        <button className="flex size-12 items-center justify-center rounded-full bg-secondary-foreground/10 transition-all duration-300 hover:bg-secondary-foreground/20">
+          <RiTwitterXLine className="text-2xl" />
+          <p className="sr-only">twitter</p>
+        </button>
+      </TwitterShareButton>
+      <LinkedinShareButton url={url}>
+        <button className="flex size-12 items-center justify-center rounded-full bg-secondary-foreground/10 transition-all duration-300 hover:bg-secondary-foreground/20">
+          <RiLinkedinBoxFill className="text-2xl" />
+          <p className="sr-only">linked in</p>
+        </button>
+      </LinkedinShareButton>
+      <LineShareButton url={url}>
+        <button className="flex size-12 items-center justify-center overflow-hidden rounded-full bg-secondary-foreground/10 transition-all duration-300 hover:bg-secondary-foreground/20">
+          <LineIcon className="text-2xl" />
+          <p className="sr-only">line</p>
+        </button>
+      </LineShareButton>
+    </div>
   )
 }
