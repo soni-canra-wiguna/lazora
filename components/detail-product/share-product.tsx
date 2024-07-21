@@ -27,6 +27,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "../ui/use-toast"
+import { useMounted } from "@/hook/use-mounted"
 
 export default function ShareProduct({
   image,
@@ -40,6 +41,7 @@ export default function ShareProduct({
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const [url, setUrl] = useState<string>("")
+  const { isMounted } = useMounted()
 
   useEffect(() => {
     const currentUrl = typeof window !== "undefined" ? window.location.href : ""
@@ -52,6 +54,19 @@ export default function ShareProduct({
       title: "Tautan disalin ke clipboard!",
     })
   }
+
+  if (!isMounted)
+    return (
+      <button
+        title="share product"
+        className="group flex size-12 items-center justify-center rounded-full bg-background transition-all duration-300 hover:bg-primary"
+      >
+        <Share2
+          strokeWidth={1.5}
+          className="size-6 text-primary transition-all duration-300 group-hover:text-background"
+        />
+      </button>
+    )
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
