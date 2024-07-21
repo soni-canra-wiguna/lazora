@@ -32,7 +32,7 @@ npm install
 ### 2. Configure ENV file
 
 Create an `.env` file and add the following variables.
-See file `example.env` for more information. For a detailed guide on setting up these variables, read my [article](https://canra.vercel.app/blog).
+See file `example.env` for more information. For a detailed guide on setting up these variables, read my [article](https://canra.vercel.app/blog/ultimate-guide-on-how-to-deploy-a-nextjs-project-lazora-app-to-vercel/0ac6475c-edbb-4563-9d14-af538e15cd59).
 
 ```env
 DATABASE_URL=""
@@ -65,7 +65,7 @@ npm run dev
 
 ## Deploy to Vercel
 
-Read my article to see how to deploy this app to Vercel. Read [here](https://canra.vercel.app/blog).
+Read my article to see how to deploy this app to Vercel. Read [here](https://canra.vercel.app/blog/ultimate-guide-on-how-to-deploy-a-nextjs-project-lazora-app-to-vercel/0ac6475c-edbb-4563-9d14-af538e15cd59).
 
 ---
 
@@ -76,3 +76,10 @@ Read my article to see how to deploy this app to Vercel. Read [here](https://can
 3. Go to your MongoDB database, then go to the users collection and edit the account you've just created. Change the role from `BUYER` to `SELLER` and save.
 4. Finally, go to your site, log out, and sign in again to see the changes.
 5. Congratulations, you can now access the dashboard.
+
+## License
+
+Licensed under the MIT License. Check the [LICENSE](./LICENSE) file for details.
+
+## API spec
+read [API spec](./API-SPEC.md)
