@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/dialog"
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { toast } from "../ui/use-toast"
 import { useMounted } from "@/hook/use-mounted"
 
@@ -40,13 +40,15 @@ export default function ShareProduct({
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const params = searchParams.get("indexImage")
   const [url, setUrl] = useState<string>("")
   const { isMounted } = useMounted()
 
   useEffect(() => {
     const currentUrl = typeof window !== "undefined" ? window.location.href : ""
     setUrl(currentUrl)
-  }, [router])
+  }, [router, searchParams])
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(url)

@@ -1,7 +1,9 @@
 import MaxWidthWrapper from "@/components/max-width-wrapper"
 import { ProductPostProps } from "@/types"
 import { Metadata } from "next"
-import ImageProduct from "@/components/detail-product/image-product"
+import ImageProduct, {
+  SuspenseImageProduct,
+} from "@/components/detail-product/image-product"
 import { Badge } from "@/components/ui/badge"
 import Balancer from "react-wrap-balancer"
 import { formatToIDR } from "@/utils/format-to-idr"
@@ -9,12 +11,13 @@ import FavouriteToggle from "@/components/detail-product/favourite-toggle"
 import CartButton from "@/components/detail-product/cart-button"
 import ProductInfo from "@/components/detail-product/product-info"
 import Recommendation from "@/components/detail-product/recommendation"
-import { notFound, redirect } from "next/navigation"
+import { notFound } from "next/navigation"
+import { Suspense } from "react"
 
 interface GenerateMetadataProps {
   params: { slug: string[] }
   searchParams: {
-    indexImg: string
+    indexImage: number
   }
 }
 
@@ -48,7 +51,7 @@ export async function generateMetadata({
 }: GenerateMetadataProps): Promise<Metadata> {
   const { slug } = params
   const { product } = await getProduct(slug)
-  const indexImage = +searchParams.indexImg // + is shorthand Number()
+  const indexImage = +searchParams.indexImage // + is shorthand Number()
 
   return {
     title: product.title,
@@ -76,11 +79,13 @@ const SingleProductPage = async ({ params }: GenerateMetadataProps) => {
   return (
     <MaxWidthWrapper className="relative min-h-screen pt-32">
       <div className="mb-[100px] flex items-start gap-12">
-        <ImageProduct
-          images={product.images ?? []}
-          title={product.title ?? ""}
-          price={product.price ?? 0}
-        />
+        <Suspense fallback={<SuspenseImageProduct />}>
+          <ImageProduct
+            images={product.images ?? []}
+            title={product.title ?? ""}
+            price={product.price ?? 0}
+          />
+        </Suspense>
         <div className="flex w-[500px] flex-col">
           {/*  */}
           <div className="mb-2.5 flex items-center gap-3">

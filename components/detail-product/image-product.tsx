@@ -17,27 +17,25 @@ import { Share2, X, ZoomIn } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { toast } from "../ui/use-toast"
 import ShareProduct from "./share-product"
+import { useQueryState, parseAsInteger } from "nuqs"
+import { Skeleton } from "../ui/skeleton"
 
 interface ImageProductProps {
   images: ImageProps[]
   title: string
   price: number
+  indexImage: number
 }
 
 export default function ImageProduct({
   images,
   title,
   price,
-}: ImageProductProps) {
-  const [indexImage, setIndexImage] = useState(0)
-  // const router = useRouter()
-  // const searchParam = useSearchParams()
-  // const param: any = searchParam.get("indexImg" || null)
-
-  // const handleTabsImage = (index: number) => {
-  //   router.prefetch(`?indexImg=${index}`)
-  //   router.push(`?indexImg=${index}`)
-  // }
+}: Pick<ImageProductProps, "images" | "title" | "price">) {
+  const [indexImage, setIndexImage] = useQueryState(
+    "indexImage",
+    parseAsInteger.withDefault(0),
+  )
 
   return (
     <div className="sticky top-32 flex h-[620px] w-full flex-1 items-start gap-4">
@@ -55,8 +53,8 @@ export default function ImageProduct({
             <Image
               src={image ?? ""}
               alt={title}
-              width={400}
-              height={400}
+              width={300}
+              height={300}
               className="size-full object-cover object-center opacity-0 transition-opacity duration-300"
               onLoadingComplete={(image) => image.classList.remove("opacity-0")}
               priority
@@ -76,16 +74,12 @@ export default function ImageProduct({
 
 const DialogClose = DialogPrimitive.Close
 
-type ModalImageSliderType = ImageProductProps & {
-  indexImage: number
-}
-
 const ModalImageSlider = ({
   images,
   title,
   indexImage,
   price,
-}: ModalImageSliderType) => {
+}: ImageProductProps) => {
   return (
     <div className="relative size-full flex-1 overflow-hidden selection:bg-transparent">
       <Image
@@ -95,6 +89,7 @@ const ModalImageSlider = ({
         className="size-full object-cover object-center opacity-0 transition-opacity duration-1000"
         onLoadingComplete={(image) => image.classList.remove("opacity-0")}
         priority
+        unoptimized
       />
 
       <div className="absolute right-4 top-4 flex flex-col items-center gap-4">
@@ -103,38 +98,17 @@ const ModalImageSlider = ({
           title={title}
           price={price}
         />
-        <ZoomInImage images={images} title={title} />
+        <ZoomInImage images={images} title={title} indexImage={indexImage} />
       </div>
     </div>
   )
 }
 
-// const ShareProducts = () => {
-//   return (
-//     <button
-//       onClick={() =>
-//         toast({
-//           title: "building process...",
-//         })
-//       }
-//       title="share product"
-//       className="group flex size-12 items-center justify-center rounded-full bg-background transition-all duration-300 hover:bg-primary"
-//     >
-//       <Share2
-//         strokeWidth={1.5}
-//         className="size-6 text-primary transition-all duration-300 group-hover:text-background"
-//       />
-//     </button>
-//   )
-// }
-
 const ZoomInImage = ({
   images,
   title,
-}: {
-  images: ImageProps[]
-  title: string
-}) => {
+  indexImage,
+}: Pick<ImageProductProps, "images" | "title" | "indexImage">) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -155,6 +129,7 @@ const ZoomInImage = ({
         <Carousel
           opts={{
             loop: true,
+            startIndex: indexImage,
           }}
           className="mx-auto h-full w-full max-w-[80%]"
         >
@@ -193,5 +168,21 @@ const ZoomInImage = ({
         </Carousel>
       </DialogContent>
     </Dialog>
+  )
+}
+
+export const SuspenseImageProduct = () => {
+  return (
+    <div className="sticky top-32 flex h-[620px] w-full flex-1 items-start gap-4">
+      <div className="grid w-[60px] grid-cols-1 gap-4">
+        <Skeleton className="aspect-square w-full" />
+        <Skeleton className="aspect-square w-full" />
+        <Skeleton className="aspect-square w-full" />
+        <Skeleton className="aspect-square w-full" />
+      </div>
+      <div className="relative size-full flex-1 overflow-hidden selection:bg-transparent">
+        <Skeleton className="size-full" />
+      </div>
+    </div>
   )
 }
