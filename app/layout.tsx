@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   referrer: "origin-when-cross-origin",
   applicationName: "Lazora",
   icons: {
-    icon: "/lazora.svg",
+    icon: "/lazora.png",
   },
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
