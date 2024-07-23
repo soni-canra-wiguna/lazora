@@ -2,7 +2,6 @@
 
 import { ProductCard } from "@/components/products/product-card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { RootState } from "@/redux/store"
 import { ProductDataType, ProductPostProps } from "@/types"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import axios from "axios"
@@ -10,11 +9,11 @@ import { Loader2, RefreshCcw } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
-import { useSelector } from "react-redux"
 import { Button } from "../ui/button"
+import { useQueryState } from "nuqs"
 
-export default function ListProduct() {
-  const { value: sortBy } = useSelector((state: RootState) => state.sortBy)
+export default function ListProducts() {
+  const [sortBy] = useQueryState("sortBy", { defaultValue: "featured" })
   const { ref, inView } = useInView()
   const {
     data,
@@ -123,6 +122,14 @@ const Error = () => {
           <RefreshCcw className="ml-2 size-4" />
         </Button>
       </div>
+    </div>
+  )
+}
+
+export const SuspenseListproducts = () => {
+  return (
+    <div className="grid w-full grid-cols-4 gap-4">
+      <LoadingProducts />
     </div>
   )
 }

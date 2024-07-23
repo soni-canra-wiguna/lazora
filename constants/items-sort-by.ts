@@ -1,6 +1,6 @@
 export const ITEMS_SORT_BY = [
   {
-    title: "featured",
+    title: "Featured",
     value: "featured",
   },
   {
