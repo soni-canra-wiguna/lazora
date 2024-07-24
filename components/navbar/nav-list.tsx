@@ -43,7 +43,10 @@ const CategoryMenu = () => {
           <NavigationMenuContent className="rounded-none px-0 py-2 md:rounded-none">
             <ul className="flex h-max w-60 flex-col space-y-2.5">
               {CATEGORIES.map((category) => (
-                <li className="p-2 px-6 hover:bg-secondary">
+                <li
+                  key={category.title}
+                  className="p-2 px-6 hover:bg-secondary"
+                >
                   <Link
                     href={`/c/${formatTitleProduct(category.value)}`}
                     className="flex w-full items-center gap-2.5 text-sm capitalize"
