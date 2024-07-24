@@ -119,7 +119,7 @@ export const BannerItem = ({
           <h1 className="mb-4 font-canelaRegular text-6xl capitalize selection:bg-transparent">
             <Balancer>{title}</Balancer>
           </h1>
-          <p className="mb-6">{description}</p>
+          <p className="mb-8">{description}</p>
           <Link href={href_button} className="size-max">
             <Button
               size="lg"
