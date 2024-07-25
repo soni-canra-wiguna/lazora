@@ -86,10 +86,10 @@ const DeleteItemProduct = ({ id, setIsAction }: DeleteType) => {
       <DialogContent closeIcon={false} className="max-w-[85vw] sm:max-w-lg">
         <DialogHeader className="mb-4">
           <DialogTitle className="text-left font-semibold leading-snug">
-            Apakah anda yakin ingin menghapus banner ini?
+            Apakah anda yakin ingin menghapus product ini?
           </DialogTitle>
           <DialogDescription className="text-left">
-            aksi ini akan menghapus banner secara permanen dari server, apakah
+            aksi ini akan menghapus product secara permanen dari server, apakah
             anda yakin ingin menghapusnya?
           </DialogDescription>
         </DialogHeader>
