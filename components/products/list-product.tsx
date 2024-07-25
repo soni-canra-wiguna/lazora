@@ -47,7 +47,7 @@ export default function ListProducts() {
   }, [inView, fetchNextPage, hasNextPage])
   return (
     <>
-      <div className="grid w-full grid-cols-4 gap-4">
+      <div className="grid w-full grid-cols-4 gap-x-4 gap-y-8">
         {isPending ? (
           <LoadingProducts />
         ) : isError ? (
