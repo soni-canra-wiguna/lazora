@@ -78,10 +78,12 @@ const ModalImageSlider = ({
   indexImage,
   price,
 }: ImageProductProps) => {
+  const activeImage = images[indexImage || 0].image ?? ""
+
   return (
     <div className="relative size-full flex-1 overflow-hidden selection:bg-transparent">
       <Image
-        src={images[indexImage || 0].image ?? ""}
+        src={activeImage}
         alt={title}
         fill
         className="size-full object-cover object-center opacity-0 transition-opacity duration-1000"
@@ -91,11 +93,7 @@ const ModalImageSlider = ({
       />
 
       <div className="absolute right-4 top-4 flex flex-col items-center gap-4">
-        <ShareProduct
-          image={images[0].image ?? ""}
-          title={title}
-          price={price}
-        />
+        <ShareProduct image={activeImage} title={title} price={price} />
         <ZoomInImage images={images} title={title} indexImage={indexImage} />
       </div>
     </div>
