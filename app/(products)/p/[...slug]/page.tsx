@@ -1,6 +1,7 @@
 import DetailProduct from "@/components/detail-product"
 import { WEBSITE_URL } from "@/constants"
 import { ProductPostProps } from "@/types"
+import { formatTitleProduct } from "@/utils/format-title-product"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 interface GenerateMetadataProps {
@@ -36,6 +37,7 @@ export async function generateMetadata({
   const { slug } = params
   const { product } = await getProduct(slug)
   const indexImage = +searchParams.indexImage // + is shorthand Number()
+  const URIProduct = `${WEBSITE_URL}/p/${formatTitleProduct(slug[0])}/${slug[1]}?indexImage=0`
 
   return {
     title: product.title,
@@ -44,9 +46,12 @@ export async function generateMetadata({
       title: product.title,
       images: product.images[indexImage || 0].image,
       description: `Beli ${product.title} hanya di Lazora`,
-      url: `https://lazora.vercel.app/product/${slug[0]}/${slug[1]}`,
+      url: URIProduct,
       siteName: "Lazora",
       type: "website",
+    },
+    alternates: {
+      canonical: URIProduct,
     },
   }
 }
