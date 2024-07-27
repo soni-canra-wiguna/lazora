@@ -163,6 +163,7 @@ const ToggleLanguange = () => {
         <Button
           variant="link"
           className="flex h-max items-center gap-2 py-0 leading-none"
+          aria-label="toggle language"
         >
           <Globe strokeWidth={1.5} className="size-4" />
         </Button>

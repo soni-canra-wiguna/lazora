@@ -10,9 +10,9 @@ import React from "react"
 import { CATEGORIES } from "@/constants/categories"
 import { formatTitleProduct } from "@/utils/format-title-product"
 
-const NavList = () => {
+export default function NavList() {
   return (
-    <div className="mt-1 flex items-center gap-8">
+    <nav className="mt-1 flex items-center gap-8">
       <Link
         className="text-sm font-medium capitalize leading-none text-primary hover:text-secondary-foreground/70"
         href="/p?sortBy=featured"
@@ -26,19 +26,17 @@ const NavList = () => {
       >
         Blog
       </Link>
-    </div>
+    </nav>
   )
 }
-
-export default NavList
 
 const CategoryMenu = () => {
   return (
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="px-0 text-primary hover:bg-transparent hover:text-secondary-foreground/70">
-            categories
+          <NavigationMenuTrigger className="px-0 capitalize text-primary hover:bg-transparent hover:text-secondary-foreground/70">
+            Categories
           </NavigationMenuTrigger>
           <NavigationMenuContent className="rounded-none px-0 py-2 md:rounded-none">
             <ul className="flex h-max w-60 flex-col space-y-2.5">

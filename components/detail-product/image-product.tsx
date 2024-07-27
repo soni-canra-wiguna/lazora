@@ -2,7 +2,6 @@
 
 import { ImageProps } from "@/types"
 import Image from "next/image"
-import { useRouter, useSearchParams } from "next/navigation"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import {
   Carousel,
@@ -12,13 +11,12 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { useState } from "react"
-import { Share2, X, ZoomIn } from "lucide-react"
+import { X, ZoomIn } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { toast } from "../ui/use-toast"
 import ShareProduct from "./share-product"
 import { useQueryState, parseAsInteger } from "nuqs"
 import { Skeleton } from "../ui/skeleton"
+import { handleOnLoadImage } from "@/utils/on-load-image"
 
 interface ImageProductProps {
   images: ImageProps[]
@@ -56,7 +54,7 @@ export default function ImageProduct({
               width={300}
               height={300}
               className="size-full object-cover object-center opacity-0 transition-opacity duration-300"
-              onLoadingComplete={(image) => image.classList.remove("opacity-0")}
+              onLoad={handleOnLoadImage}
               priority
             />
           </div>
@@ -87,7 +85,7 @@ const ModalImageSlider = ({
         alt={title}
         fill
         className="size-full object-cover object-center opacity-0 transition-opacity duration-1000"
-        onLoadingComplete={(image) => image.classList.remove("opacity-0")}
+        onLoad={handleOnLoadImage}
         priority
         unoptimized
       />
@@ -144,9 +142,7 @@ const ZoomInImage = ({
                   src={image.image ?? ""}
                   fill
                   className="object-contain opacity-0 transition-opacity duration-1000"
-                  onLoadingComplete={(image) =>
-                    image.classList.remove("opacity-0")
-                  }
+                  onLoad={handleOnLoadImage}
                 />
               </CarouselItem>
             ))}

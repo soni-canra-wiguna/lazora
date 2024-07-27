@@ -35,7 +35,7 @@ const Favourite = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger>
+      <SheetTrigger aria-label="favourite button">
         <FavouriteButton totalFavourites={favourites.length} />
       </SheetTrigger>
       <SheetContent
@@ -69,7 +69,9 @@ const Favourite = () => {
         </div>
         <div className="flex h-max w-full flex-col gap-3 pb-2">
           <Link href="/account/favourites">
-            <Button className="w-full">View All ({favourites.length})</Button>
+            <Button className="shimmer w-full">
+              View All ({favourites.length})
+            </Button>
           </Link>
           <div className="flex w-full items-center justify-center">
             <Button

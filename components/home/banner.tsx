@@ -19,6 +19,7 @@ import { Button } from "../ui/button"
 import { ArrowRight } from "lucide-react"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+import { handleOnLoadImage } from "@/utils/on-load-image"
 
 export default function BannerHomepage() {
   const { data, isPending, isError } = getBanners()
@@ -139,7 +140,7 @@ export const BannerItem = ({
             height={600}
             alt={alt_image}
             className="size-full object-scale-down object-center opacity-0 transition-opacity duration-500"
-            onLoadingComplete={(image) => image.classList.remove("opacity-0")}
+            onLoad={handleOnLoadImage}
           />
         </div>
       </div>

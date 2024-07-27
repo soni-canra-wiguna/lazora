@@ -5,15 +5,14 @@ import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getShuffleProducts } from "@/services/get-products"
 import { ImageProps } from "@/types"
-import { formatTitleProduct } from "@/utils/format-title-product"
 import { formatToIDR } from "@/utils/format-to-idr"
 import { Category } from "@prisma/client"
-import Image from "next/image"
 import Link from "next/link"
 import Balancer from "react-wrap-balancer"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
 import { ProductImage } from "../product-image"
+import { URIProduct } from "@/utils/url-product"
 
 export default function Recommendation({
   category,
@@ -80,11 +79,10 @@ const RecommendationCard = ({
   categories,
   price,
 }: RecommendationProps) => {
-  const titleProduct = formatTitleProduct(title)
-  const urlProdcut = `/p/${titleProduct}/${id}`
+  const urlProduct = URIProduct({ title, id })
   return (
     <Link
-      href={urlProdcut}
+      href={urlProduct}
       className="relative flex aspect-auto w-[326px] flex-col"
     >
       <ProductImage src={image.image ?? ""} alt={title} />

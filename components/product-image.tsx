@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils"
+import { handleOnLoadImage } from "@/utils/on-load-image"
 import Image, { ImageProps } from "next/image"
 
 type ProductImageWithRestProps = Omit<
@@ -33,7 +34,7 @@ export const ProductImage = ({
           "size-full object-cover opacity-0 transition-all duration-500 hover:brightness-[.80]",
           className,
         )}
-        onLoadingComplete={(image) => image.classList.remove("opacity-0")}
+        onLoad={handleOnLoadImage}
         {...rest}
       />
     </div>

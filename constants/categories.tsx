@@ -1,4 +1,13 @@
-import {Box, Cable, CircuitBoard, Container, Keyboard, Mouse, Proportions, Sticker} from "lucide-react"
+import {
+  Box,
+  Cable,
+  CircuitBoard,
+  Container,
+  Keyboard,
+  Mouse,
+  Proportions,
+  Sticker,
+} from "lucide-react"
 
 export const CATEGORIES = [
   {
@@ -47,6 +56,6 @@ export const CATEGORIES = [
     title: "barebone",
     value: "barebone",
     image: "/categories/barebone.png",
-    icon: <CircuitBoard  className="size-4" />,
+    icon: <CircuitBoard className="size-4" />,
   },
 ]

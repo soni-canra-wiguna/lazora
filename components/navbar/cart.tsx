@@ -14,8 +14,9 @@ import { Card } from "../ui/card"
 import Image from "next/image"
 import Balancer from "react-wrap-balancer"
 import { formatToIDR } from "@/utils/format-to-idr"
+import { URIProduct } from "@/utils/url-product"
 
-const Cart = () => {
+export default function Cart() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const { cart: carts } = useSelector((state: RootState) => state.carts)
   const dispatch = useDispatch()
@@ -26,7 +27,7 @@ const Cart = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger>
+      <SheetTrigger aria-label="cart button">
         <CartButton totalCartItems={carts.length} />
       </SheetTrigger>
       <SheetContent
@@ -65,7 +66,9 @@ const Cart = () => {
         </div>
         <div className="flex h-max w-full flex-col gap-3 pb-2">
           <Link href="/account/carts">
-            <Button className="w-full">View All ({carts.length})</Button>
+            <Button className="shimmer w-full">
+              View All ({carts.length})
+            </Button>
           </Link>
           <div className="flex w-full items-center justify-center">
             <Button
@@ -82,8 +85,6 @@ const Cart = () => {
     </Sheet>
   )
 }
-
-export default Cart
 
 export const CartButton = ({ totalCartItems }: { totalCartItems: number }) => {
   return (
@@ -120,11 +121,12 @@ const CartCard = ({
   closeSheet,
 }: CartCardProps) => {
   const [totalQty, setTotalQty] = useState(qty)
+  const urlProduct = URIProduct({ title: title ?? "", id: id ?? "" })
 
   return (
     <Card className="flex h-max gap-3 p-2 transition-all hover:bg-secondary">
       <Link
-        href={`/p/${formatTitleProduct(title ?? "")}/${id}`}
+        href={urlProduct}
         onClick={closeSheet}
         className="shimmer size-16 border"
       >

@@ -4,7 +4,6 @@ import useVisibleNavbar from "@/hook/use-visible-navbar"
 import { usePathname } from "next/navigation"
 import MaxWidthWrapper from "../max-width-wrapper"
 import Search from "./search"
-import Link from "next/link"
 import { disableNavbarWithFooter } from "@/constants/disable-navbar-with-footer"
 import TopBar from "./top-bar"
 import Favourite from "./favourite"
@@ -22,9 +21,9 @@ const Navbar = () => {
   return (
     <>
       {!disableNavbarWithFooter.includes(patname) && (
-        <div className="fixed left-0 top-0 z-50 flex w-full flex-col items-start">
+        <header className="fixed left-0 top-0 z-50 flex w-full flex-col items-start">
           <TopBar />
-          <nav
+          <div
             className={`flex w-full items-center border-b bg-white py-4 transition duration-300 ease-in-out`}
           >
             <MaxWidthWrapper className="flex items-center justify-between">
@@ -33,14 +32,13 @@ const Navbar = () => {
                 <NavList />
               </div>
               <div className="flex w-max items-center gap-8">
-                {/* <div className="h-11 w-40 bg-secondary rounded-full"></div> */}
                 <Search />
                 <Favourite />
                 <Cart />
               </div>
             </MaxWidthWrapper>
-          </nav>
-        </div>
+          </div>
+        </header>
       )}
     </>
   )

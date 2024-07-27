@@ -5,6 +5,7 @@ import { ProductCardProps } from "@/types"
 import { formatTitleProduct } from "@/utils/format-title-product"
 import { Badge } from "../ui/badge"
 import { ProductImage } from "../product-image"
+import { URIProduct } from "@/utils/url-product"
 
 export const ProductCard = ({
   id,
@@ -13,11 +14,10 @@ export const ProductCard = ({
   categories,
   price,
 }: ProductCardProps) => {
-  const titleProduct = formatTitleProduct(title)
-  const urlProdcut = `/p/${titleProduct}/${id}`
+  const urlProduct = URIProduct({ title, id })
 
   return (
-    <Link href={urlProdcut} className="relative flex flex-col">
+    <Link href={urlProduct} className="relative flex flex-col">
       <ProductImage src={image.image ?? ""} alt={title} />
       <div className="mb-3 flex items-center gap-1.5">
         {categories?.map(({ title }, index) => (

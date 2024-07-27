@@ -1,19 +1,8 @@
-import MaxWidthWrapper from "@/components/max-width-wrapper"
+import DetailProduct from "@/components/detail-product"
+import { WEBSITE_URL } from "@/constants"
 import { ProductPostProps } from "@/types"
 import { Metadata } from "next"
-import ImageProduct, {
-  SuspenseImageProduct,
-} from "@/components/detail-product/image-product"
-import { Badge } from "@/components/ui/badge"
-import Balancer from "react-wrap-balancer"
-import { formatToIDR } from "@/utils/format-to-idr"
-import FavouriteToggle from "@/components/detail-product/favourite-toggle"
-import CartButton from "@/components/detail-product/cart-button"
-import ProductInfo from "@/components/detail-product/product-info"
-import Recommendation from "@/components/detail-product/recommendation"
 import { notFound } from "next/navigation"
-import { Suspense } from "react"
-
 interface GenerateMetadataProps {
   params: { slug: string[] }
   searchParams: {
@@ -21,15 +10,10 @@ interface GenerateMetadataProps {
   }
 }
 
-const URL =
-  process.env.NODE_ENV === "development"
-    ? process.env.DEV_URL
-    : process.env.PROD_URL
-
 const getProduct = async (slug: string[]) => {
   try {
     const productId = slug[1]
-    const response = await fetch(`${URL}/api/products/${productId}`, {
+    const response = await fetch(`${WEBSITE_URL}/api/products/${productId}`, {
       next: {
         tags: ["singleProduct"],
       },
@@ -67,7 +51,9 @@ export async function generateMetadata({
   }
 }
 
-const SingleProductPage = async ({ params }: GenerateMetadataProps) => {
+export default async function SingleProductPage({
+  params,
+}: GenerateMetadataProps) {
   const { slug } = params
   const { product } = await getProduct(slug)
 
@@ -76,52 +62,5 @@ const SingleProductPage = async ({ params }: GenerateMetadataProps) => {
     notFound()
   }
 
-  return (
-    <MaxWidthWrapper className="relative min-h-screen pt-32">
-      <div className="mb-[100px] flex items-start gap-12">
-        <Suspense fallback={<SuspenseImageProduct />}>
-          <ImageProduct
-            images={product.images ?? []}
-            title={product.title ?? ""}
-            price={product.price ?? 0}
-          />
-        </Suspense>
-        <div className="flex w-[500px] flex-col">
-          {/*  */}
-          <div className="mb-2.5 flex items-center gap-3">
-            {product.categories?.map(({ title: category }) => (
-              <Badge
-                key={category}
-                variant="secondary"
-                className="bg-secondary font-medium hover:bg-secondary"
-              >
-                {category}
-              </Badge>
-            ))}
-          </div>
-          <h2 className="mb-3.5 text-2xl font-bold">
-            <Balancer>{product.title}</Balancer>
-          </h2>
-          <h6 className="mb-3 text-lg font-semibold">
-            {formatToIDR(product.price ?? 0)}
-          </h6>
-          <div className="mb-3 flex items-center text-sm text-muted-foreground">
-            stock: {product.stock}
-          </div>
-          <div className="mb-4 flex items-center gap-4">
-            <FavouriteToggle product={product} />
-            <CartButton product={product} />
-          </div>
-          <ProductInfo
-            comments={product.comments}
-            description={product.description}
-            slug={slug}
-          />
-        </div>
-      </div>
-      <Recommendation category={product.categories[0].title} id={product.id} />
-    </MaxWidthWrapper>
-  )
+  return <DetailProduct product={product} slug={slug} />
 }
-
-export default SingleProductPage

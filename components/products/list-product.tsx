@@ -13,7 +13,10 @@ import { Button } from "../ui/button"
 import { useQueryState } from "nuqs"
 
 export default function ListProducts() {
-  const [sortBy] = useQueryState("sortBy", { defaultValue: "featured" })
+  const [sortBy] = useQueryState("sortBy", {
+    defaultValue: "featured",
+    history: "push",
+  })
   const { ref, inView } = useInView()
   const {
     data,

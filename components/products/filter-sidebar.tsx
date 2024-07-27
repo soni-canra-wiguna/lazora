@@ -8,7 +8,7 @@ import { ITEMS_SORT_BY } from "@/constants/items-sort-by"
 import { useQueryState } from "nuqs"
 
 export default function FilterSidebar() {
-  const [sortBy, setSortBy] = useQueryState("sortBy")
+  const [sortBy, setSortBy] = useQueryState("sortBy", { history: "push" })
 
   // const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 

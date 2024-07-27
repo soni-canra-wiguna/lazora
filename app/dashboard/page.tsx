@@ -1,6 +1,7 @@
 "use client"
 
 import { useUserClient } from "@/hook/use-user"
+import { handleOnLoadImage } from "@/utils/on-load-image"
 import Image from "next/image"
 
 const DashboardPage = () => {
@@ -19,7 +20,7 @@ const DashboardPage = () => {
           width={500}
           height={500}
           className="mx-auto aspect-square w-full max-w-sm opacity-0 grayscale transition-opacity duration-1000 selection:bg-transparent"
-          onLoadingComplete={(image) => image.classList.remove("opacity-0")}
+          onLoad={handleOnLoadImage}
         />
         <h4 className="text-center text-xl font-medium">Building Process..</h4>
       </div>

@@ -9,13 +9,12 @@ import { useRouter } from "next/navigation"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
 import { ProductCardProps } from "@/types"
-import { formatTitleProduct } from "@/utils/format-title-product"
 import Link from "next/link"
-import Image from "next/image"
 import { Badge } from "../ui/badge"
 import Balancer from "react-wrap-balancer"
 import { formatToIDR } from "@/utils/format-to-idr"
 import { ProductImage } from "../product-image"
+import { URIProduct } from "@/utils/url-product"
 
 export default function ListProductHomepage() {
   const { inView, ref } = useInView()
@@ -69,11 +68,10 @@ const ListProductCard = ({
   categories,
   price,
 }: ProductCardProps) => {
-  const titleProduct = formatTitleProduct(title)
-  const urlProdcut = `/p/${titleProduct}/${id}`
+  const urlProduct = URIProduct({ title, id })
 
   return (
-    <Link href={urlProdcut} className="relative flex flex-col">
+    <Link href={urlProduct} className="relative flex flex-col">
       <ProductImage src={image.image ?? ""} alt={title} />
       <div className="mb-3 flex items-center gap-1.5">
         {categories?.map(({ title }, index) => (

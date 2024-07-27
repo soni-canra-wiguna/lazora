@@ -15,10 +15,10 @@ import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { ProductPostProps } from "@/types"
 import { formatToIDR } from "@/utils/format-to-idr"
-import { formatTitleProduct } from "@/utils/format-title-product"
 import Image from "next/image"
 import { CartButton } from "./cart"
 import Balancer from "react-wrap-balancer"
+import { URIProduct } from "@/utils/url-product"
 
 const Search = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -48,7 +48,7 @@ const Search = () => {
         <div className="relative h-11 w-64 cursor-text rounded-full bg-secondary hover:bg-secondary-foreground/10">
           <span className="absolute left-3 top-1/2 flex -translate-y-1/2 items-center gap-2 font-medium text-muted-foreground/50">
             <SearchIcon className="size-6" strokeWidth={2} />
-            <p>search products</p>
+            <p>Search products</p>
           </span>
         </div>
       </SheetTrigger>
@@ -129,16 +129,13 @@ const SearchResult = ({
   price: number
   closeSheet: (isOpen: boolean) => void
 }) => {
-  const titleProduct = formatTitleProduct(title)
-  const urlProdcut = `/p/${titleProduct}/${id}`
-
-  console.log(title, price)
+  const urlProduct = URIProduct({ title, id })
 
   return (
     <Link
       // @ts-ignore
       onClick={closeSheet}
-      href={urlProdcut}
+      href={urlProduct}
       className="flex h-max w-full flex-col"
     >
       <div className="mb-3 h-[260px] w-full">

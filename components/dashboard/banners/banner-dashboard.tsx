@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button"
 import { MoreHorizontal } from "lucide-react"
 import EditItemBanner from "./edit-item-banner"
 import DeleteItemBanner from "./delete-item-banner"
+import { handleOnLoadImage } from "@/utils/on-load-image"
 
 export const BodyBannerDashboard = () => {
   const { data, isPending, isError } = getBanners()
@@ -62,7 +63,7 @@ const TableRowBanner = ({ banner }: { banner: Banner }) => {
           height="64"
           width="64"
           className="aspect-square rounded-md object-cover opacity-0 transition-opacity duration-1000"
-          onLoadingComplete={(image) => image.classList.remove("opacity-0")}
+          onLoad={handleOnLoadImage}
         />
       </TableCell>
       <TableCell className="font-medium">{banner.title}</TableCell>
