@@ -37,7 +37,7 @@ export async function generateMetadata({
   const { slug } = params
   const { product } = await getProduct(slug)
   const indexImage = +searchParams.indexImage // + is shorthand Number()
-  const URIProduct = `${WEBSITE_URL}/p/${formatTitleProduct(slug[0])}/${slug[1]}?indexImage=0`
+  const URIProduct = `${WEBSITE_URL}/p/${slug[0]}/${slug[1]}?indexImage=0`
 
   return {
     title: product.title,
