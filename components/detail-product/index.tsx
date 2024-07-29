@@ -9,6 +9,8 @@ import FavouriteToggle from "./favourite-toggle"
 import CartButton from "./cart-button"
 import ProductInfo from "./product-info"
 import Recommendation from "./recommendation"
+import Link from "next/link"
+import { formatTitleProduct } from "@/utils/format-title-product"
 
 interface DetailProductProps {
   product: ProductPostProps
@@ -30,13 +32,14 @@ export default function DetailProduct({ product, slug }: DetailProductProps) {
           {/*  */}
           <div className="mb-2.5 flex items-center gap-3">
             {product.categories?.map(({ title: category }) => (
-              <Badge
-                key={category}
-                variant="secondary"
-                className="bg-secondary font-medium hover:bg-secondary"
-              >
-                {category}
-              </Badge>
+              <Link href={`/c/${formatTitleProduct(category)}`} key={category}>
+                <Badge
+                  variant="secondary"
+                  className="bg-secondary hover:bg-secondary-foreground/10"
+                >
+                  {category}
+                </Badge>
+              </Link>
             ))}
           </div>
           <h2 className="mb-3.5 text-2xl font-bold">
