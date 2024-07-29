@@ -1,6 +1,6 @@
 "use client"
 
-import LoadingButton from "@/components/loading-button"
+import LoadingButton from "@/components/buttons/loading-button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import { useUserClient } from "@/hook/use-user"
@@ -59,8 +59,8 @@ const Comment = ({
 
   return (
     <div className="flex flex-col gap-5">
-      <form onSubmit={handleAddComment} className="flex gap-3 w-full">
-        <div className="flex w-full flex-col gap-2 h-max">
+      <form onSubmit={handleAddComment} className="flex w-full gap-3">
+        <div className="flex h-max w-full flex-col gap-2">
           <Input
             value={commentMessage}
             onChange={(e) => setCommentMessage(e.target.value)}
@@ -73,7 +73,7 @@ const Comment = ({
               }
             }}
             disabled={isPending || !session}
-            className="border bg-transparent border-primary"
+            className="border border-primary bg-transparent"
             placeholder="tulis komentar kamu (min 5 karakter)"
           />
           {commentMessage.length > 1000 && (
@@ -95,9 +95,9 @@ const Comment = ({
           add comment
         </LoadingButton>
       </form>
-      <div className="flex flex-col divide-y *:py-4 first:*:pt-0 last:*:pb-0 divide-secondary">
+      <div className="flex flex-col divide-y divide-secondary *:py-4 first:*:pt-0 last:*:pb-0">
         {isPending && (
-          <div className="flex flex-col gap-1 justify-center opacity-70">
+          <div className="flex flex-col justify-center gap-1 opacity-70">
             <div className="flex items-center gap-2">
               <Avatar className="size-8">
                 <AvatarImage
@@ -125,7 +125,7 @@ const Comment = ({
           <div
             className={`${
               isPending ? "hidden" : "block"
-            } flex flex-col gap-3 py-8 items-center justify-center text-muted-foreground/50`}
+            } flex flex-col items-center justify-center gap-3 py-8 text-muted-foreground/50`}
           >
             <MessageSquare className="size-16 stroke-[1.5] text-inherit" />
             <p className="text-inherit">Jadilah yang pertama berkomentar</p>
@@ -162,7 +162,7 @@ const UserComment = ({
   const censoreMessage = censorWordMessage(message)
 
   return (
-    <div className="flex flex-col gap-1 justify-center">
+    <div className="flex flex-col justify-center gap-1">
       <div className="flex items-center gap-2">
         <Avatar className="size-8">
           <AvatarImage src={image} alt={username} />

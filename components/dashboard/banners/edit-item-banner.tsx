@@ -36,7 +36,7 @@ import {
 import { toast } from "@/components/ui/use-toast"
 import { BannerItem } from "@/components/home/banner"
 import { Input } from "@/components/ui/input"
-import LoadingButton from "@/components/loading-button"
+import LoadingButton from "@/components/buttons/loading-button"
 import { FORM_OPTIONS } from "@/constants/form-options"
 import { UploadDropzone } from "@/lib/uploadthing"
 import { useUserClient } from "@/hook/use-user"
@@ -119,7 +119,7 @@ const EditItemBanner = ({ banner, setIsAction }: EditType) => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger className="cursor-pointer" asChild>
-        <div className="flex items-center justify-between px-2 py-1 transition-all hover:bg-muted">
+        <div className="flex items-center justify-between px-3 py-1 transition-all hover:bg-muted">
           edit
           <Pencil size={18} strokeWidth={1.5} />
         </div>

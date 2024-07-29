@@ -5,7 +5,7 @@ import ListProducts, {
   SuspenseListproducts,
 } from "@/components/products/list-product"
 import { Suspense } from "react"
-import MaxWidthWrapper from "@/components/max-width-wrapper"
+import MaxWidthWrapper from "@/components/layouts/max-width-wrapper"
 import TotalProducts from "@/components/products/total-products"
 
 export default function ProductsPage() {

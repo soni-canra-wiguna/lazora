@@ -1,6 +1,6 @@
 "use client"
 
-import MaxWidthWrapper from "@/components/max-width-wrapper"
+import MaxWidthWrapper from "@/components/layouts/max-width-wrapper"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getShuffleProducts } from "@/services/get-products"

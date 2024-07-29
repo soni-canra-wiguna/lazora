@@ -10,7 +10,7 @@ import {
 import AutoPlay from "embla-carousel-autoplay"
 import { getBanners } from "@/services/get-banners"
 import { Skeleton } from "../ui/skeleton"
-import MaxWidthWrapper from "../max-width-wrapper"
+import MaxWidthWrapper from "@/components/layouts/max-width-wrapper"
 import { BannerProps } from "@/types"
 import Balancer from "react-wrap-balancer"
 import { Card } from "../ui/card"

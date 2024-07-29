@@ -1,7 +1,7 @@
 "use client"
 
-import LoadingButton from "@/components/loading-button"
-import MaxWidthWrapper from "@/components/max-width-wrapper"
+import LoadingButton from "@/components/buttons/loading-button"
+import MaxWidthWrapper from "@/components/layouts/max-width-wrapper"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {

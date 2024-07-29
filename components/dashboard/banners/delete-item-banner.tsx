@@ -15,7 +15,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
-import LoadingButton from "@/components/loading-button"
+import LoadingButton from "@/components/buttons/loading-button"
 import { useUserClient } from "@/hook/use-user"
 import { Role } from "@prisma/client"
 
@@ -77,7 +77,7 @@ const DeleteItemBanner = ({ id, setIsAction }: DeleteType) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="cursor-pointer" asChild>
-        <div className="flex items-center justify-between px-2 py-1 transition-all hover:bg-muted">
+        <div className="flex items-center justify-between px-3 py-1 transition-all hover:bg-muted">
           delete
           <Trash2 size={18} strokeWidth={1.5} color="#ff0000" />
         </div>

@@ -20,6 +20,7 @@ import { toast } from "../ui/use-toast"
 import { addToCart } from "@/redux/features/cart/cart-slice"
 import { useMounted } from "@/hook/use-mounted"
 import { Dispatch, UnknownAction } from "@reduxjs/toolkit"
+import DynamicButton from "../buttons/dynamic-button"
 
 const Favourite = () => {
   const { favourites } = useSelector((state: RootState) => state.favourites)
@@ -31,12 +32,12 @@ const Favourite = () => {
     setIsOpen(false)
   }
 
-  if (!isMounted) return <FavouriteButton totalFavourites={0} />
+  if (!isMounted) return <DynamicButton type="favourite" totalItems={0} />
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger aria-label="favourite button">
-        <FavouriteButton totalFavourites={favourites.length} />
+        <DynamicButton type="favourite" totalItems={favourites.length} />
       </SheetTrigger>
       <SheetContent
         side="right"
@@ -90,25 +91,6 @@ const Favourite = () => {
 }
 
 export default Favourite
-
-export const FavouriteButton = ({
-  totalFavourites,
-}: {
-  totalFavourites: number
-}) => {
-  return (
-    <div className="relative h-max w-max cursor-pointer">
-      <CustomTooltip title="favourite" side="bottom">
-        <Heart className="size-6" strokeWidth={1.5} />
-      </CustomTooltip>
-      {totalFavourites > 0 && (
-        <span className="absolute -bottom-1 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full border-[2px] border-white bg-primary p-2 text-xs text-background">
-          {totalFavourites}
-        </span>
-      )}
-    </div>
-  )
-}
 
 type FavouriteCardProps = {
   closeSheet: () => void

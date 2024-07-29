@@ -1,21 +1,16 @@
 "use client"
 
-import useVisibleNavbar from "@/hook/use-visible-navbar"
 import { usePathname } from "next/navigation"
-import MaxWidthWrapper from "../max-width-wrapper"
-import Search from "./search"
+import MaxWidthWrapper from "@/components/layouts/max-width-wrapper"
+import SearchProducts from "@/components/search"
 import { disableNavbarWithFooter } from "@/constants/disable-navbar-with-footer"
 import TopBar from "./top-bar"
-import Favourite from "./favourite"
-import Cart from "./cart"
-import Logo from "../logo"
-import { useSelector } from "react-redux"
-import { RootState } from "@/redux/store"
+import Favourite from "@/components/favourite"
+import Cart from "@/components/cart"
+import Logo from "@/components/logo"
 import NavList from "./nav-list"
 
 const Navbar = () => {
-  // const { visible } = useVisibleNavbar()
-  // const isVisible = visible ? "translate-y-0 opacity-100" : "-translate-y-20 opacity-0"
   const patname = usePathname()
 
   return (
@@ -32,7 +27,7 @@ const Navbar = () => {
                 <NavList />
               </div>
               <div className="flex w-max items-center gap-8">
-                <Search />
+                <SearchProducts />
                 <Favourite />
                 <Cart />
               </div>

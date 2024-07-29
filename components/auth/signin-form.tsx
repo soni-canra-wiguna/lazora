@@ -17,7 +17,7 @@ import { signIn } from "next-auth/react"
 import { useMutation } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import AuthStatus from "./auth-status"
-import LoadingButton from "@/components/loading-button"
+import LoadingButton from "@/components/buttons/loading-button"
 import AuthInput from "./auth-input"
 import { Lock, MailIcon } from "lucide-react"
 import FormWrapper from "./form-wrapper"
@@ -78,7 +78,7 @@ const SignInForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full h-auto flex flex-col gap-6"
+          className="flex h-auto w-full flex-col gap-6"
         >
           <FormField
             control={form.control}
@@ -93,7 +93,7 @@ const SignInForm = () => {
                       focus
                       icon={
                         <MailIcon
-                          className="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 ml-4"
+                          className="absolute top-1/2 ml-4 h-4 w-4 -translate-y-1/2 transform"
                           color="black"
                         />
                       }
@@ -118,7 +118,7 @@ const SignInForm = () => {
                       type="password"
                       icon={
                         <Lock
-                          className="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 ml-4"
+                          className="absolute top-1/2 ml-4 h-4 w-4 -translate-y-1/2 transform"
                           color="black"
                         />
                       }
@@ -149,7 +149,7 @@ const SignInForm = () => {
           )}
           <LoadingButton
             type="submit"
-            className="w-full rounded-full capitalize mt-3"
+            className="mt-3 w-full rounded-full capitalize"
             loading={isPending}
             disabled={isPending}
           >

@@ -1,6 +1,6 @@
 import Link from "next/link"
-import MaxWidthWrapper from "../max-width-wrapper"
-import { Button } from "../ui/button"
+import MaxWidthWrapper from "@/components/layouts/max-width-wrapper"
+import { Button } from "@/components/ui/button"
 import { useUserClient } from "@/hook/use-user"
 import {
   Popover,
@@ -18,7 +18,7 @@ import {
 } from "lucide-react"
 import { signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { toast } from "../ui/use-toast"
+import { toast } from "@/components/ui/use-toast"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 
@@ -101,7 +101,7 @@ const Account = () => {
           </PopoverTrigger>
           <PopoverContent
             align="end"
-            className="mt-2 flex h-[350px] w-[550px] rounded-none p-0"
+            className="mt-2 flex h-[350px] w-[550px] overflow-hidden p-0"
           >
             <div className="relative h-full w-[350px] overflow-hidden border-r">
               <div className="absolute bottom-0 left-0 h-1/2 w-full bg-gradient-to-t from-primary" />
@@ -170,7 +170,7 @@ const ToggleLanguange = () => {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="mt-2 flex h-max w-[120px] flex-col rounded-none px-0 py-2"
+        className="mt-2 flex h-max w-[120px] flex-col px-0 py-2"
       >
         <div
           onClick={() => toggleSwitchLanguage("ID")}

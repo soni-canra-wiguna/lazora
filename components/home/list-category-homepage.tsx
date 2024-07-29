@@ -1,5 +1,5 @@
 import Link from "next/link"
-import MaxWidthWrapper from "../max-width-wrapper"
+import MaxWidthWrapper from "@/components/layouts/max-width-wrapper"
 import { CATEGORIES } from "@/constants/categories"
 import { Card } from "../ui/card"
 import Image from "next/image"

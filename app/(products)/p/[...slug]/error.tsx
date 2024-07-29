@@ -1,17 +1,13 @@
 "use client"
 
-import BackButton from "@/components/back-button"
-import MaxWidthWrapper from "@/components/max-width-wrapper"
+import BackButton from "@/components/buttons/back-button"
+import MaxWidthWrapper from "@/components/layouts/max-width-wrapper"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, RefreshCcw } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
 
 export default function Error() {
-  const [isRefresh, setIsRefresh] = useState(false)
-  const router = useRouter()
   return (
     <MaxWidthWrapper className="mt-40 flex min-h-screen max-w-lg flex-col items-center gap-8 px-6">
       <Image

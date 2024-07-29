@@ -5,7 +5,7 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "../ui/navigation-menu"
+} from "@/components/ui/navigation-menu"
 import React from "react"
 import { CATEGORIES } from "@/constants/categories"
 import { formatTitleProduct } from "@/utils/format-title-product"

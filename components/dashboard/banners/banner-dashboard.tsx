@@ -90,7 +90,7 @@ const TableRowBanner = ({ banner }: { banner: Banner }) => {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="px-0 py-2">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <EditItemBanner banner={banner} setIsAction={setIsAction} />
             <DeleteItemBanner id={banner.id} setIsAction={setIsAction} />

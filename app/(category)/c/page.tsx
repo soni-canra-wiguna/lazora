@@ -1,4 +1,4 @@
-import MaxWidthWrapper from "@/components/max-width-wrapper"
+import MaxWidthWrapper from "@/components/layouts/max-width-wrapper"
 
 const CategoryPage = () => {
   return (

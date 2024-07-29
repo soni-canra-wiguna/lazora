@@ -1,9 +1,9 @@
 "use client"
 
 import React from "react"
-import { Button } from "./ui/button"
+import { Button } from "../ui/button"
 import { Loader2 } from "lucide-react"
-import { ButtonProps } from "./ui/button"
+import { ButtonProps } from "../ui/button"
 
 type LoadingButtonProps = {
   children: React.ReactNode

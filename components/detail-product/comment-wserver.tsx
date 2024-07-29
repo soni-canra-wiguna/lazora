@@ -1,6 +1,6 @@
 "use client"
 
-import LoadingButton from "@/components/loading-button"
+import LoadingButton from "@/components/buttons/loading-button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import { useUserClient } from "@/hook/use-user"

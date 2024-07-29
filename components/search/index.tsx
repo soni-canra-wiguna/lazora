@@ -1,26 +1,18 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ArrowUpFromDot, Loader2, SearchIcon, X } from "lucide-react"
-import MaxWidthWrapper from "../max-width-wrapper"
-import { Input } from "../ui/input"
+import MaxWidthWrapper from "@/components/layouts/max-width-wrapper"
+import { Input } from "@/components/ui/input"
 import { useState } from "react"
-import { Button } from "../ui/button"
-import Logo from "../logo"
-import Cart from "./cart"
-import { FavouriteButton } from "./favourite"
-import { RootState } from "@/redux/store"
-import { useSelector } from "react-redux"
-import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import Logo from "@/components/logo"
 import { useDebounce } from "use-debounce"
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { ProductPostProps } from "@/types"
-import { formatToIDR } from "@/utils/format-to-idr"
-import Image from "next/image"
-import { CartButton } from "./cart"
-import Balancer from "react-wrap-balancer"
-import { URIProduct } from "@/utils/url-product"
+import { SearchResults } from "./search-results"
+import { CartAndFavouriteLink } from "./link"
 
-const Search = () => {
+const SearchProducts = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [searchInput, setSearchInput] = useState<string>("")
   const [debounceSearchInput] = useDebounce(
@@ -48,7 +40,7 @@ const Search = () => {
         <div className="relative h-11 w-64 cursor-text rounded-full bg-secondary hover:bg-secondary-foreground/10">
           <span className="absolute left-3 top-1/2 flex -translate-y-1/2 items-center gap-2 font-medium text-muted-foreground/50">
             <SearchIcon className="size-6" strokeWidth={2} />
-            <p>Search products</p>
+            <p className="capitalize">Search products</p>
           </span>
         </div>
       </SheetTrigger>
@@ -85,7 +77,7 @@ const Search = () => {
           ) : searchProducts?.length > 0 ? (
             <div className="result__search grid h-full max-h-[500px] w-full grid-cols-4 gap-6 overflow-y-auto px-4 transition-all">
               {searchProducts?.map((product) => (
-                <SearchResult
+                <SearchResults
                   key={product.id}
                   id={product.id}
                   title={product.title}
@@ -114,62 +106,4 @@ const Search = () => {
   )
 }
 
-export default Search
-
-const SearchResult = ({
-  id,
-  title,
-  image,
-  price,
-  closeSheet,
-}: {
-  id: string
-  title: string
-  image?: string
-  price: number
-  closeSheet: (isOpen: boolean) => void
-}) => {
-  const urlProduct = URIProduct({ title, id })
-
-  return (
-    <Link
-      // @ts-ignore
-      onClick={closeSheet}
-      href={urlProduct}
-      className="flex h-max w-full flex-col"
-    >
-      <div className="mb-3 h-[260px] w-full">
-        <Image
-          alt={title}
-          src={image ?? ""}
-          width={400}
-          height={400}
-          className="h-full w-full object-contain object-center"
-        />
-      </div>
-      <h3 className="mb-1.5 text-base font-semibold">
-        <Balancer>
-          {title.length > 60 ? title.slice(0, 60) + "..." : title}
-        </Balancer>
-      </h3>
-      <p className="text-base font-medium text-muted-foreground">
-        {formatToIDR(price)}
-      </p>
-    </Link>
-  )
-}
-
-const CartAndFavouriteLink = () => {
-  const { favourites } = useSelector((state: RootState) => state.favourites)
-  const { cart } = useSelector((state: RootState) => state.carts)
-  return (
-    <div className="flex items-center gap-6">
-      <Link href="/account/favourite">
-        <FavouriteButton totalFavourites={favourites.length} />
-      </Link>
-      <Link href="/account/cart">
-        <CartButton totalCartItems={cart.length} />
-      </Link>
-    </div>
-  )
-}
+export default SearchProducts

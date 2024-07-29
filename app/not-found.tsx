@@ -1,4 +1,4 @@
-import BackButton from "@/components/back-button"
+import BackButton from "@/components/buttons/back-button"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { Metadata } from "next"

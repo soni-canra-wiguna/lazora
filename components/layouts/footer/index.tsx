@@ -1,19 +1,15 @@
 "use client"
 
-import { cn } from "@/lib/utils"
-import MaxWidthWrapper from "./../max-width-wrapper"
+import MaxWidthWrapper from "@/components/layouts/max-width-wrapper"
 import Link from "next/link"
-import { Input } from "../ui/input"
-import { Mail, ArrowRight } from "lucide-react"
-import { IoLogoInstagram } from "react-icons/io"
-import { ImFacebook } from "react-icons/im"
-import { RiTwitterXLine } from "react-icons/ri"
 import Image from "next/image"
 import googlePlayBadge from "@/public/google-play-badge.svg"
 import appStoreBadge from "@/public/app-store-badge.svg"
 import { disableNavbarWithFooter } from "@/constants/disable-navbar-with-footer"
 import { usePathname } from "next/navigation"
 import { FOOTER_ITEMS } from "@/constants/footer-items"
+import { FooterItem } from "./footer-item"
+import { NewsSection } from "./news-section"
 
 const Footer = () => {
   const pathname = usePathname()
@@ -23,7 +19,7 @@ const Footer = () => {
       {!disableNavbarWithFooter.includes(pathname) && (
         <footer className="w-full border-t border-secondary-foreground/10 bg-secondary py-20">
           <MaxWidthWrapper className="grid grid-cols-12 gap-x-10">
-            <News className="pr-10" />
+            <NewsSection className="pr-10" />
             <FooterItem title="Browse" className="col-span-2">
               <div className="flex flex-col gap-3.5">
                 {FOOTER_ITEMS.browse.map((browse) => (
@@ -89,75 +85,3 @@ const Footer = () => {
 }
 
 export default Footer
-
-const FooterItem = ({
-  className,
-  title,
-  children,
-}: {
-  className?: string
-  title: string
-  children: React.ReactNode
-}) => {
-  return (
-    <div className={cn("", className)}>
-      <h3 className="mb-5 text-lg font-semibold text-primary">{title}</h3>
-      {children}
-    </div>
-  )
-}
-
-const News = ({ className }: { className?: string }) => {
-  const socialIcon = [
-    {
-      title: "facebook",
-      href: "https://facebook.com",
-      icon: <ImFacebook className="text-2xl" />,
-    },
-    {
-      title: "instagram",
-      href: "https://instagram.com",
-      icon: <IoLogoInstagram className="text-2xl" />,
-    },
-    {
-      title: "twitter x",
-      href: "https://twitter.com",
-      icon: <RiTwitterXLine className="text-2xl" />,
-    },
-  ]
-  return (
-    <div className={cn("col-span-4 flex flex-col", className)}>
-      <h1 className="mb-5 text-2xl font-medium uppercase">LAZORA NEWS</h1>
-      <p className="mb-5 text-primary">
-        Stay update with all the Lazora Tech News, including new products and
-        amazing deals.
-      </p>
-      <div className="relative mb-8 h-max w-full">
-        <Mail className="absolute left-2.5 top-1/2 size-6 -translate-y-1/2 stroke-[1.5] text-primary" />
-        <Input
-          className="h-12 border border-primary bg-transparent px-12 placeholder:capitalize"
-          placeholder="enter your email"
-          spellCheck="false"
-        />
-        <ArrowRight className="absolute right-2.5 top-1/2 size-6 -translate-y-1/2 stroke-[1.5] text-primary" />
-      </div>
-      <FooterItem title="Follow us" className="mb-10">
-        <div className="flex items-center gap-4">
-          {socialIcon.map((social) => (
-            <a
-              href={social.href}
-              key={social.title}
-              className="flex size-12 items-center justify-center rounded-full bg-secondary-foreground/10 transition-all duration-300 hover:bg-secondary-foreground/20"
-            >
-              {social.icon}
-              <p className="sr-only">{social.title}</p>
-            </a>
-          ))}
-        </div>
-      </FooterItem>
-      <p className="capitalize text-primary">
-        &copy; {new Date().getFullYear()} Lazora, all right reserved.
-      </p>
-    </div>
-  )
-}

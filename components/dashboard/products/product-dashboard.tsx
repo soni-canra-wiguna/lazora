@@ -84,7 +84,7 @@ const TableRowProduct = ({ product }: { product: ProductPostProps }) => {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="px-0 py-2">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             {/* <EditItemProduct product={product} setIsAction={setIsAction} /> */}
             <DeleteItemProduct id={product.id} setIsAction={setIsAction} />

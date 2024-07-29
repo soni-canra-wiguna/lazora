@@ -1,20 +1,21 @@
 import { Minus, Plus, ShoppingCart } from "lucide-react"
-import CustomTooltip from "../custom-tooltip"
+import CustomTooltip from "@/components/custom-tooltip"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { useState } from "react"
 import Link from "next/link"
-import { Button } from "../ui/button"
+import { Button } from "@/components/ui/button"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 import { RootState } from "@/redux/store"
 import { removeCartItem, resetCart } from "@/redux/features/cart/cart-slice"
 import { formatTitleProduct } from "@/utils/format-title-product"
-import { toast } from "../ui/use-toast"
-import { Card } from "../ui/card"
+import { toast } from "@/components/ui/use-toast"
+import { Card } from "@/components/ui/card"
 import Image from "next/image"
 import Balancer from "react-wrap-balancer"
 import { formatToIDR } from "@/utils/format-to-idr"
 import { URIProduct } from "@/utils/url-product"
+import DynamicButton from '../buttons/dynamic-button'
 
 export default function Cart() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -28,7 +29,7 @@ export default function Cart() {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger aria-label="cart button">
-        <CartButton totalCartItems={carts.length} />
+        <DynamicButton type="cart" totalItems={carts.length} />
       </SheetTrigger>
       <SheetContent
         side="right"
@@ -83,21 +84,6 @@ export default function Cart() {
         </div>
       </SheetContent>
     </Sheet>
-  )
-}
-
-export const CartButton = ({ totalCartItems }: { totalCartItems: number }) => {
-  return (
-    <div className="relative h-max w-max cursor-pointer">
-      <CustomTooltip title="cart" side="bottom">
-        <ShoppingCart className="size-6" strokeWidth={1.5} />
-      </CustomTooltip>
-      {totalCartItems > 0 && (
-        <span className="absolute -bottom-1 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full border-[2px] border-white bg-primary p-2 text-xs text-background">
-          {totalCartItems}
-        </span>
-      )}
-    </div>
   )
 }
 

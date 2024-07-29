@@ -1,14 +1,14 @@
 import type { Metadata } from "next"
 import { Plus_Jakarta_Sans } from "next/font/google"
 import "./globals.css"
-import Navbar from "@/components/navbar"
+import Navbar from "@/components/layouts/navbar"
 import NextTopLoader from "nextjs-toploader"
 import SessionClientProvider from "@/lib/provider/session-client-provider"
 import TanstackProvider from "@/lib/provider/tanstask-provider"
 import { Toaster } from "@/components/ui/toaster"
 import ReduxProvider from "@/lib/provider/redux-provider"
-import Footer from "@/components/footer"
-import BackToTop from "@/components/back-to-top"
+import Footer from "@/components/layouts/footer"
+import BackToTop from "@/components/buttons/back-to-top"
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   weight: ["200", "300", "400", "500", "600", "700"],
