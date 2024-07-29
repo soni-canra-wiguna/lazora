@@ -8,13 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useRouter } from "next/navigation"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
-import { ProductCardProps } from "@/types"
-import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
-import Balancer from "react-wrap-balancer"
-import { formatToIDR } from "@/utils/format-to-idr"
-import { ProductImage } from "../product-image"
-import { URIProduct } from "@/utils/url-product"
+import { ProductCard } from "../cards/product-card"
 
 export default function ListProductHomepage() {
   const { inView, ref } = useInView()
@@ -45,50 +39,20 @@ export default function ListProductHomepage() {
         ) : (
           <div className="grid grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-3 lg:grid-cols-4">
             {data?.map(({ id, images, title, categories, price }) => (
-              <ListProductCard
+              <ProductCard
                 key={id + title}
                 id={id}
                 image={images[0]}
                 title={title}
                 categories={categories}
                 price={price}
+                sliceLength={60}
               />
             ))}
           </div>
         )}
       </div>
     </MaxWidthWrapper>
-  )
-}
-
-const ListProductCard = ({
-  id,
-  image,
-  title,
-  categories,
-  price,
-}: ProductCardProps) => {
-  const urlProduct = URIProduct({ title, id })
-
-  return (
-    <Link href={urlProduct} className="relative flex flex-col">
-      <ProductImage src={image.image ?? ""} alt={title} />
-      <div className="mb-3 flex items-center gap-1.5">
-        {categories?.map(({ title }, index) => (
-          <Badge variant="secondary" key={index + title}>
-            {title}
-          </Badge>
-        ))}
-      </div>
-      <h3 className="mb-1.5 text-base font-semibold">
-        <Balancer>
-          {title.length > 60 ? title.slice(0, 60) + "..." : title}
-        </Balancer>
-      </h3>
-      <p className="text-base font-medium text-muted-foreground">
-        {formatToIDR(price)}
-      </p>
-    </Link>
   )
 }
 

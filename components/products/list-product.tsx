@@ -1,6 +1,6 @@
 "use client"
 
-import { ProductCard } from "@/components/products/product-card"
+import { ProductCard } from "@/components/cards/product-card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { ProductDataType, ProductPostProps } from "@/types"
 import { useInfiniteQuery } from "@tanstack/react-query"
@@ -84,13 +84,13 @@ const ListProductInfinite = ({
 }) => {
   const product = products?.map((data) => (
     <ProductCard
-      // ref={ref}
       key={data.id}
       id={data.id}
       image={data.images[0]}
       title={data.title}
       categories={data.categories}
       price={data.price}
+      sliceLength={45}
     />
   ))
 
