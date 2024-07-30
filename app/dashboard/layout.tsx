@@ -1,10 +1,7 @@
 import SidebarDashboard from "@/components/dashboard/sidebar-dashboard"
+import { LayoutType } from "@/types"
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function DashboardLayout({ children }: LayoutType) {
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <SidebarDashboard />

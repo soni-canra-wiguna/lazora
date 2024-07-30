@@ -1,5 +1,9 @@
 import { Category } from "@prisma/client"
 
+export type LayoutType = Readonly<{
+  children: React.ReactNode
+}>
+
 export interface ProductPostProps {
   id: string
   title: string

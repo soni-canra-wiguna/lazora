@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/toaster"
 import ReduxProvider from "@/lib/provider/redux-provider"
 import Footer from "@/components/layouts/footer"
 import BackToTop from "@/components/buttons/back-to-top"
+import { LayoutType } from "@/types"
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   weight: ["200", "300", "400", "500", "600", "700"],
@@ -92,11 +93,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: LayoutType) {
   return (
     <html lang="en">
       <SessionClientProvider>
