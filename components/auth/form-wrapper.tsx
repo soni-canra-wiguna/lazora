@@ -3,7 +3,7 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { formatTitleProduct } from "@/utils/format-title-product"
 
-export interface FormWrapperPorps {
+interface FormWrapperProps {
   className?: string
   children: React.ReactNode
   title: string
@@ -19,7 +19,7 @@ const FormWrapper = ({
   desc,
   desc_href,
   href_title,
-}: FormWrapperPorps) => {
+}: FormWrapperProps) => {
   const href = `/${formatTitleProduct(href_title ?? "")}`
 
   return (
