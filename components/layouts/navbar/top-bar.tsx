@@ -29,7 +29,7 @@ const TopBar = () => {
         <div className="flex items-center divide-x-2 divide-secondary-foreground/30">
           <ToggleLanguange />
           <Button variant="link" className="h-max py-0 leading-none" asChild>
-            <Link className="text-sm capitalize text-primary" href="/help">
+            <Link className="text-sm capitalize text-primary" href="/help/contact">
               help
             </Link>
           </Button>
