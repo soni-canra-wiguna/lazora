@@ -2,13 +2,13 @@
 
 import { usePathname } from "next/navigation"
 import MaxWidthWrapper from "@/components/layouts/max-width-wrapper"
-import SearchProducts from "@/components/search"
 import { disableNavbarWithFooter } from "@/constants/disable-navbar-with-footer"
 import TopBar from "./top-bar"
 import Favourite from "@/components/favourite"
 import Cart from "@/components/cart"
 import Logo from "@/components/logo"
 import NavList from "./nav-list"
+import SearchBar from "./search-bar"
 
 const Navbar = () => {
   const patname = usePathname()
@@ -27,7 +27,7 @@ const Navbar = () => {
                 <NavList />
               </div>
               <div className="flex w-max items-center gap-8">
-                <SearchProducts />
+                <SearchBar />
                 <Favourite />
                 <Cart />
               </div>

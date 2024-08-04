@@ -9,10 +9,16 @@ import { useDebounce } from "use-debounce"
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { ProductPostProps } from "@/types"
-import { SearchResults } from "./search-results"
-import { CartAndFavouriteLink } from "./link"
+import Link from "next/link"
+import DynamicButton from "@/components/buttons/dynamic-button"
+import { useSelector } from "react-redux"
+import { RootState } from "@/redux/store"
+import { formatToIDR } from "@/utils/format-to-idr"
+import { URIProduct } from "@/utils/url-product"
+import Image from "next/image"
+import Balancer from "react-wrap-balancer"
 
-const SearchProducts = () => {
+export default function SearchBar() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [searchInput, setSearchInput] = useState<string>("")
   const [debounceSearchInput] = useDebounce(
@@ -106,4 +112,60 @@ const SearchProducts = () => {
   )
 }
 
-export default SearchProducts
+export const CartAndFavouriteLink = () => {
+  const { favourites } = useSelector((state: RootState) => state.favourites)
+  const { cart } = useSelector((state: RootState) => state.carts)
+  return (
+    <div className="flex items-center gap-6">
+      <Link href="/account/favourite">
+        <DynamicButton type="favourite" totalItems={favourites.length} />
+      </Link>
+      <Link href="/account/cart">
+        <DynamicButton type="cart" totalItems={cart.length} />
+      </Link>
+    </div>
+  )
+}
+
+export const SearchResults = ({
+  id,
+  title,
+  image,
+  price,
+  closeSheet,
+}: {
+  id: string
+  title: string
+  image?: string
+  price: number
+  closeSheet: (isOpen: boolean) => void
+}) => {
+  const urlProduct = URIProduct({ title, id })
+
+  return (
+    <Link
+      // @ts-ignore
+      onClick={closeSheet}
+      href={urlProduct}
+      className="flex h-max w-full flex-col"
+    >
+      <div className="mb-3 h-[260px] w-full">
+        <Image
+          alt={title}
+          src={image ?? ""}
+          width={400}
+          height={400}
+          className="h-full w-full object-contain object-center"
+        />
+      </div>
+      <h3 className="mb-1.5 text-base font-semibold">
+        <Balancer>
+          {title.length > 60 ? title.slice(0, 60) + "..." : title}
+        </Balancer>
+      </h3>
+      <p className="text-base font-medium text-muted-foreground">
+        {formatToIDR(price)}
+      </p>
+    </Link>
+  )
+}
