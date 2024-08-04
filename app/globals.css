@@ -165,6 +165,19 @@
   border-radius: 40px;
 }
 
+.scrollY::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollY::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.scrollY::-webkit-scrollbar-thumb {
+  background-color: #e4e4e7;
+  border-radius: 40px;
+}
+
 .scrollX::-webkit-scrollbar {
   height: 8px;
 }
